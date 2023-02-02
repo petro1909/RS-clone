@@ -1,11 +1,11 @@
-import createElement from '../../utils/createElement';
-
 class MainPage {
   render(): void {
     document.title = 'Main Page';
-    createElement('h1', document.body, {
-      class: 'page__header',
-    }, 'This is Main Page');
+    document.body.innerHTML = `
+      <app-header></app-header>
+      <h1>Hello! Main Page</h1>
+      <auth-form></auth-form>
+    `;
   }
 }
 
