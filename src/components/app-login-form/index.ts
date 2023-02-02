@@ -1,15 +1,14 @@
 import template from './template.html';
 import './index.scss';
-import { Ilogin } from '../../types';
+import { Ilogin, IUser } from '../../types';
 import validate from '../../utils/validate';
+import getUser from '../../api';
+import state from '../../store/state';
+import router from '../../router';
 
 class AppLoginForm extends HTMLElement {
-  constructor() {
-    super();
-    this.innerHTML = template;
-  }
-
   connectedCallback() {
+    this.innerHTML = template;
     const form = this.querySelector('.login-form') as HTMLFormElement;
     const passEyeBtn = this.querySelector('.password-eye') as HTMLButtonElement;
     passEyeBtn.onclick = () => {
@@ -32,7 +31,7 @@ class AppLoginForm extends HTMLElement {
     this.setInputFieldState();
   }
 
-  private submitHandler(form: HTMLFormElement): void {
+  private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
     const loginData = {} as Ilogin;
     console.log(inputs);
@@ -45,7 +44,19 @@ class AppLoginForm extends HTMLElement {
         }
       }
     });
-    if (Object.values(loginData).length === 2) console.log(loginData);
+    if (Object.values(loginData).length === 2) this.logIn(loginData);
+    this.logIn(loginData);
+  }
+
+  private async logIn(loginData: Ilogin) {
+    console.log(loginData);
+    const res = await getUser('email2@gmail.com');
+    if (res.success) {
+      const [user] = res.data as IUser[];
+      Object.assign(state.user, user);
+      state.isAuthorized = true;
+    }
+    router.goTo('/board');
   }
 
   private showMessage(input: HTMLInputElement, str = '') {
@@ -81,4 +92,4 @@ class AppLoginForm extends HTMLElement {
   }
 }
 
-customElements.define('auth-form', AppLoginForm);
+customElements.define('login-form', AppLoginForm);

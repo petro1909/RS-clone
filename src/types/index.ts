@@ -7,7 +7,8 @@ export interface IUser {
 }
 
 export interface IState {
-  user: IUser | {}
+  user: IUser | {},
+  isAuthorized: boolean
 }
 
 export interface Ilogin {

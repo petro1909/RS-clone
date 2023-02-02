@@ -1,12 +1,20 @@
+import state from '../store/state';
 import routes from './routes';
 
 class Router {
   private loadPage(): void {
     const urlPathname = window.location.pathname;
     const correctRoutes = routes.filter((route) => route.path === urlPathname);
+    console.log('ISAUTH', state.isAuthorized);
 
     if (correctRoutes.length < 1) {
       this.goTo('/404');
+      return;
+    }
+    const [correctRoute] = correctRoutes;
+
+    if (correctRoute.isAuthorized && !state.isAuthorized) {
+      this.goTo('/');
     } else {
       const currRoute = correctRoutes[0];
       document.body.innerHTML = '';
