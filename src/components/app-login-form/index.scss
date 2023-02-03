@@ -1,0 +1,65 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 280px;
+  gap: 10px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 30px 5px 10px;
+  font-size: 20px;
+
+  &[data-success] {
+    border: 1px solid green;
+  }
+
+  &-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  &-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    background-color: white;
+    padding: 0 5px;
+    transition: all .3s;
+  }
+
+  &:focus~.input-label,
+  &_filled~.input-label {
+    top: -7px;
+    font-size: 12px;
+  }
+
+  &_error {
+    border: solid 1px red;
+  }
+}
+
+.error-message {
+  right: 0;
+  display: block;
+  height: 12px;
+  font-size: 12px;
+  color: red;
+}
+
+.password-eye {
+  position: absolute;
+  top: 12px;
+  right: -20px;
+  width: 20px;
+  height: 20px;
+  display: block;
+  background-size: cover;
+  background-image: url("./../../assets/icons/eye-password-hide.svg");
+  cursor: pointer;
+
+  &_is-visible {
+    background-image: url("./../../assets/icons/eye-password-show.svg");
+  }
+}
