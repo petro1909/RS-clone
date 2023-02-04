@@ -14,12 +14,12 @@
 }
 
 .link {
-  @include set-font($font-family-base, map-get($font-size, m) * 1.5);
+  @include set-font($font-family-base, map-get($font-size, m) * 1.5, 0,5); // 0.5 line-height
   color: $color-font-regular-light;
   transition: $delay * 3;
 
-  @include _576 {
-    @include set-font($font-family-base, map-get($font-size, m) * 1.2);
+  @include _414 {
+    font-size: map-get($font-size, m) * 1.2;
   };
 
   &:hover {
@@ -53,7 +53,7 @@
   -webkit-mask:  url(../assets/img/footer/rs-school-icon.svg) no-repeat 50% 50%;
   mask: url(../assets/img/footer/rs-school-icon.svg) no-repeat 50% 50%;
 
-  @include _576 {
+  @include _414 {
     width: 50px;
     height: 30px;
   };
@@ -76,7 +76,7 @@
   -webkit-mask:  url(../assets/img/footer/github-icon.svg) no-repeat 50% 50%;
   mask: url(../assets/img/footer/github-icon.svg) no-repeat 50% 50%;
 
-  @include _576 {
+  @include _414 {
     width: 25px;
     height: 25px;
   };
@@ -84,8 +84,8 @@
 }
 
 .year {
-  @include set-font($font-family-base, map-get($font-size, l));
-  @include _576 {
-    @include set-font($font-family-base, map-get($font-size, m) * 1.5);
+  font-size: map-get($font-size, l);
+  @include _414 {
+    font-size: map-get($font-size, m) * 1.5;
   };
 }
