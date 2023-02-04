@@ -30,10 +30,20 @@ body {
   height: 100vh;
 }
 
+menu,
+ul {
+  list-style: none;
+  padding: 0;
+}
+
 main {
   flex-grow: 1;
 }
 
 img {
 	max-width: 100%;
+}
+
+.element--invisible {
+  display: none !important;
 }

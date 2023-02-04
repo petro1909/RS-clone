@@ -1,0 +1,67 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $header-height;
+  width: 100vw;
+  padding: 0.25rem 2rem;
+  border: 1px solid $color-border-element;
+  background-color: $color-background-header-footer;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  &__logo {
+    height: 40px;
+    width: 40px;
+    background-image: url(../assets/img/logo/zen-logo.svg);
+    background-size: cover;
+    background-position: center;
+  }
+
+}
+
+.user-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+
+  &__profile {
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    @include icon-square-background('../assets/img/task/default_user.svg', 28px);
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      outline: 3px solid $color-primary-hover;
+    }
+
+  }
+
+}
+
+.burger-menu {
+  @include set-font($font-family-base, map-get($font-size, 2xl), 0,5); // 0.5 line-height
+  @include square-view(36px);
+  padding: 0 0 3px 0;
+}
+
+

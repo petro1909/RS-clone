@@ -1,14 +1,14 @@
 import template from './template.html';
-import './index.scss';
 
 class AppHeader extends HTMLElement {
   constructor() {
     super();
     this.innerHTML = template;
+    this.classList.add('app-header');
   }
 
   connectedCallback() {
-    this.innerHTML += ' Dude!';
+    console.log('app-header added');
   }
 }
 
