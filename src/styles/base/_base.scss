@@ -1,0 +1,39 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;;
+}
+
+
+/**
+ * Basic styles for links
+ */
+
+a {
+  text-decoration: none;
+}
+
+body {
+  min-width: 360px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-background-page;
+}
+
+.body--fixed {
+  overflow:hidden;
+  height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+img {
+	max-width: 100%;
+}

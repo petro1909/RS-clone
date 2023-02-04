@@ -1,0 +1,120 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+
+
+
+
+/// Regular font family
+/// @type List
+$text-font-stack: 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
+
+/// Code (monospace) font family
+/// @type List
+$code-font-stack: 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
+
+
+
+
+
+/// Copy text color
+/// @type Color
+$text-color: rgb(34, 34, 34) !default;
+
+/// Main brand color
+/// @type Color
+$brand-color: rgb(229, 0, 80) !default;
+
+/// Light grey
+/// @type Color
+$light-grey: rgb(237, 237, 237) !default;
+
+/// Medium grey
+/// @type Color
+$mid-grey: rgb(153, 153, 153) !default;
+
+/// Dark grey
+/// @type Color
+$dark-grey: rgb(68, 68, 68) !default;
+
+
+
+
+
+/// Container's maximum width
+/// @type Length
+$max-width: 1180px !default;
+
+
+
+
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+  'small': 320px,
+  'medium': 768px,
+  'large': 1024px,
+) !default;
+
+
+
+
+
+
+/// Relative or absolute URL where all assets are served from
+/// @type String
+/// @example scss - When using a CDN
+///   $base-url: 'https://cdn.example.com/assets/';
+$base-url: '/assets/' !default;
+
+// ============= Color-scheme-default ============
+
+$color-primary: hsl(0, 0%, 90%);
+$color-primary-hover: hsl(0, 0%, 60%);
+$color-disable: hsl(0, 0%, 40%);
+$color-delete: hsl(0, 100%, 50%);
+
+$color-button-delete-hover: hsla(0, 100%, 50%, 0.2);
+
+$color-background-page: hsl(0, 0%, 25%);
+$color-background-status: hsla(0, 0%, 100%, 0.1);
+$color-background-task: hsl(0, 0%, 25%);
+$color-background-light: hsl(0, 0%, 85%);
+$color-background-header-footer: hsl(0, 0%, 20%);
+$color-background-modal: hsla(0, 0%, 75%, 0.7);
+
+$color-font-regular: hsl(0, 0%, 70%);
+$color-font-regular-light: hsl(0, 0%, 100%);
+$color-font-regular-dark: hsl(0, 0%, 25%);
+$color-font-button: hsl(0, 0%, 0%);
+$color-font-link-hover: $color-primary-hover;
+
+$color-border-input-focused: hsl(39, 100%, 50%);
+$color-border-el: hsl(0, 0%, 50%);
+
+$border-radius-big-element: 0.5rem;
+$border-radius-small-element: 0.25rem;
+
+// =========== Font Properties ===========
+
+$font-size: (
+  3xl: 7.0rem,
+  2xl: 5.0rem,
+  xl: 3.0rem,
+  l: 1.5rem,
+  m: 1.0rem,
+  s: 0.8rem,
+  xs: 0.6rem,
+);
+
+$font-family-base: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+// =========== Header ===========
+
+$header-height: 50px;
+
+// =========== Transition delay ===========
+$delay: 0.1s;
