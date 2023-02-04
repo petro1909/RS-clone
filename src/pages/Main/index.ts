@@ -7,7 +7,7 @@ class MainPage {
     document.body.innerHTML = `
       <app-header></app-header>
       <h1>Hello! Main Page</h1>
-      
+      <app-footer></app-footer>
     `;
     // <login-form></login-form>
     // try {
