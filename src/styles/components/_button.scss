@@ -6,7 +6,7 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: $border-radius-small-element;
-    @include set-font($font-family-base, map-get($font-size, m));
+    @include set-font($font-family-base, map-get($font-size, l));
     background-color: $color-primary;
     color: $color-font-button;
     &:hover {
@@ -22,7 +22,7 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: $border-radius-small-element;
-    @include set-font($font-family-base, map-get($font-size, m));
+    @include set-font($font-family-base, map-get($font-size, l));
     background-color: transparent;
     color: $color-font-regular;
     cursor: pointer;
