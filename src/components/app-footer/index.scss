@@ -18,6 +18,10 @@
   color: $color-font-regular-light;
   transition: $delay * 3;
 
+  @include _576 {
+    @include set-font($font-family-base, map-get($font-size, m) * 1.2);
+  };
+
   &:hover {
       color: $color-border-input-focused;
   }
@@ -49,6 +53,11 @@
   -webkit-mask:  url(../assets/img/footer/rs-school-icon.svg) no-repeat 50% 50%;
   mask: url(../assets/img/footer/rs-school-icon.svg) no-repeat 50% 50%;
 
+  @include _576 {
+    width: 50px;
+    height: 30px;
+  };
+
   &:hover {
       background-color: $color-border-input-focused;
   }
@@ -66,9 +75,17 @@
   background-color:rgb(255, 255, 255);
   -webkit-mask:  url(../assets/img/footer/github-icon.svg) no-repeat 50% 50%;
   mask: url(../assets/img/footer/github-icon.svg) no-repeat 50% 50%;
+
+  @include _576 {
+    width: 25px;
+    height: 25px;
+  };
+
 }
 
 .year {
-  padding-top: map-get($font-size, xs);
-  @include set-font($font-family-base, map-get($font-size, l)); // 0.5 line-height
+  @include set-font($font-family-base, map-get($font-size, l));
+  @include _576 {
+    @include set-font($font-family-base, map-get($font-size, m) * 1.5);
+  };
 }

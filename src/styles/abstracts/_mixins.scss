@@ -24,3 +24,39 @@
   height: $value;
   width: $value;
 }
+
+@mixin _1400 {
+  @media (max-width: 1400px){
+      @content;
+  }
+}
+
+@mixin _1200 {
+  @media (max-width: 1200px){
+      @content;
+  }
+}
+
+@mixin _991 {
+  @media (max-width: 991px){
+      @content;
+  }
+}
+
+@mixin _768 {
+  @media (max-width: 768px){
+      @content;
+  }
+}
+
+@mixin _576 {
+  @media (max-width: 576px){
+      @content;
+  }
+}
+
+@mixin _414 {
+  @media (max-width: 414px){
+      @content;
+  }
+}
