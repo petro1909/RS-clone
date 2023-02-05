@@ -1,11 +1,12 @@
-import createElement from '../../utils/createElement';
+import template from './template.html';
 
 class UserPage {
   render(): void {
     document.title = 'Users Page';
-    createElement('h1', document.body, {
-      class: 'page__header',
-    }, 'USERNAME');
+    document.body.classList.remove('body');
+    document.body.innerHTML = `
+    <app-header></app-header>
+    ${template}`;
   }
 }
 
