@@ -1,15 +1,33 @@
-<form class="login-form">
-  <div class="input-wrapper">
-    <input id="input-user" name="email" class="input input-user" />
-    <span class="error-message"></span>
-    <label for="input-user" class="input-label">Enter Email</label>
-  </div>
-  <div class="input-wrapper">
-    
-    <i class="password-eye"></i>
-    <input id="input-password" name="password" type="password" class="input input-password" />
-    <span class="error-message"></span>
-    <label for="input-password" class="input-label">Enter Password</label>
-  </div>
-  <button type="submit">Login</button>
-</form> 
+<section class="popup-page" id="popup-page">
+  <form class="login-form">
+    <div class="input-auth-wrapper">
+      <input id="input-user" name="email" class="input-auth input-user input-auth--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-user" class="input-auth-label">Enter Email</label>
+    </div>
+    <div class="input-auth-wrapper">
+      <i class="password-eye"></i>
+      <input id="input-password" name="password" type="password" class="input-auth input-password input-auth--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-password" class="input-auth-label">Enter Password</label>
+    </div>
+    <button class="btn" type="submit">SUBMIT</button>
+  </form>
+</section>
+
+<!-- <section class="popup-page" id="popup-page">
+  <form action="#" class="login" id="login-form">
+    <fieldset form="login-form" class="user-profile__details" id="login-form-details">
+      <h3 class="user-profile__details-title">Log in</h3>
+      <label class="profile-detail profile-detail--underscored" for="input-user">
+        Enter Email
+        <input class="profile-detail__input input-text" type="text" name="fullname" id="input-user">
+      </label>
+      <label class="profile-detail profile-detail--underscored" for="input-password">
+        Enter Password
+        <input class="profile-detail__input input-text" type="text" name="nickname" id="input-password">
+      </label>
+      <button class="submit-btn btn" type="submit">SUBMIT</button>
+    </fieldset>
+  </form>
+</section> -->
