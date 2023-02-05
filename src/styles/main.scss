@@ -21,5 +21,9 @@
 @import
   'components/button',
   '../components/app-header/index.scss',
-  '../components/app-footer/index.scss',
+  '../components/app-footer/index.scss';
+
+// 5. Pages
+@import
+  '../pages/Main/index.scss',
   '../pages/NotFound/index.scss';
