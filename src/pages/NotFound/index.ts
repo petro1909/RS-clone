@@ -1,11 +1,9 @@
-import createElement from '../../utils/createElement';
+import template from './template.html';
 
 class NotFoundPage {
   render(): void {
     document.title = '404 Page';
-    createElement('h1', document.body, {
-      class: 'page__header',
-    }, '404 no pages found');
+    document.body.innerHTML = template;
   }
 }
 
