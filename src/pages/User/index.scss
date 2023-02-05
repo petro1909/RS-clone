@@ -60,7 +60,7 @@
   }
 
   &__details-title {
-    margin: map-get($font-size, m) 0;
+    margin: 0 0 map-get($font-size, xl) 0;
     @include set-font($font-family-base, map-get($font-size, xl));
     color: $color-font-regular-light;
   }
@@ -95,7 +95,7 @@
   align-self: center;
   height: map-get($font-size, 3xl);
   width: map-get($font-size, 3xl);
-  margin-bottom: map-get($font-size, m);
+  margin: 0 0 map-get($font-size, l) 0;
   object-fit: 100% 100%;
   object-position: center;
 }
@@ -116,6 +116,10 @@
     background-color: $color-background-header-footer;
     color: $color-font-regular-light;
     outline: none;
+  }
+
+  &--underscored {
+    border-bottom: 1px solid $color-border-element;
   }
 
   @include _1400 {
