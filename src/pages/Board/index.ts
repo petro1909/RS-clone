@@ -11,6 +11,8 @@ class BoardPage {
     board!.innerHTML = '<app-status></app-status>';
     const list = board!.querySelector('.status__task-list');
     list!.innerHTML = '<app-task></app-task>';
+    const task = board!.querySelector('.task');
+    task!.innerHTML += '<task-menu></task-menu>';
   }
 }
 

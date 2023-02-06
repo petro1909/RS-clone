@@ -12,31 +12,36 @@
   overflow-y: auto;
 
   &__header {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   &__name {
-      width: 80%;
-      color: $color-font-regular-light;
+    width: 80%;
+    color: $color-font-regular-light;
   }
 
   &__menu {
-      @include square-view(32px);
-      @include set-font($font-family-base, map-get($font-size, l));
-      padding: 0;
+    @include square-view(32px);
+    @include set-font($font-family-base, map-get($font-size, l));
+    padding: 0;
   }
 
   &__footer {
-      width: 100%;
+    width: 100%;
   }
 
   &__add-task {
-      width: 100%;
-      text-align: left;
-      color: $color-font-regular-light;
+    width: 100%;
+    text-align: left;
+    color: $color-font-regular-light;
+    outline: 1px solid transparent;
+
+    &:hover {
+      outline: 1px solid $color-font-regular-dark;
+    }
   }
 
 }

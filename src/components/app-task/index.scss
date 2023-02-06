@@ -1,4 +1,5 @@
 .task {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 340px;
@@ -10,25 +11,25 @@
   cursor: grab;
 
   &__header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   &__assignee {
-      height: 32px;
-      width: 32px;
+    height: 32px;
+    width: 32px;
   }
 
   .task__menu {
-      @include square-view(32px);
-      @include set-font($font-family-base, map-get($font-size, l));
-      padding: 0;
+    @include square-view(32px);
+    @include set-font($font-family-base, map-get($font-size, l));
+    padding: 0;
   }
 
   .task__content {
-      padding: 0.5rem 0 0 0;
-      @include set-font($font-family-base, map-get($font-size, m));
+    padding: 0.5rem 0 0 0;
+    @include set-font($font-family-base, map-get($font-size, m));
   }
 
 }
