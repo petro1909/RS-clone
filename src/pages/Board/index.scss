@@ -1,0 +1,65 @@
+.board-page{
+  height: calc(100vh - $header-height);
+  margin-top: $header-height;
+  background-image: url(../assets/img/board/default_bg.jpg);
+  background-position: center;
+
+  &__header {
+      height: $header-height;
+      width: 100%;
+      padding: 0.25rem 2rem;
+      background-color: $color-background-status;
+      backdrop-filter: blur(10px);
+  }
+
+}
+
+.board-wrapper {
+  overflow-x: auto;
+}
+
+.board {
+  display: flex;
+  height: calc(100% - $header-height);
+  width: fit-content;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+      margin-left: 0.5rem;
+      color: $color-font-regular-light;
+  }
+
+  &__menu {
+      display: flex;
+      align-items: center;
+      gap: map-get($font-size, m);
+  }
+
+  &__menu-btn {
+      @include set-font($font-family-base, map-get($font-size, xl), 0,5); // 0.5 line-height
+      @include square-view(36px);
+      padding: 0 0 3px 0;
+  }
+
+}
+
+.board-users {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  list-style: none;
+
+  &__user {
+      margin-right: map-get($font-size, xs);
+      @include icon-square-background('../assets/img/task/default_user.svg', 28px);
+  }
+
+}
