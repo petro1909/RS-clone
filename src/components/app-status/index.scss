@@ -29,7 +29,7 @@
   }
 
   &__menu {
-    @include square-view(32px);
+    @include square-view(24px);
     @include set-font($font-family-base, map-get($font-size, l));
     padding: 0;
   }

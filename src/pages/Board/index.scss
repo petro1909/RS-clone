@@ -15,6 +15,7 @@
 }
 
 .board-wrapper {
+  min-height: calc(100vh - $header-height * 2 - 10px);
   overflow-x: auto;
 }
 
@@ -44,8 +45,8 @@
   }
 
   &__menu-btn {
-      @include set-font($font-family-base, map-get($font-size, xl), 0,5); // 0.5 line-height
-      @include square-view(36px);
+      @include set-font($font-family-base, map-get($font-size, 2xl), 0,5); // 0.5 line-height
+      @include square-view(28px);
       padding: 0 0 3px 0;
   }
 
@@ -62,5 +63,9 @@
       margin-right: map-get($font-size, xs);
       @include icon-square-background('../assets/img/task/default_user.svg', 28px);
   }
+
+  @include _576 {
+    display: none;
+  };
 
 }

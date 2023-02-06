@@ -5,7 +5,7 @@
   width: 340px;
   padding: 0.5rem;
   border: 1px solid $color-border-element;
-  border-radius: $border-radius-small-element;
+  border-radius: $border-radius-big-element;
   background-color: $color-background-task;
   color: $color-font-regular-light;
   cursor: grab;
@@ -22,7 +22,7 @@
   }
 
   .task__menu {
-    @include square-view(32px);
+    @include square-view(24px);
     @include set-font($font-family-base, map-get($font-size, l));
     padding: 0;
   }
