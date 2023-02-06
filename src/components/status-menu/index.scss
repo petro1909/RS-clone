@@ -1,0 +1,28 @@
+.status-menu {
+  position: absolute;
+  right: 42px;
+  top: 5px;
+}
+
+.popup-menu {
+  height: fit-content;
+  width: 150px;
+  padding: map-get($font-size , xs);
+  margin: 0;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-big-element;
+  background-color: $color-background-task;
+  color: $color-font-regular-light;
+  list-style: none;
+
+  &__item {
+      width: 100%;
+  }
+
+  &__btn {
+      width: 100%;
+      font-size: 1rem;
+      text-align: left;
+  }
+
+}
