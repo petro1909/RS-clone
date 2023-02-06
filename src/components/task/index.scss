@@ -1,0 +1,34 @@
+.task {
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  padding: 0.5rem;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-small-element;
+  background-color: $color-background-task;
+  color: $color-font-regular-light;
+  cursor: grab;
+
+  &__header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  &__assignee {
+      height: 32px;
+      width: 32px;
+  }
+
+  .task__menu {
+      @include square-view(32px);
+      @include set-font($font-family-base, map-get($font-size, l));
+      padding: 0;
+  }
+
+  .task__content {
+      padding: 0.5rem 0 0 0;
+      @include set-font($font-family-base, map-get($font-size, m));
+  }
+
+}

@@ -44,7 +44,6 @@ class MainPage {
       const top = document.documentElement.scrollTop;
       const delta = lastPos - top;
       lastPos = top;
-      console.log('onscroll lastPos', lastPos);
       frames.forEach((fr, i) => {
         zAxisVals.push((i * zAxisSpacing) + zAxisSpacing);
         zAxisVals[i] += delta * -5.5;
