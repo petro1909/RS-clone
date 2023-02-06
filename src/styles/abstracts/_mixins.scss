@@ -1,0 +1,62 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+@mixin set-font($family, $size, $line-height: 100%, $weight: 400, $style: normal) {
+  font-family: $family;
+  font-size: $size;
+  line-height: $line-height;
+  font-style: $style;
+  font-weight: $weight;
+}
+
+@mixin icon-square-background($url, $side) {
+  display: inline-block;
+  width: $side;
+  height: $side;
+  background-image: url($url);
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+@mixin square-view($value) {
+  height: $value;
+  width: $value;
+}
+
+@mixin _1400 {
+  @media (max-width: 1400px){
+      @content;
+  }
+}
+
+@mixin _1200 {
+  @media (max-width: 1200px){
+      @content;
+  }
+}
+
+@mixin _991 {
+  @media (max-width: 991px){
+      @content;
+  }
+}
+
+@mixin _768 {
+  @media (max-width: 768px){
+      @content;
+  }
+}
+
+@mixin _576 {
+  @media (max-width: 576px){
+      @content;
+  }
+}
+
+@mixin _414 {
+  @media (max-width: 414px){
+      @content;
+  }
+}

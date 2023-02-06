@@ -1,0 +1,44 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  min-width: 30px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-background-page;
+}
+
+.body--fixed {
+  overflow:hidden;
+  height: 100vh;
+}
+
+menu,
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+main {
+  flex-grow: 1;
+}
+
+img {
+	max-width: 100%;
+}
+
+.element--invisible {
+  display: none !important;
+}
