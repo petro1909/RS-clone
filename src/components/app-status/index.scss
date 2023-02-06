@@ -1,0 +1,42 @@
+.status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 350px;
+  height: fit-content;
+  padding: 0.5rem;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-big-element;
+  background-color: $color-background-status;
+  backdrop-filter: blur(10px);
+  overflow-y: auto;
+
+  &__header {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+
+  &__name {
+      width: 80%;
+      color: $color-font-regular-light;
+  }
+
+  &__menu {
+      @include square-view(32px);
+      @include set-font($font-family-base, map-get($font-size, l));
+      padding: 0;
+  }
+
+  &__footer {
+      width: 100%;
+  }
+
+  &__add-task {
+      width: 100%;
+      text-align: left;
+      color: $color-font-regular-light;
+  }
+
+}
