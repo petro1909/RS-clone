@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+// 0. Fonts first for better perfomance
+@import
+  'base/typography';
+
+// 1. Configuration and helpers
+@import
+  'abstracts/variables',
+  'abstracts/mixins';
+
+// 2. Vendors
+@import
+  'vendors/normalize';
+
+// 3. Base stuff
+@import
+  'base/base';
+
+// 4. Components
+@import
+  'components/button',
+  '../components/app-header/index.scss',
+  '../components/app-footer/index.scss',
+  '../components/app-login-form/index.scss',
+  '../components/app-task/index.scss',
+  '../components/task-menu/index.scss',
+  '../components/app-status/index.scss';
+
+
+// 5. Pages
+@import
+  '../pages/Main/index.scss',
+  '../pages/Board/index.scss',
+  '../pages/User/index.scss',
+  '../pages/NotFound/index.scss';

@@ -1,0 +1,164 @@
+.account-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - $header-height);
+  margin-top: $header-height;
+  background-image: url(../assets/img/board/default_bg.jpg);
+  background-position: center;
+}
+
+.user-profile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content;
+  padding: 70px;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-big-element;
+  background-color: $color-background-status;
+  backdrop-filter: blur(10px);
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: map-get($font-size, m);
+    justify-content: center;
+    padding: 70px;
+    border: transparent;
+    border-radius: $border-radius-big-element;
+    background-color: $color-background-task;
+
+    @include _1400 {
+      padding: 60px;
+    };
+
+    @include _1200 {
+      padding: 50px;
+    };
+
+    @include _991 {
+      padding: 40px;
+    };
+
+    @include _768 {
+      padding: 30px;
+    };
+
+    @include _576 {
+      padding: 20px;
+    };
+
+    @include _414 {
+      padding: 10px;
+    };
+  }
+
+  &__details-title {
+    margin: 0 0 map-get($font-size, xl) 0;
+    @include set-font($font-family-base, map-get($font-size, xl));
+    color: $color-font-regular-light;
+  }
+
+  @include _1400 {
+    padding: 60px;
+  };
+
+  @include _1200 {
+    padding: 50px;
+  };
+
+  @include _991 {
+    padding: 40px;
+  };
+
+  @include _768 {
+    padding: 30px;
+  };
+
+  @include _576 {
+    padding: 20px;
+  };
+
+  @include _414 {
+    padding: 10px;
+  };
+
+}
+
+.userpic {
+  align-self: center;
+  height: map-get($font-size, 3xl);
+  width: map-get($font-size, 3xl);
+  margin: 0 0 map-get($font-size, l) 0;
+  object-fit: 100% 100%;
+  object-position: center;
+}
+
+.profile-detail{
+  position: relative;
+  width: 450px;
+  @include set-font($font-family-base, map-get($font-size, m) * 1.25);
+  color: $color-font-regular;
+
+  &__input{
+    width: 100%;
+    margin-top: map-get($font-size, xs);
+    border-radius: $border-radius-small-element;
+    border: 0;
+    font-size: map-get($font-size, l);
+    text-align: center;
+    background-color: $color-background-header-footer;
+    color: $color-font-regular-light;
+    outline: none;
+  }
+
+  &--underscored {
+    border-bottom: 1px solid $color-border-element;
+  }
+
+  @include _1400 {
+    width: 425px;
+  };
+
+  @include _1200 {
+    width: 400px;
+  };
+
+  @include _991 {
+    width: 350px;
+  };
+
+  @include _768 {
+    width: 325px;
+  };
+
+  @include _576 {
+    width: 300px;
+  };
+
+  @include _414 {
+    width: 275px;
+  };
+}
+
+.input-text {
+  padding: 0.25rem;
+  border: none;
+  border-radius: $border-radius-small-element;
+  background-color: transparent;
+  outline: none;
+  transition: $delay*3;
+
+  &:focus {
+      outline: 3px solid $color-border-input-focused;
+      background-color: $color-background-light;
+      color: $color-font-regular-dark;
+  }
+
+}

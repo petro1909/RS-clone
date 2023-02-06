@@ -1,18 +1,62 @@
+.popup-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  @include set-font($font-family-base, map-get($font-size, m));
+  background-color: $color-background-status;
+  backdrop-filter: blur(20px);
+}
+
+.overflow-hidden{
+  overflow: hidden;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
-  max-width: 280px;
-  gap: 10px;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content;
+  padding: 70px;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-big-element;
+  background-color: $color-background-task;
+
+  @include _576 {
+    padding: 50px;
+  };
+
+  @include _414 {
+    padding: 40px;
+  };
+
 }
 
-.input {
-  width: 100%;
-  padding: 14px 30px 5px 10px;
+.input-auth {
+  width: 300px;
+  padding: 0.25rem 1rem;
+  border: none;
+  border-radius: $border-radius-small-element;
   font-size: 20px;
+  background-color: transparent;
+  outline: none;
+  transition: $delay*3;
 
-  &[data-success] {
-    border: 1px solid green;
-  }
+  @include _576 {
+    width: 280px;
+  };
+
+  @include _414 {
+    width: 230px;
+  };
 
   &-wrapper {
     position: relative;
@@ -22,44 +66,72 @@
   &-label {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 0;
     font-size: 20px;
-    background-color: white;
+    background-color: $color-background-task;
+    color: $color-font-regular-light;
     padding: 0 5px;
     transition: all .3s;
   }
 
-  &:focus~.input-label,
-  &_filled~.input-label {
-    top: -7px;
+  &:valid~.input-auth-label,
+  &:focus~.input-auth-label,
+  &_filled~.input-auth-label {
+    left: -7px;
+    top: -20px;
     font-size: 12px;
+    color: $color-font-regular;
+  }
+
+  &:focus {
+    outline: 3px solid $color-border-input-focused;
+    background-color: $color-background-light;
+    color: $color-font-regular-dark;
+  }
+
+  &:valid {
+    background-color: $color-background-light;
   }
 
   &_error {
-    border: solid 1px red;
+    outline: 3px solid $color-delete;
+  }
+
+  &--underscored {
+    border-bottom: 1px solid $color-border-element;
   }
 }
 
 .error-message {
-  right: 0;
+  position: absolute;
+  left: -3px;
+  top: -20px;
   display: block;
   height: 12px;
   font-size: 12px;
-  color: red;
+  color: $color-delete;
 }
 
 .password-eye {
   position: absolute;
-  top: 12px;
-  right: -20px;
+  top: 5px;
+  left: -30px;
   width: 20px;
   height: 20px;
   display: block;
   background-size: cover;
-  background-image: url("./../../assets/icons/eye-password-hide.svg");
+  background-image: url("../assets/icons/eye-password-hide.svg");
   cursor: pointer;
 
   &_is-visible {
-    background-image: url("./../../assets/icons/eye-password-show.svg");
+    background-image: url("../assets/icons/eye-password-show.svg");
   }
+
+  &[data-success] {
+    outline: 3px solid $color-success;
+  }
+}
+
+.submit-btn {
+  margin-top: map-get($font-size, 2xl);
 }

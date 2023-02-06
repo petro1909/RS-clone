@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------
+// This file contains all @font-face declarations
+// -----------------------------------------------------------------------------
+
+html {
+  font-size: 10px;
+}
+
+@font-face {
+	font-family: raleway_c;
+	src: url(../assets/fonts/raleway-v22-cyrillic-300.woff2),
+  url(../assets/fonts/raleway-v22-cyrillic-100.woff2);
+}

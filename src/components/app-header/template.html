@@ -1,8 +1,13 @@
-<ul class="nav__list">
-  <li>
-    <a data-local-link href="/">Главная</a>
-  </li>
-  <li>
-    <a data-local-link href="/user">User</a>
-  </li>
-</ul>
+<nav class="nav" id="nav">
+    <div class="app-menu" id="app-menu">
+        <a class="app-menu__logo" data-local-link href="/"></a>
+        <button class="app-menu__create-btn btn element--invisible">Create +</button>
+    </div>
+    <div class="user-menu" id="user-menu">
+        <button class="user-menu__login btn">Log in</button>
+        <button class="user-menu__signin btn">Sign in</button>
+        <a class="user-menu__profile" data-local-link href="/board"></a>
+    </div>
+    <button class="burger-menu menu-btn" id="burger-menu">≡</button>
+</nav>
+
