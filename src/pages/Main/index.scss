@@ -7,15 +7,15 @@
 	--transition: .75s cubic-bezier(.075, .5, 0, 1)
 }
 
-.body {
+.body-scrollbar--invisible {
 	scrollbar-width: none;
 }
 
-.body::-webkit-scrollbar {
+.body-scrollbar--invisible::-webkit-scrollbar {
 	display: none;
 }
 
-.body {
+.body-scrollbar--invisible {
 	background: $color-background-page;
 	color: $color-font-regular-light;
 	font-size: calc(var(--index) * .8);

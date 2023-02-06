@@ -6,7 +6,7 @@ class MainPage {
   render(): void {
     console.log('render() MainPage');
     document.title = 'Main Page';
-    document.body.classList.add('body');
+    document.body.classList.add('body-scrollbar--invisible');
     document.body.innerHTML = `
       <app-header></app-header>
       ${template}
