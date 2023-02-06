@@ -7,7 +7,7 @@
   &__header {
       height: $header-height;
       width: 100%;
-      padding: 0.25rem 2rem;
+      padding: 0.25rem 1rem;
       background-color: $color-background-status;
       backdrop-filter: blur(10px);
   }
@@ -33,6 +33,7 @@
 
   &__title {
       margin-left: 0.5rem;
+      @include set-font($font-family-base, map-get($font-size, xl));
       color: $color-font-regular-light;
   }
 

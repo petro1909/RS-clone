@@ -16,10 +16,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
 
   &__name {
     width: 80%;
+    height: 24px;
+    padding: 0.25rem;
+    @include set-font($font-family-base, map-get($font-size, l), 1);
     color: $color-font-regular-light;
   }
 
