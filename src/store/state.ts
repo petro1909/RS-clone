@@ -1,8 +1,9 @@
 import { IState } from '../types';
 
 const state: IState = {
-  user: {},
-  isAuthorized: true,
+  user: undefined,
+  isAuthorized: false,
+  activeBoardId: 0,
 };
 
 export default state;

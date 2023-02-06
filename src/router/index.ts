@@ -39,7 +39,7 @@ class Router {
       if (!e.target) return;
       const target = e.composedPath()[0] as HTMLElement;
       const link = target.closest('a');
-      if (link?.matches('[data-local-link')) {
+      if (link?.matches('[data-local-link]')) {
         e.preventDefault();
         this.goTo(link.href);
       }

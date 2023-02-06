@@ -4,6 +4,7 @@ class BoardPage {
     document.body.innerHTML = `
       <app-header></app-header>
       <h1>My boards</h1>
+      <boards-panel></boards-panel>
     `;
   }
 }
