@@ -200,6 +200,8 @@ class AppBoardsPanel extends HTMLElement {
     const deleteBoardButton = wrapper.querySelector('#board-menu-list__item-delete') as HTMLButtonElement;
     const boardMenuBtn = wrapper.querySelector('#board-menu-button') as HTMLButtonElement;
     const closeMenuBtn = wrapper.querySelector('#board-menu-close-btn') as HTMLButtonElement;
+    const addStatusBoardWrapper = wrapper.querySelector('#board-menu-list__item-add-status') as HTMLLIElement;
+    this.renderAddStatusButton(addStatusBoardWrapper);
 
     nameInput.onblur = () => {
       const boardName = nameInput.value;
@@ -223,6 +225,43 @@ class AppBoardsPanel extends HTMLElement {
     deleteBoardButton.onclick = () => {
       this.removeBoard();
     };
+  }
+
+  private renderAddStatusButton(parent: HTMLLIElement) {
+    // const addBoardWrapper = createElement('div', this.boardsMenu, {
+    //   class: '',
+    // }) as HTMLDivElement;
+    const addBStatusButton = createElement('button', parent, {
+      class: 'board-menu__btn menu-btn',
+    }, 'Add status +') as HTMLButtonElement;
+    const addStatusInput = createElement('input', parent, {
+      class: 'board-menu__btn menu-btn',
+      type: 'text',
+    }) as HTMLInputElement;
+    addStatusInput.style.display = 'none';
+    addBStatusButton.onclick = () => {
+      addBStatusButton.style.display = 'none';
+      addStatusInput.style.display = 'block';
+    };
+
+    addStatusInput.onblur = () => {
+      if (addStatusInput.value.trim()) {
+        const newStatusName = addStatusInput.value.trim();
+        addStatusInput.disabled = true;
+        addStatusInput.value = 'Saving...';
+        this.addStatus(newStatusName);
+      } else {
+        addBStatusButton.style.display = 'block';
+        addStatusInput.style.display = 'none';
+      }
+    };
+  }
+
+  private async addStatus(newStatusName: string) {
+    const result = await api.statuses.create(state.activeBoardId, newStatusName);
+    if (result.success) {
+      this.renderBoardsMenu();
+    }
   }
 
   private async removeBoard(): Promise<void> {
