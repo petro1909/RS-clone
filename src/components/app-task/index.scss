@@ -36,8 +36,9 @@
 
 .task-menu {
   position: absolute;
-  right: 42px;
+  right: 34px;
   top: 5px;
+  z-index: 1000;
 }
 
 .popup-menu {

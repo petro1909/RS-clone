@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 0.5rem;
   width: 300px;
-  height: fit-content;
+  min-height: 94px;
   padding: 0.5rem;
   border: 1px solid $color-border-element;
   border-radius: $border-radius-big-element;
@@ -48,6 +48,38 @@
       color: $color-font-regular-light;
       outline: 1px solid $color-font-regular-dark;
     }
+  }
+
+}
+
+.status-menu {
+  position: absolute;
+  right: 32px;
+  top: 4px;
+  z-index: 1000;
+}
+
+.popup-menu {
+  height: fit-content;
+  width: 150px;
+  padding: map-get($font-size , xs);
+  margin: 0;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-big-element;
+  background-color: $color-background-task;
+  color: $color-font-regular-light;
+  list-style: none;
+
+  &__item {
+      width: 100%;
+  }
+
+  &__btn {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 1.4rem;
+      text-align: left;
   }
 
 }
