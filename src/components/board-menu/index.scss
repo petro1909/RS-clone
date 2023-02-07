@@ -30,10 +30,11 @@
   }
 
   &__btn {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     @include set-font($font-family-base, map-get($font-size, l));
     color: $color-font-regular-dark;
-    text-align: left;
   }
 
   &__close-btn {
