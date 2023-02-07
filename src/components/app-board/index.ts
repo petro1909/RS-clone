@@ -1,6 +1,7 @@
 import state from '../../store/state';
 import api from '../../api';
 import createElement from '../../utils/createElement';
+import template from './template.html';
 
 class AppBoard extends HTMLElement {
   connectedCallback() {
@@ -10,18 +11,18 @@ class AppBoard extends HTMLElement {
   private async renderBoard() {
     this.innerHTML = '<h3>No tasks faound</h3>';
     if (state.user) {
-      this.innerHTML = '';
+      this.innerHTML = `${template}`;
       const statuses = await api.statuses.getByBoard(state.activeBoardId);
       if (!statuses.data) return;
 
-      statuses.data.forEach((status) => {
-        const statusWrapper = createElement('div', this, {
-          class: 'status__wrapper',
-        }, `<h2>${status.name}</h2`) as HTMLDivElement;
+      const boardWrapper = this.querySelector('#board') as HTMLInputElement;
 
-        createElement('div', statusWrapper, {
-          class: 'tasks__wrapper',
-        }, 'tasks');
+      statuses.data.forEach((status) => {
+        createElement('app-status', boardWrapper, {
+          class: 'status__wrapper',
+          statusId: `${status.id}`,
+          statusName: `${status.name}`,
+        }) as HTMLDivElement;
       });
     }
   }

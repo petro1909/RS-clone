@@ -1,5 +1,3 @@
-import state from '../../store/state';
-import createElement from '../../utils/createElement';
 import template from './template.html';
 
 class MainPage {
@@ -11,12 +9,6 @@ class MainPage {
       <app-header></app-header>
       ${template}
       <app-footer></app-footer>`;
-    document.querySelector('.user-menu__login')?.addEventListener('click', () => {
-      if (!state.isAuthorized) {
-        createElement('login-form', document.body);
-        document.body.classList.add('overflow-hidden');
-      }
-    });
     this.renderScroll3D();
   }
 

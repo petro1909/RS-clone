@@ -5,7 +5,6 @@ class Router {
   private loadPage(): void {
     const urlPathname = window.location.pathname;
     const correctRoutes = routes.filter((route) => route.path === urlPathname);
-    console.log('ISAUTH', state.isAuthorized);
 
     if (correctRoutes.length < 1) {
       this.goTo('/404');
@@ -18,6 +17,7 @@ class Router {
     } else {
       const currRoute = correctRoutes[0];
       document.body.innerHTML = '';
+      state.currentPage = currRoute.title;
       currRoute.page.render();
     }
   }

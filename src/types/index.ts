@@ -32,6 +32,7 @@ export interface ITask {
 export interface IState {
   user?: IUser,
   isAuthorized: boolean,
+  currentPage: string,
   activeBoardId: number
 }
 

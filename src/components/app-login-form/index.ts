@@ -28,9 +28,10 @@ class AppLoginForm extends HTMLElement {
 
     form.onsubmit = (e) => {
       e.preventDefault();
+      console.log('asdasdas');
       this.submitHandler(form);
     };
-    this.setInputFieldState();
+    // this.setInputFieldState();
   }
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
@@ -60,6 +61,7 @@ class AppLoginForm extends HTMLElement {
       state.isAuthorized = true;
       router.goTo('/board');
     }
+    router.goTo('/board');
   }
 
   private showMessage(input: HTMLInputElement, str = '') {
