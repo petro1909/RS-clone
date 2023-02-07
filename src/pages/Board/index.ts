@@ -7,6 +7,17 @@ class BoardPage {
     document.body.innerHTML = `
     <app-header></app-header>
     ${template}`;
+    const boardWrapper = document.getElementById('board-wrapper');
+    boardWrapper!.insertAdjacentHTML('afterbegin', '<board-menu></board-menu>');
+    const boardMenuBurgerBtn = document.getElementById('board-menu-burger-btn');
+    const boardMenuCloseBtn = document.getElementById('board-menu-close-btn');
+    const boardMenu = document.querySelector('.board-menu');
+    boardMenuBurgerBtn!.addEventListener('click', () => {
+      boardMenu?.classList.add('board-menu--visible');
+    });
+    boardMenuCloseBtn!.addEventListener('click', () => {
+      boardMenu?.classList.remove('board-menu--visible');
+    });
     const board = document.getElementById('board');
     board!.innerHTML = '<app-status></app-status>';
     board!.innerHTML += '<app-status></app-status>';
