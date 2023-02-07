@@ -41,10 +41,11 @@
   &__add-task {
     width: 100%;
     text-align: left;
-    color: $color-font-regular-light;
+    color: $color-font-regular;
     outline: 1px solid transparent;
 
     &:hover {
+      color: $color-font-regular-light;
       outline: 1px solid $color-font-regular-dark;
     }
   }
