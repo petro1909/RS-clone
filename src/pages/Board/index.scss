@@ -15,21 +15,34 @@
 }
 
 .board-wrapper {
+  min-height: calc(100vh - $header-height * 2 - 10px);
   overflow-x: auto;
 }
 
 .board {
   display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
   height: calc(100% - $header-height);
   width: fit-content;
   padding: 1rem;
   gap: 0.5rem;
+
+  &__add-btn {
+    height: 40px;
+    width: 300px;
+    border-radius: $border-radius-big-element;
+    border: 1px solid $color-border-element;
+    background-color: $color-background-status;
+    backdrop-filter: blur(10px);
+  }
 }
 
 .board-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid $color-border-element;
 
   &__title {
       margin-left: 0.5rem;
@@ -44,8 +57,8 @@
   }
 
   &__menu-btn {
-      @include set-font($font-family-base, map-get($font-size, xl), 0,5); // 0.5 line-height
-      @include square-view(36px);
+      @include set-font($font-family-base, map-get($font-size, 2xl), 0,5); // 0.5 line-height
+      @include square-view(28px);
       padding: 0 0 3px 0;
   }
 
@@ -62,5 +75,9 @@
       margin-right: map-get($font-size, xs);
       @include icon-square-background('../assets/img/task/default_user.svg', 28px);
   }
+
+  @include _576 {
+    display: none;
+  };
 
 }
