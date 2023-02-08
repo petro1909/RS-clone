@@ -11,6 +11,23 @@ class BoardPage {
     <app-header></app-header>
     ${template}`;
     const boardPage = document.getElementById('board-page');
+    const boardWrapper = document.getElementById('board-wrapper');
+    boardWrapper!.insertAdjacentHTML('afterbegin', '<board-menu></board-menu>');
+    const boardMenuBurgerBtn = document.getElementById('board-menu-burger-btn');
+    const boardMenuCloseBtn = document.getElementById('board-menu-close-btn');
+    const boardMenu = document.querySelector('.board-menu');
+    boardMenuBurgerBtn!.addEventListener('click', () => {
+      boardMenu?.classList.add('board-menu--visible');
+    });
+    boardMenuCloseBtn!.addEventListener('click', () => {
+      boardMenu?.classList.remove('board-menu--visible');
+    });
+    const board = document.getElementById('board');
+    board!.insertAdjacentHTML('afterbegin', '<app-status></app-status>');
+    board!.insertAdjacentHTML('afterbegin', '<app-status></app-status>');
+    const list = board!.querySelector('.status__task-list');
+    list!.innerHTML = '<app-task></app-task>';
+
     boardPage?.addEventListener('click', (event) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget?.classList.contains('status__menu')) {
@@ -29,24 +46,11 @@ class BoardPage {
         createElement('task-form', document.body);
         document.body.classList.add('overflow-hidden');
       }
+      if (eventTarget?.classList.contains('board__add-btn')) {
+        console.log('click');
+        board!.insertAdjacentHTML('afterbegin', '<app-status></app-status>');
+      }
     });
-
-    const boardWrapper = document.getElementById('board-wrapper');
-    boardWrapper!.insertAdjacentHTML('afterbegin', '<board-menu></board-menu>');
-    const boardMenuBurgerBtn = document.getElementById('board-menu-burger-btn');
-    const boardMenuCloseBtn = document.getElementById('board-menu-close-btn');
-    const boardMenu = document.querySelector('.board-menu');
-    boardMenuBurgerBtn!.addEventListener('click', () => {
-      boardMenu?.classList.add('board-menu--visible');
-    });
-    boardMenuCloseBtn!.addEventListener('click', () => {
-      boardMenu?.classList.remove('board-menu--visible');
-    });
-    const board = document.getElementById('board');
-    board!.insertAdjacentHTML('afterbegin', '<app-status></app-status>');
-    board!.insertAdjacentHTML('afterbegin', '<app-status></app-status>');
-    const list = board!.querySelector('.status__task-list');
-    list!.innerHTML = '<app-task></app-task>';
   }
 
   toggleLittleMenu(className: string, eventTarget: HTMLElement) {
