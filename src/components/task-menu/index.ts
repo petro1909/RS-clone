@@ -1,14 +1,11 @@
 import template from './template.html';
 
 class TaskMenu extends HTMLElement {
-  constructor() {
-    super();
+  connectedCallback() {
     this.innerHTML = template;
     this.classList.add('task-menu');
-  }
-
-  connectedCallback() {
-    console.log('task-menu added');
+    const taskId = this.getAttribute('taskId') as string;
+    console.log(taskId);
   }
 }
 

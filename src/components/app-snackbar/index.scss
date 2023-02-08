@@ -1,0 +1,50 @@
+.snack-bar {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 280px;
+}
+
+.message {
+  position: relative;
+  right: 0;
+  bottom: -1000px;
+  border: 1px solid black;
+  padding: 5px 10px;
+  opacity: 0;
+  transition: all .5s;
+
+  &_active {
+    bottom: 0;
+    opacity: .8;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &_error {
+    border: 1px solid red;
+  }
+
+  &_warning {
+    border: 1px solid burlywood;
+  }
+
+  &_success {
+    border: 1px solid green;
+  }
+
+  &__text {
+    font-weight: bold;
+    font-size: 18px;
+    margin: 5px 0;
+  }
+
+  &__details {
+    font-size: 14px;
+  }
+
+  &__code {
+    font-weight: bold;
+  }
+}
