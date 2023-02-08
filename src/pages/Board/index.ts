@@ -1,4 +1,5 @@
 import template from './template.html';
+import createElement from '../../utils/createElement';
 
 class BoardPage {
   private static activeMenu: HTMLElement | null | undefined = null;
@@ -23,7 +24,13 @@ class BoardPage {
         boardPage.querySelectorAll('.task-menu').forEach((elem) => { elem.classList.add('element--invisible'); });
         // BoardPage.activeMenu = null;
       }
+      if (eventTarget?.classList.contains('status__add-task')) {
+        console.log('click');
+        createElement('task-form', document.body);
+        document.body.classList.add('overflow-hidden');
+      }
     });
+
     const boardWrapper = document.getElementById('board-wrapper');
     boardWrapper!.insertAdjacentHTML('afterbegin', '<board-menu></board-menu>');
     const boardMenuBurgerBtn = document.getElementById('board-menu-burger-btn');

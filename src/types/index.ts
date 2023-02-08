@@ -16,3 +16,11 @@ export interface Ilogin {
   email: string,
   password: string
 }
+
+export interface ITask {
+  [key: string]: string;
+  taskname: string;
+  description: string,
+  deadline: string,
+  assignee: string
+}
