@@ -24,6 +24,12 @@ class AppBoard extends HTMLElement {
           statusName: `${status.name}`,
         }) as HTMLDivElement;
       });
+
+      const addStatusBtn = createElement('button', boardWrapper, {
+        class: 'board__add-btn menu-btn',
+      }, '+ Add status') as HTMLButtonElement;
+      addStatusBtn.id = 'add-status';
+      // <button class="board__add-btn menu-btn" id="add-status">+ Add status</button>
     }
   }
 }

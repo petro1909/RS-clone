@@ -1,5 +1,5 @@
 import template from './template.html';
-import { ITask } from '../../types';
+import { IFormTask } from '../../types';
 import validate from '../../utils/validate';
 import router from '../../router';
 
@@ -28,7 +28,7 @@ class TaskForm extends HTMLElement {
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
-    const taskData = {} as ITask;
+    const taskData = {} as IFormTask;
     // console.log('submitHandler', inputs);
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
@@ -42,7 +42,7 @@ class TaskForm extends HTMLElement {
     if (Object.values(taskData).length === 4) this.addTask(taskData);
   }
 
-  private async addTask(taskData: ITask) {
+  private async addTask(taskData: IFormTask) {
     console.log('addTask() valid data =>', taskData);
     router.goTo('/board');
   }
