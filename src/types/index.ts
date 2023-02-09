@@ -48,3 +48,11 @@ export interface ISnackMessage {
   text: string,
   details: string
 }
+
+export interface IFormTask {
+  [key: string]: string;
+  taskname: string;
+  description: string,
+  deadline: string,
+  assignee: string
+}

@@ -2,10 +2,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 340px;
+  width: 290px;
   padding: 0.5rem;
   border: 1px solid $color-border-element;
-  border-radius: $border-radius-small-element;
+  border-radius: $border-radius-big-element;
   background-color: $color-background-task;
   color: $color-font-regular-light;
   cursor: grab;
@@ -22,7 +22,7 @@
   }
 
   .task__menu {
-    @include square-view(32px);
+    @include square-view(24px);
     @include set-font($font-family-base, map-get($font-size, l));
     padding: 0;
   }
@@ -30,6 +30,37 @@
   .task__content {
     padding: 0.5rem 0 0 0;
     @include set-font($font-family-base, map-get($font-size, m));
+  }
+
+}
+
+.task-menu {
+  position: absolute;
+  right: 34px;
+  top: 5px;
+  z-index: 1000;
+  transition: all 300ms ease;
+}
+
+.popup-menu {
+  height: fit-content;
+  width: 150px;
+  padding: map-get($font-size , xs);
+  margin: 0;
+  border: 1px solid $color-border-element;
+  border-radius: $border-radius-big-element;
+  background-color: $color-background-task;
+  color: $color-font-regular-light;
+  list-style: none;
+
+  &__item {
+      width: 100%;
+  }
+
+  &__btn {
+      width: 100%;
+      font-size: 1rem;
+      text-align: left;
   }
 
 }

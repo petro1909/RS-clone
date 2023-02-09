@@ -1,0 +1,25 @@
+<section class="popup-page" id="popup-page">
+  <form class="task-form">
+    <div class="input-task-wrapper">
+      <input id="input-taskname" name="taskname"  type="text" class="input-task input-task--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-task-name" class="input-task-label">Task Name</label>
+    </div>
+    <div class="input-task-wrapper">
+      <textarea id="input-desc" name="description" type="text" class="input-task input-desc input-task--underscored" required></textarea>
+      <span class="error-message"></span>
+      <label for="input-desc" class="input-task-label">Description</label>
+    </div>
+    <div class="input-task-wrapper">
+      <input id="input-deadline" name="deadline" type="datetime-local" class="input-task input-deadline input-task--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-deadline" class="input-task-label">Deadline</label>
+    </div>
+    <div class="input-task-wrapper">
+      <input id="input-assignee" name="assignee" type="text" class="input-task input-task--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-assignee" class="input-task-label">Assignee</label>
+    </div>
+    <button class="btn" type="submit">SAVE</button>
+  </form>
+</section>

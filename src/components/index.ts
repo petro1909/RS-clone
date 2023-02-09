@@ -4,6 +4,7 @@ import './app-snackbar';
 import './app-boards-panel';
 import './app-board';
 import './app-task';
-import './task-menu';
+import './task-form';
+import './board-menu';
 import './app-status';
 import './app-footer';
