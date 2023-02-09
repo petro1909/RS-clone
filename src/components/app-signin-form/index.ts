@@ -1,16 +1,16 @@
 import template from './template.html';
-import { Ilogin, IUser } from '../../types';
+import { Ilogin, IUser, ISignin } from '../../types';
 import validate from '../../utils/validate';
 // import getUser from '../../api';
 import api from '../../api';
 import state from '../../store/state';
 import router from '../../router';
 
-class AppLoginForm extends HTMLElement {
+class AppSigninForm extends HTMLElement {
   connectedCallback() {
-    console.log('AppLoginForm added');
+    console.log('AppSigninForm added');
     this.innerHTML = template;
-    const form = this.querySelector('.login-form') as HTMLFormElement;
+    const form = this.querySelector('.signin-form') as HTMLFormElement;
     const passEyeBtn = this.querySelector('.password-eye') as HTMLButtonElement;
     passEyeBtn.onclick = () => {
       console.log('passEyeBtn');
@@ -41,28 +41,28 @@ class AppLoginForm extends HTMLElement {
       console.log('asdasdas');
       this.submitHandler(form);
     };
-    // this.setInputFieldState();
+    this.setInputFieldState();
   }
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
-    const loginData = {} as Ilogin;
+    const signinData = {} as ISignin;
     console.log(inputs);
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       const { name, value } = currInput;
       if (name) {
         if (currInput.hasAttribute('data-success')) {
-          loginData[name] = value;
+          signinData[name] = value;
         }
       }
     });
-    if (Object.values(loginData).length === 2) this.logIn(loginData);
-    this.logIn(loginData);
+    if (Object.values(signinData).length === 3) this.signIn(signinData);
+    this.signIn(signinData);
   }
 
-  private async logIn(loginData: Ilogin) {
-    console.log(loginData);
+  private async signIn(signinData: Ilogin) {
+    console.log(signinData);
     const res = await api.auth.login('email1@gmail.com');
     if (res.success) {
       const [user] = res.data as IUser[];
@@ -107,4 +107,4 @@ class AppLoginForm extends HTMLElement {
   }
 }
 
-customElements.define('login-form', AppLoginForm);
+customElements.define('signin-form', AppSigninForm);

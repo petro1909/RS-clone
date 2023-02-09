@@ -14,11 +14,11 @@
   cursor: pointer;
 }
 
-.overflow-hidden{
+.overflow-hidden {
   overflow: hidden;
 }
 
-.login-form {
+.signin-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,7 +30,6 @@
   border: 1px solid $color-border-element;
   border-radius: $border-radius-big-element;
   background-color: $color-background-task;
-  cursor: auto;
 
   @include _576 {
     padding: 50px;
