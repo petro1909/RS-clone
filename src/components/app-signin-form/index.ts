@@ -1,10 +1,11 @@
 import template from './template.html';
-import { Ilogin, IUser, ISignin } from '../../types';
+import { Ilogin, ISignin } from '../../types';
+// import { Ilogin, IUser, ISignin } from '../../types';
 import validate from '../../utils/validate';
 // import getUser from '../../api';
-import api from '../../api';
-import state from '../../store/state';
-import router from '../../router';
+// import api from '../../api';
+// import state from '../../store/state';
+// import router from '../../router';
 
 class AppSigninForm extends HTMLElement {
   connectedCallback() {
@@ -38,7 +39,6 @@ class AppSigninForm extends HTMLElement {
 
     form.onsubmit = (e) => {
       e.preventDefault();
-      console.log('asdasdas');
       this.submitHandler(form);
     };
     this.setInputFieldState();
@@ -62,16 +62,16 @@ class AppSigninForm extends HTMLElement {
   }
 
   private async signIn(signinData: Ilogin) {
-    console.log(signinData);
-    const res = await api.auth.login('email1@gmail.com');
-    if (res.success) {
-      const [user] = res.data as IUser[];
-      // Object.assign(state.user, user);
-      state.user = user;
-      state.isAuthorized = true;
-      router.goTo('/board');
-    }
-    router.goTo('/board');
+    console.log('signIn() =>', signinData);
+    // const res = await api.auth.login('email1@gmail.com');
+    // if (res.success) {
+    //   const [user] = res.data as IUser[];
+    //   // Object.assign(state.user, user);
+    //   state.user = user;
+    //   state.isAuthorized = true;
+    //   router.goTo('/board');
+    // }
+    // router.goTo('/board');
   }
 
   private showMessage(input: HTMLInputElement, str = '') {

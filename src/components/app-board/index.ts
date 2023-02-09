@@ -9,7 +9,7 @@ class AppBoard extends HTMLElement {
   }
 
   private async renderBoard() {
-    this.innerHTML = '<h3>No tasks faound</h3>';
+    this.innerHTML = '<h3>No tasks found</h3>';
     if (state.user) {
       this.innerHTML = `${template}`;
       const statuses = await api.statuses.getByBoard(state.activeBoardId);
