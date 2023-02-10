@@ -4,21 +4,23 @@ import baseFetch from './baseFetch';
 
 const ENDPOINT = `${settings.SERVER}/statuses`;
 
-const getBoardStatuses = async (boardId: number) => baseFetch<IStatus[]>(`${ENDPOINT}/?boardId=${boardId}`, 'GET');
+const getBoardStatuses = async (boardId: string) => baseFetch<IStatus[]>(`${ENDPOINT}/?boardId=${boardId}`, 'GET');
 
-const createStatus = async (boardId: number, name: string) => {
+const createStatus = async (boardId: string, name: string) => {
   const statusData = { name, boardId };
   return baseFetch<IStatus>(`${ENDPOINT}`, 'POST', JSON.stringify(statusData));
 };
 
-const updateStatus = async (status: IStatus) => {
-  const { id, name, boardId } = status;
-  return baseFetch<IStatus>(`${ENDPOINT}/${id}`, 'PUT', JSON.stringify({ name, boardId }));
-};
+// const updateStatus = async (status: IStatus) => {
+//   const { id, name, boardId } = status;
+//   return baseFetch<IStatus>(`${ENDPOINT}/${id}`, 'PUT', JSON.stringify({ name, boardId }));
+// };
 
-const deleteStatusesByBoard = async (boardId: number) => baseFetch<IStatus[]>(`${ENDPOINT}/?boardId=${boardId}`, 'DELETE');
+const updateStatus = async (status: IStatus) => baseFetch<IStatus>(`${ENDPOINT}`, 'PUT', JSON.stringify(status));
 
-const deleteStatus = async (id: number) => baseFetch<IStatus>(`${ENDPOINT}/${id}`, 'DELETE');
+const deleteStatusesByBoard = async (boardId: string) => baseFetch<IStatus[]>(`${ENDPOINT}/?boardId=${boardId}`, 'DELETE');
+
+const deleteStatus = async (id: string) => baseFetch<IStatus>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const statuses = {
   getByBoard: getBoardStatuses,

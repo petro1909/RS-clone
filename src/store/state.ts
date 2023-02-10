@@ -4,7 +4,7 @@ const state: IState = {
   user: undefined,
   isAuthorized: false,
   currentPage: 'Main',
-  activeBoardId: 0,
+  activeBoardId: '',
 };
 
 export default state;

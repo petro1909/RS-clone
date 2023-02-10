@@ -18,14 +18,14 @@ class AppStatus extends HTMLElement {
     this.renderTaskForm();
     const statusId = this.getAttribute('statusId') as string;
 
-    const tasks = await api.tasks.getByStatus(+statusId);
+    const tasks = await api.tasks.getByStatus(statusId);
     if (!tasks.data) return;
     const tasksWrapper = this.querySelector('#task-list') as HTMLDivElement;
 
     tasks.data.forEach((task) => {
       createElement('app-task', tasksWrapper, {
         taskId: `${task.id}`,
-        taskName: `${task.name}`,
+        taskName: `${task.text}`,
       }) as HTMLDivElement;
     });
   }
@@ -39,7 +39,7 @@ class AppStatus extends HTMLElement {
       const statusName = nameInput.value;
       console.log(statusName);
       if (statusName.trim() && statusName !== name) {
-        this.updateStatus({ id: +id, name: statusName.trim(), boardId: state.activeBoardId });
+        this.updateStatus({ id, name: statusName.trim(), boardId: state.activeBoardId });
       } else {
         nameInput.value = name;
       }
@@ -48,17 +48,32 @@ class AppStatus extends HTMLElement {
 
   private setMenu() {
     const menuBtn = this.querySelector('#status-menu-btn') as HTMLDivElement;
+    const menuWrapper = createElement('div', this, {
+      class: 'status-menu element--invisible',
+    }, `${menuTemplate}`);
+    const editBtn = menuWrapper.querySelector('#edit-status') as HTMLButtonElement;
+    const removeBtn = menuWrapper.querySelector('#remove-status') as HTMLButtonElement;
+    const nameInput = this.querySelector('#name-input') as HTMLInputElement;
     menuBtn.onclick = () => {
-      const menuWrapper = createElement('div', this, {
-        class: 'status-menu',
-      }, `${menuTemplate}`);
+      menuWrapper.classList.remove('element--invisible');
 
-      const removeBtn = menuWrapper.querySelector('#remove-status') as HTMLButtonElement;
+      editBtn.onclick = () => {
+        menuWrapper.classList.add('element--invisible');
+        nameInput.focus();
+      };
 
       removeBtn.onclick = () => {
         this.removeStatus();
       };
     };
+    // refactor: to global EvLis
+    window.addEventListener('click', (e) => {
+      const ev = e as Event;
+      const target = ev.target as HTMLElement;
+      if (target !== menuBtn) {
+        menuWrapper.classList.add('element--invisible');
+      }
+    });
   }
 
   private async updateStatus(status: IStatus) {
@@ -71,7 +86,7 @@ class AppStatus extends HTMLElement {
 
   private async removeStatus() {
     const id = this.getAttribute('statusId') as string;
-    const result = await api.statuses.delete(+id);
+    const result = await api.statuses.delete(id);
     if (result.success) {
       this.remove();
     }

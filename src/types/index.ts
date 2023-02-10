@@ -1,39 +1,39 @@
 export interface IUser {
-  id: number,
-  login: string,
+  id: string,
+  name: string,
   email: string,
   // password: string,
   role: 'admin' | 'user'
 }
 
 export interface IBoard {
-  id: number,
+  id: string,
   name: string
 }
 
 export interface IUserBoard {
-  id: number,
-  userId: number,
-  boardId: number,
+  id: string,
+  userId: string,
+  boardId: string,
 }
 
 export interface IStatus {
-  id: number,
+  id: string,
   name: string,
-  boardId: number,
+  boardId: string,
 }
 
 export interface ITask {
-  id: number,
-  name: string,
-  statusId: number,
+  id: string,
+  text: string,
+  statusId: string,
 }
 
 export interface IState {
   user?: IUser,
   isAuthorized: boolean,
   currentPage: string,
-  activeBoardId: number
+  activeBoardId: string
 }
 
 export interface Ilogin {
@@ -62,4 +62,17 @@ export interface IFormTask {
   description: string,
   deadline: string,
   assignee: string
+}
+
+export interface IBoardUser {
+  id: string,
+  boardId: string,
+  userId: string,
+  role: string,
+}
+
+export interface IRegisterUser {
+  name: string,
+  email: string,
+  password: string,
 }

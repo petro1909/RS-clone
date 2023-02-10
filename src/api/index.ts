@@ -1,13 +1,16 @@
 import auth from './auth';
+import users from './users';
 import boards from './boards';
-import userBoards from './userboard';
+// import userBoards from './userboard';
 import statuses from './statuses';
 import tasks from './tasks';
+import boardUsers from './boardUsers';
 
 const api = {
   auth,
+  users,
   boards,
-  userBoards,
+  boardUsers,
   statuses,
   tasks,
 };

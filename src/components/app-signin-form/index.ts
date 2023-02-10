@@ -1,11 +1,10 @@
 import template from './template.html';
-import { Ilogin, ISignin } from '../../types';
-// import { Ilogin, IUser, ISignin } from '../../types';
+import { IRegisterUser, IUser } from '../../types';
 import validate from '../../utils/validate';
 // import getUser from '../../api';
-// import api from '../../api';
-// import state from '../../store/state';
-// import router from '../../router';
+import api from '../../api';
+import state from '../../store/state';
+import router from '../../router';
 
 class AppSigninForm extends HTMLElement {
   connectedCallback() {
@@ -46,14 +45,14 @@ class AppSigninForm extends HTMLElement {
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
-    const signinData = {} as ISignin;
+    const signinData = {} as IRegisterUser;
     console.log(inputs);
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       const { name, value } = currInput;
       if (name) {
         if (currInput.hasAttribute('data-success')) {
-          signinData[name] = value;
+          signinData[name as keyof IRegisterUser] = value;
         }
       }
     });
@@ -61,8 +60,21 @@ class AppSigninForm extends HTMLElement {
     this.signIn(signinData);
   }
 
-  private async signIn(signinData: Ilogin) {
+  private async signIn(signinData: IRegisterUser) {
     console.log('signIn() =>', signinData);
+    const result = await api.users.create(signinData);
+    if (result.success) {
+      state.isAuthorized = true;
+      const user = result.data as unknown as IUser;
+      state.user = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      };
+      router.goTo('/board');
+      console.log(result);
+    }
     // const res = await api.auth.login('email1@gmail.com');
     // if (res.success) {
     //   const [user] = res.data as IUser[];

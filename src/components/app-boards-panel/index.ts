@@ -1,6 +1,6 @@
 import api from '../../api';
 import state from '../../store/state';
-import { IBoard } from '../../types';
+import { IBoard, IBoardUser } from '../../types';
 import createElement from '../../utils/createElement';
 // import apiHandler from '../../services/apiHandler';
 import boardsMenutemplate from './boards-menu-template.html';
@@ -64,8 +64,9 @@ class AppBoardsPanel extends HTMLElement {
           this.renderBoard(this.boardWrapper, board);
         };
       });
-      console.log('LOADED!!!!!!!!!!!!!', this.boardsData);
+      // console.log('LOADED!!!!!!!!!!!!!', this.boardsData, state.activeBoardId);
       const currentBoard = this.boardsData.find((board) => board?.id === state.activeBoardId);
+
       this.renderBoard(this.boardWrapper, currentBoard);
       this.renderAddBoardButton();
 
@@ -109,7 +110,8 @@ class AppBoardsPanel extends HTMLElement {
   private getMinBoardId(boardsData: IBoard[]) {
     const boardsIds = boardsData.map((board) => board.id);
 
-    return Math.min(...boardsIds);
+    // return Math.min(...boardsIds);
+    return boardsIds[0];
   }
 
   private async getBoardsData(): Promise<IBoard[] | undefined> {
@@ -120,19 +122,19 @@ class AppBoardsPanel extends HTMLElement {
     return boardsData.data;
   }
 
-  private showAddBoardForm(parentElement: HTMLElement): void {
-    const boardNameInput = createElement('input', parentElement, {
-      class: 'input-text',
-      type: 'text',
-    }) as HTMLInputElement;
-    const boardCreateButton = createElement('button', parentElement, {
-      class: 'add-board-button',
-    }, 'create board') as HTMLButtonElement;
+  // private showAddBoardForm(parentElement: HTMLElement): void {
+  //   const boardNameInput = createElement('input', parentElement, {
+  //     class: 'input-text',
+  //     type: 'text',
+  //   }) as HTMLInputElement;
+  //   const boardCreateButton = createElement('button', parentElement, {
+  //     class: 'add-board-button',
+  //   }, 'create board') as HTMLButtonElement;
 
-    boardCreateButton.onclick = () => {
-      this.addNewBoard(boardNameInput.value);
-    };
-  }
+  //   boardCreateButton.onclick = () => {
+  //     this.addNewBoard(boardNameInput.value);
+  //   };
+  // }
 
   // private showRenameBoardForm(parentElement: HTMLElement, board: IBoard): void {
   //   const wrapper = parentElement;
@@ -161,6 +163,7 @@ class AppBoardsPanel extends HTMLElement {
 
   private async updateBoard(board: IBoard): Promise<void> {
     const result = await api.boards.update(board);
+
     if (result.success) {
       // TODO: replace render only board ???
       this.renderBoardsMenu();
@@ -179,16 +182,16 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private async renderBoard(parent: HTMLDivElement, board: IBoard | undefined): Promise<void> {
-    if (!board) return;
     const wrapper = parent;
+    if (!board) {
+      wrapper.innerHTML = '<div class="board-page__header board-header" id="board-page__header"><h3>you don\'t have any projects yet</h3></div>';
+      return;
+    }
     wrapper.innerHTML = `
         <div class="board-page__header board-header" id="board-page__header">
         <input class="board-header__title input-text" id="board-header__title" type="" value="${board.name}">
         <div class="board-header__menu">
           <ul class="board-users" id="board-users">
-            <li class="board-users__user"></li>
-            <li class="board-users__user"></li>
-            <li class="board-users__user"></li>
           </ul>
           <button class="board-header__menu-btn menu-btn" id="board-menu-button">≡</button>
         </div>
@@ -204,8 +207,9 @@ class AppBoardsPanel extends HTMLElement {
     const boardMenuBtn = wrapper.querySelector('#board-menu-button') as HTMLButtonElement;
     const closeMenuBtn = wrapper.querySelector('#board-menu-close-btn') as HTMLButtonElement;
     const addStatusBoardWrapper = wrapper.querySelector('#board-menu-list__item-add-status') as HTMLLIElement;
+    const boardUsersWrapper = wrapper.querySelector('#board-users') as HTMLUListElement;
     this.renderAddStatusButton(addStatusBoardWrapper);
-
+    this.renderBoardUsers(boardUsersWrapper);
     nameInput.onblur = () => {
       const boardName = nameInput.value;
       if (boardName.trim() && boardName !== board.name) {
@@ -228,6 +232,25 @@ class AppBoardsPanel extends HTMLElement {
     deleteBoardButton.onclick = () => {
       this.removeBoard();
     };
+  }
+
+  private async renderBoardUsers(wrapper: HTMLUListElement) {
+    const boardUsersData = await api.boardUsers.getBoardUsers(state.activeBoardId);
+    const boardUsers = boardUsersData.data as IBoardUser[];
+    const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
+    const usersData = (await Promise.all(users)).map((user) => user.data);
+
+    // render
+    usersData.forEach((user) => {
+      createElement('li', wrapper, {
+        class: 'board-users__user',
+      }, `
+        <div class="board-users__user-details">
+          <p>${user?.name || 'NoName'}</>
+          <p>${user?.email}</>
+        </div>
+      `) as HTMLLIElement;
+    });
   }
 
   private renderAddStatusButton(parent: HTMLLIElement) {
@@ -269,7 +292,7 @@ class AppBoardsPanel extends HTMLElement {
 
   private async removeBoard(): Promise<void> {
     await api.boards.delete(state.activeBoardId);
-    state.activeBoardId = 0;
+    state.activeBoardId = '';
     this.renderBoardsMenu();
   }
 }

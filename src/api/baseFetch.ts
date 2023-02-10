@@ -30,9 +30,9 @@ const baseFetch = async <T>(
 
   try {
     const res = await fetch(endpoint, fetchOptions);
-    if (res.ok) {
+    result.success = !!res.ok;
+    if (res.ok && fetchOptions.method !== 'DELETE') { // 204 status?
       const data: T = await res.json();
-      result.success = true;
       result.data = data;
     } else {
       console.log(res);

@@ -4,9 +4,12 @@ const showMessageEvent = (messageData: ISnackMessage) => new CustomEvent('show-m
 
 const showBoardsMenu = new Event('show-boards-menu');
 
+const closeItemMenu = new Event('close-menu');
+
 const appEvent = {
   showMessage: showMessageEvent,
   showBoardsMenu,
+  closeItemMenu,
 };
 
 export default appEvent;

@@ -8,6 +8,7 @@ const validate: IValidate = {
     return regExp.test(str);
   },
   password: (str: string): boolean => str.trim().length > 3,
+  name: (str: string): boolean => str.trim().length > 3,
   taskname: (str: string): boolean => str.trim().length > 3,
   description: (str: string): boolean => str.trim().length > 3,
   deadline: (str: string): boolean => str.trim().length === 16,
