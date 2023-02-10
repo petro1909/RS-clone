@@ -1,5 +1,11 @@
 <section class="popup-page" id="popup-page">
-  <form class="login-form">
+  <form class="signin-form">
+    <div class="input-auth-wrapper">
+      <!-- <input id="input-user" name="email" class="input-auth input-user input-auth--underscored" required/> -->
+      <input id="input-login" name="text" class="input-auth input-user input-auth--underscored"/>
+      <span class="error-message"></span>
+      <label for="input-user" class="input-auth-label">Enter Email</label>
+    </div>
     <div class="input-auth-wrapper">
       <!-- <input id="input-user" name="email" class="input-auth input-user input-auth--underscored" required/> -->
       <input id="input-user" name="email" class="input-auth input-user input-auth--underscored"/>
@@ -13,6 +19,6 @@
       <span class="error-message"></span>
       <label for="input-password" class="input-auth-label">Enter Password</label>
     </div>
-    <button class="btn" type="submit">LOG IN</button>
+    <button class="btn" type="submit">SIGN IN</button>
   </form>
 </section>

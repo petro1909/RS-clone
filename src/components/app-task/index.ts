@@ -1,5 +1,6 @@
 import createElement from '../../utils/createElement';
 import template from './template.html';
+import api from '../../api';
 
 class AppTask extends HTMLElement {
   connectedCallback() {
@@ -28,6 +29,7 @@ class AppTask extends HTMLElement {
         class: 'task-menu',
         taskId,
       });
+      api.tasks.delete(+taskId);
       this.remove();
     };
   }

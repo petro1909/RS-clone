@@ -15,6 +15,7 @@ class AppStatus extends HTMLElement {
     this.classList.add('status');
     this.setStatusNameInput();
     this.setMenu();
+    this.renderTaskForm();
     const statusId = this.getAttribute('statusId') as string;
 
     const tasks = await api.tasks.getByStatus(+statusId);
@@ -74,6 +75,15 @@ class AppStatus extends HTMLElement {
     if (result.success) {
       this.remove();
     }
+  }
+
+  private renderTaskForm() {
+    const addTaskBtn = this.querySelector('.status__add-task');
+    addTaskBtn?.addEventListener('click', () => {
+      console.log('showTaskForm() =>');
+      createElement('task-form', document.body, { statusId: `${this.getAttribute('statusId')}` });
+      document.body.classList.add('overflow-hidden');
+    });
   }
 
   private getTasks() {
