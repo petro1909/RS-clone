@@ -1,28 +1,29 @@
-import api from '../api';
-import state from '../store/state';
-import { IUserBoard } from '../types';
+// import api from '../api';
+// import state from '../store/state';
+// import { IUserBoard } from '../types';
 
-const getUserBoards = async () => {
-  if (state.user) {
-    const userBoards = await api.userBoards.getByUser(state.user?.id);
-    const userBoardsData = userBoards.data as IUserBoard[];
-    const boards = userBoardsData.map((userBoard) => api.boards.getBoard(userBoard.boardId));
-    const data = (await Promise.all(boards)).map((board) => board.data);
+// const getUserBoards = async () => {
+//   if (state.user) {
+//     const userBoards = await api.userBoards.getByUser(state.user?.id);
+//     console.log('userBoards', userBoards, state.user?.id);
+//     const userBoardsData = userBoards.data as IUserBoard[];
+//     const boards = userBoardsData.map((userBoard) => api.boards.getBoard(userBoard.boardId));
+//     const data = (await Promise.all(boards)).map((board) => board.data);
 
-    return { success: true, data };
-  }
-  return { success: false };
-};
+//     return { success: true, data };
+//   }
+//   return { success: false };
+// };
 
-const createBoard = async (boardName: string) => {
-  const newBoard = await api.boards.create(boardName);
+// const createBoard = async (boardName: string) => {
+//   const newBoard = await api.boards.create(boardName);
 
-  if (newBoard.data?.id && state.user?.id) {
-    const boardUser = await api.userBoards.addUser(state.user?.id, newBoard.data?.id);
-    return boardUser;
-  }
-  return newBoard;
-};
+//   if (newBoard.data?.id && state.user?.id) {
+//     const boardUser = await api.userBoards.addUser(state.user?.id, newBoard.data?.id);
+//     return boardUser;
+//   }
+//   return newBoard;
+// };
 
 // const deleteUserBoardsByBoard = async (boardId: number) => {
 //   const userBoards = await api.userBoards.getByBoard(boardId);
@@ -47,9 +48,9 @@ const createBoard = async (boardName: string) => {
 //   return { success: false };
 // };
 
-const apiHandler = {
-  getUserBoards,
-  createBoard,
-};
+// const apiHandler = {
+//   getUserBoards,
+//   createBoard,
+// };
 
-export default apiHandler;
+// export default apiHandler;

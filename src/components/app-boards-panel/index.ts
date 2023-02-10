@@ -1,8 +1,8 @@
 import api from '../../api';
 import state from '../../store/state';
-import { IBoard, IUserBoard } from '../../types';
+import { IBoard } from '../../types';
 import createElement from '../../utils/createElement';
-import apiHandler from '../../services/apiHandler';
+// import apiHandler from '../../services/apiHandler';
 import boardsMenutemplate from './boards-menu-template.html';
 import boardMenuTemplate from './board-menu-template.html';
 
@@ -64,9 +64,8 @@ class AppBoardsPanel extends HTMLElement {
           this.renderBoard(this.boardWrapper, board);
         };
       });
-
+      console.log('LOADED!!!!!!!!!!!!!', this.boardsData);
       const currentBoard = this.boardsData.find((board) => board?.id === state.activeBoardId);
-
       this.renderBoard(this.boardWrapper, currentBoard);
       this.renderAddBoardButton();
 
@@ -113,9 +112,11 @@ class AppBoardsPanel extends HTMLElement {
     return Math.min(...boardsIds);
   }
 
-  private async getBoardsData(): Promise<(IBoard | undefined)[] | undefined> {
-    const boardsData = await apiHandler.getUserBoards();
-
+  private async getBoardsData(): Promise<IBoard[] | undefined> {
+    if (!state.user?.id) return undefined;
+    const id = state.user?.id;
+    const boardsData = await api.boards.getUserBoards(id);
+    if (!boardsData.data) return undefined;
     return boardsData.data;
   }
 
@@ -167,10 +168,12 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private async addNewBoard(boardName: string): Promise<void> {
-    const result = await apiHandler.createBoard(boardName);
+    if (!state.user?.id) return;
+    const id = state.user?.id;
+    const result = await api.boards.createUserBoard(id, boardName);
     if (result.success) {
-      const newUserBoard = result.data as IUserBoard;
-      state.activeBoardId = newUserBoard.boardId;
+      const newUserBoard = result.data as IBoard;
+      state.activeBoardId = newUserBoard.id;
       this.renderBoardsMenu();
     }
   }

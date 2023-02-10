@@ -4,7 +4,7 @@ import baseFetch from './baseFetch';
 
 const ENDPOINT = `${settings.SERVER}/userBoards`;
 
-const getByUser = async (userId: number) => baseFetch<IUserBoard[]>(`${ENDPOINT}?userId=${userId}`, 'GET');
+const getByUser = async (userId: number) => baseFetch<IUserBoard[]>(`${ENDPOINT}/?userId=${userId}`, 'GET');
 
 const getByBoard = async (boardId: number) => baseFetch<IUserBoard[]>(`${ENDPOINT}?boardId=${boardId}`, 'GET');
 
