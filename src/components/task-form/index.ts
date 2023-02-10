@@ -2,6 +2,7 @@ import template from './template.html';
 import { IFormTask } from '../../types';
 import validate from '../../utils/validate';
 import router from '../../router';
+import api from '../../api';
 
 class TaskForm extends HTMLElement {
   connectedCallback() {
@@ -11,10 +12,9 @@ class TaskForm extends HTMLElement {
     const popupPage = this.querySelector('.popup-page') as HTMLFormElement;
 
     popupPage.onclick = (event) => {
-      console.log('click');
       const eventTarget = event.target as HTMLDivElement;
       if (eventTarget?.classList.contains('popup-page')) {
-        this.innerHTML = '';
+        this.remove();
       }
     };
 
@@ -39,11 +39,17 @@ class TaskForm extends HTMLElement {
         }
       }
     });
-    if (Object.values(taskData).length === 4) this.addTask(taskData);
+    if (Object.values(taskData).length === 1) this.createNewTask(taskData);
   }
 
-  private async addTask(taskData: IFormTask) {
-    console.log('addTask() valid data =>', taskData);
+  private async createNewTask(taskData: IFormTask) {
+    console.log('addTask() valid data =>', taskData.taskname);
+    const taskform = document.querySelector('task-form') as HTMLElement;
+    const currentStatus = Number(taskform?.getAttribute('statusId'));
+    const result = await api.tasks.create(currentStatus, taskData.taskname);
+    if (result.success) {
+      console.log('TASK ADDED');
+    }
     router.goTo('/board');
   }
 
@@ -55,6 +61,7 @@ class TaskForm extends HTMLElement {
   }
 
   private setInputFieldState() {
+    console.log('setInputFieldState() =>');
     const inputs = this.querySelectorAll('.input-task');
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;

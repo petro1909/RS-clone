@@ -37,7 +37,14 @@ export interface IState {
 }
 
 export interface Ilogin {
-  [key: string]: string;
+  [key: string]: string,
+  email: string,
+  password: string
+}
+
+export interface ISignin {
+  [key: string]: string,
+  login: string,
   email: string,
   password: string
 }
@@ -50,8 +57,8 @@ export interface ISnackMessage {
 }
 
 export interface IFormTask {
-  [key: string]: string;
-  taskname: string;
+  [key: string]: string,
+  taskname: string,
   description: string,
   deadline: string,
   assignee: string

@@ -60,11 +60,12 @@ class AppHeader extends HTMLElement {
 
     logInBtn.onclick = () => {
       createElement('login-form', document.body);
-      document.body.classList.add('overflow-hidden'); /// ????????
+      document.body.classList.add('overflow-hidden'); // Класс добавляется для блокировки скролла под формой.
     };
 
     signInBtn.onclick = () => {
-      console.log('sign-in');
+      createElement('signin-form', document.body);
+      document.body.classList.add('overflow-hidden');
     };
   }
 }
