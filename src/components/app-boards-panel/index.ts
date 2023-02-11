@@ -5,6 +5,7 @@ import createElement from '../../utils/createElement';
 // import apiHandler from '../../services/apiHandler';
 import boardsMenutemplate from './boards-menu-template.html';
 import boardMenuTemplate from './board-menu-template.html';
+import createInputButton from '../createInputButton';
 
 class AppBoardsPanel extends HTMLElement {
   private boardsData: IBoard[];
@@ -78,40 +79,11 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private renderAddBoardButton() {
-    const addBoardWrapper = createElement('div', this.boardsMenu, {
-      class: '',
-    }) as HTMLDivElement;
-    const addBoardButton = createElement('button', addBoardWrapper, {
-      class: 'board-menu__btn menu-btn',
-    }, 'Add board +') as HTMLButtonElement;
-    const addBoardInput = createElement('input', addBoardWrapper, {
-      class: 'board-menu__btn menu-btn input-text',
-      type: 'text',
-    }) as HTMLInputElement;
-    addBoardInput.style.display = 'none';
-    addBoardButton.onclick = () => {
-      addBoardButton.style.display = 'none';
-      addBoardInput.style.display = 'block';
-      addBoardInput.focus();
-    };
-
-    const addBoardSubmit = () => {
-      if (addBoardInput.value.trim()) {
-        const newBoardName = addBoardInput.value.trim();
-        addBoardInput.disabled = true;
-        addBoardInput.value = 'Saving...';
-        this.addNewBoard(newBoardName);
-      } else {
-        addBoardButton.style.display = 'block';
-        addBoardInput.style.display = 'none';
-      }
-    };
-
-    addBoardInput.onblur = addBoardSubmit;
-    addBoardInput.onkeydown = (e) => {
-      const ev = e as KeyboardEvent;
-      if (ev.code === 'Enter') addBoardSubmit();
-    };
+    createInputButton(this.boardsMenu, this.addNewBoard.bind(this), {
+      buttonName: 'Add board +',
+      buttonClassName: 'board-menu__btn menu-btn',
+      inputClassName: 'board-menu__btn menu-btn input-text',
+    });
   }
 
   private getMinBoardId(boardsData: IBoard[]) {
@@ -260,34 +232,11 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private renderAddStatusButton(parent: HTMLLIElement) {
-    // const addBoardWrapper = createElement('div', this.boardsMenu, {
-    //   class: '',
-    // }) as HTMLDivElement;
-    const addBStatusButton = createElement('button', parent, {
-      class: 'board-menu__btn menu-btn',
-    }, 'Add status +') as HTMLButtonElement;
-    const addStatusInput = createElement('input', parent, {
-      class: 'board-menu__btn menu-btn input-text',
-      type: 'text',
-    }) as HTMLInputElement;
-    addStatusInput.style.display = 'none';
-    addBStatusButton.onclick = () => {
-      addBStatusButton.style.display = 'none';
-      addStatusInput.style.display = 'block';
-      addStatusInput.focus();
-    };
-
-    addStatusInput.onblur = () => {
-      if (addStatusInput.value.trim()) {
-        const newStatusName = addStatusInput.value.trim();
-        addStatusInput.disabled = true;
-        addStatusInput.value = 'Saving...';
-        this.addStatus(newStatusName);
-      } else {
-        addBStatusButton.style.display = 'block';
-        addStatusInput.style.display = 'none';
-      }
-    };
+    createInputButton(parent, this.addStatus.bind(this), {
+      buttonName: 'Add status +',
+      buttonClassName: 'board-menu__btn menu-btn',
+      inputClassName: 'board-menu__btn menu-btn input-text',
+    });
   }
 
   private async addStatus(newStatusName: string) {
