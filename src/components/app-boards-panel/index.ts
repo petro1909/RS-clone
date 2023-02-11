@@ -85,13 +85,14 @@ class AppBoardsPanel extends HTMLElement {
       class: 'board-menu__btn menu-btn',
     }, 'Add board +') as HTMLButtonElement;
     const addBoardInput = createElement('input', addBoardWrapper, {
-      class: 'board-menu__btn menu-btn',
+      class: 'board-menu__btn menu-btn input-text',
       type: 'text',
     }) as HTMLInputElement;
     addBoardInput.style.display = 'none';
     addBoardButton.onclick = () => {
       addBoardButton.style.display = 'none';
       addBoardInput.style.display = 'block';
+      addBoardInput.focus();
     };
 
     addBoardInput.onblur = () => {
@@ -261,13 +262,14 @@ class AppBoardsPanel extends HTMLElement {
       class: 'board-menu__btn menu-btn',
     }, 'Add status +') as HTMLButtonElement;
     const addStatusInput = createElement('input', parent, {
-      class: 'board-menu__btn menu-btn',
+      class: 'board-menu__btn menu-btn input-text',
       type: 'text',
     }) as HTMLInputElement;
     addStatusInput.style.display = 'none';
     addBStatusButton.onclick = () => {
       addBStatusButton.style.display = 'none';
       addStatusInput.style.display = 'block';
+      addStatusInput.focus();
     };
 
     addStatusInput.onblur = () => {

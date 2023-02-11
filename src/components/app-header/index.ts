@@ -2,6 +2,9 @@ import state from '../../store/state';
 import createElement from '../../utils/createElement';
 import template from './template.html';
 import appEvent from '../../events';
+import router from '../../router';
+import userMenuTemplate from './user-menu-template.html';
+import authService from '../../services/auth';
 
 class AppHeader extends HTMLElement {
   constructor() {
@@ -32,11 +35,49 @@ class AppHeader extends HTMLElement {
       this.createShowBoardsBtn(parent);
     }
 
-    createElement('a', parent, {
+    if (state.currentPage === 'User') {
+      this.createBackToBoardsBtn(parent);
+    }
+
+    const userMenuBtn = createElement('button', parent, {
       class: 'user-menu__profile',
-      'data-local-link': 'data-local-link',
-      href: '/board',
-    }) as HTMLAnchorElement;
+    }) as HTMLButtonElement;
+
+    const userMenuWrapper = createElement('div', this, {
+      class: 'task-menu element--invisible',
+    }, `${userMenuTemplate}`);
+    const openProfileBtn = userMenuWrapper.querySelector('#open-profile') as HTMLButtonElement;
+    const logoutBtn = userMenuWrapper.querySelector('#user-logout') as HTMLButtonElement;
+
+    userMenuBtn.onclick = () => {
+      userMenuWrapper.classList.remove('element--invisible');
+    };
+
+    openProfileBtn.onclick = () => {
+      router.goTo('/user');
+    };
+
+    logoutBtn.onclick = () => {
+      authService.logout();
+    };
+
+    window.addEventListener('click', (e) => {
+      const ev = e as Event;
+      const target = ev.target as HTMLElement;
+      if (target !== userMenuBtn) {
+        userMenuWrapper.classList.add('element--invisible');
+      }
+    });
+  }
+
+  private createBackToBoardsBtn(parent: HTMLDivElement) {
+    const backToBoardsBtn = createElement('button', parent, {
+      class: 'user-menu__login  btn',
+    }, 'Back to boards') as HTMLButtonElement;
+
+    backToBoardsBtn.onclick = () => {
+      router.goTo('/board');
+    };
   }
 
   private createShowBoardsBtn(parent: HTMLDivElement) {
