@@ -22,12 +22,12 @@ class AppHeader extends HTMLElement {
     }
     console.log('app-header added');
 
-    // document.querySelector('.user-menu__login')?.addEventListener('click', () => {
-    //   if (!state.isAuthorized) {
-    //     createElement('login-form', document.body);
-    //     document.body.classList.add('overflow-hidden');
-    //   }
-    // });
+    document.querySelector('.user-menu__login')?.addEventListener('click', () => {
+      if (!state.isAuthorized) {
+        createElement('login-form', document.body);
+        document.body.classList.add('overflow-hidden');
+      }
+    });
   }
 
   private createAppMenu(parent: HTMLDivElement) {
@@ -46,8 +46,14 @@ class AppHeader extends HTMLElement {
     const userMenuWrapper = createElement('div', this, {
       class: 'task-menu element--invisible',
     }, `${userMenuTemplate}`);
+    const userName = state.user?.name || 'Noname';
+    const userRole = state.user?.role as string;
     const openProfileBtn = userMenuWrapper.querySelector('#open-profile') as HTMLButtonElement;
     const logoutBtn = userMenuWrapper.querySelector('#user-logout') as HTMLButtonElement;
+    const userNameMenuTitle = userMenuWrapper.querySelector('#user-profile-name') as HTMLHeadingElement;
+    const userRoleMenuTitle = userMenuWrapper.querySelector('#user-profile-role') as HTMLHeadingElement;
+    userNameMenuTitle.innerHTML = `Hi, ${userName.toUpperCase()}`;
+    userRoleMenuTitle.innerHTML = `${userRole.toLowerCase()}`;
 
     userMenuBtn.onclick = () => {
       userMenuWrapper.classList.remove('element--invisible');

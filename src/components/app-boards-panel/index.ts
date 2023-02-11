@@ -95,7 +95,7 @@ class AppBoardsPanel extends HTMLElement {
       addBoardInput.focus();
     };
 
-    addBoardInput.onblur = () => {
+    const addBoardSubmit = () => {
       if (addBoardInput.value.trim()) {
         const newBoardName = addBoardInput.value.trim();
         addBoardInput.disabled = true;
@@ -106,12 +106,17 @@ class AppBoardsPanel extends HTMLElement {
         addBoardInput.style.display = 'none';
       }
     };
+
+    addBoardInput.onblur = addBoardSubmit;
+    addBoardInput.onkeydown = (e) => {
+      const ev = e as KeyboardEvent;
+      if (ev.code === 'Enter') addBoardSubmit();
+    };
   }
 
   private getMinBoardId(boardsData: IBoard[]) {
     const boardsIds = boardsData.map((board) => board.id);
 
-    // return Math.min(...boardsIds);
     return boardsIds[0];
   }
 

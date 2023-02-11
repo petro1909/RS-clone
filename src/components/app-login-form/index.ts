@@ -63,7 +63,7 @@ class AppLoginForm extends HTMLElement {
 
   private async logIn(loginData: Ilogin) {
     console.log(loginData);
-    const res = await api.auth.login('email1@gmail.com');
+    const res = await api.auth.login('email12@gmail.com');
     if (res.success) {
       const [user] = res.data as IUser[];
       // Object.assign(state.user, user);

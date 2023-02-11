@@ -8,6 +8,7 @@ const getById = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'GET
 
 const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`${ENDPOINT}/register`, 'POST', JSON.stringify(registerUser));
 
+const updateUser = async (user: IUser) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
 // const createUserBoard = async (userId: string, boardName: string) => {
 //   const newBoard = { name: boardName, userId };
 //   return baseFetch<IUser>(`${ENDPOINT}`, 'POST', JSON.stringify(newBoard));
@@ -21,6 +22,7 @@ const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`
 const users = {
   getById,
   create,
+  update: updateUser,
 };
 
 export default users;
