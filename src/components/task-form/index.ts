@@ -1,10 +1,17 @@
 import template from './template.html';
-import { IFormTask } from '../../types';
-import validate from '../../utils/validate';
+import { IFormTask, ITask } from '../../types';
+// import validate from '../../utils/validate';
 import router from '../../router';
 import api from '../../api';
 
 class TaskForm extends HTMLElement {
+  private task: ITask;
+
+  constructor() {
+    super();
+    this.task = {} as ITask;
+  }
+
   connectedCallback() {
     console.log('TaskForm added');
     this.innerHTML = template;
@@ -18,12 +25,35 @@ class TaskForm extends HTMLElement {
       }
     };
 
+    if (this.hasAttribute('taskId')) {
+      this.setValues();
+    }
+
     form.onsubmit = (event) => {
-      // console.log('preventDefault()');
       event.preventDefault();
       this.submitHandler(form);
     };
     this.setInputFieldState();
+  }
+
+  private async setValues() {
+    const taskId = this.getAttribute('taskId') as string;
+    const result = await api.tasks.getById(taskId);
+    const inputs = this.querySelectorAll('.input-task');
+
+    if (!result.success) return;
+    this.task = result.data as ITask;
+
+    inputs.forEach((input) => {
+      const currInput = input as HTMLInputElement;
+      const { name } = currInput;
+      if (name) {
+        if (name in this.task) {
+          const taskKey = name as keyof ITask;
+          currInput.value = this.task[taskKey];
+        }
+      }
+    });
   }
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
@@ -36,21 +66,39 @@ class TaskForm extends HTMLElement {
       if (name) {
         if (currInput.hasAttribute('data-success')) {
           taskData[name] = value;
+          if (this.hasAttribute('taskId') && (name in this.task)) {
+            this.task[name as keyof ITask] = value;
+          }
         }
       }
     });
-    if (Object.values(taskData).length === 1) this.createNewTask(taskData);
+    if (Object.values(taskData).length === 1) this.sendTask(taskData);
+    // {
+    //   if (this.hasAttribute('taskId')) {
+    //     this.updateTask();
+    //   } else {
+    //     this.createNewTask(taskData);
+    //   }
+    // }
   }
 
-  private async createNewTask(taskData: IFormTask) {
-    console.log('addTask() valid data =>', taskData.taskname);
+  private async sendTask(taskData: IFormTask) {
+    console.log('addTask() valid data =>', taskData.text);
     const taskform = document.querySelector('task-form') as HTMLElement;
-    const currentStatus = Number(taskform?.getAttribute('statusId'));
-    const result = await api.tasks.create(currentStatus, taskData.taskname);
-    if (result.success) {
-      console.log('TASK ADDED');
+    const currentStatus = taskform?.getAttribute('statusId') as string;
+    if (this.hasAttribute('taskId')) {
+      const result = await api.tasks.update(this.task);
+      if (result.success) {
+        router.goTo('/board');
+      }
+    } else {
+      const result = await api.tasks.create(currentStatus, taskData.text);
+      console.log(currentStatus, taskData);
+      if (result.success) {
+        console.log('TASK ADDED');
+      }
+      router.goTo('/board');
     }
-    router.goTo('/board');
   }
 
   private showMessage(input: HTMLInputElement, str = '') {
@@ -61,12 +109,11 @@ class TaskForm extends HTMLElement {
   }
 
   private setInputFieldState() {
-    console.log('setInputFieldState() =>');
     const inputs = this.querySelectorAll('.input-task');
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       currInput.onblur = () => {
-        const { name, value } = currInput;
+        // const { name, value } = currInput;
         this.showMessage(currInput);
         currInput.classList.remove('input-task_filled');
         currInput.classList.remove('input-task_error');
@@ -75,14 +122,17 @@ class TaskForm extends HTMLElement {
           currInput.classList.add('input-task_error');
         } else {
           currInput.classList.add('input-task_filled');
+          // //
+          currInput.classList.remove('input-task_error');
+          currInput.setAttribute('data-success', 'data-success');
           // console.log(name, value, validate[name](value));
-          if (validate[name](value)) {
-            currInput.classList.remove('input-task_error');
-            currInput.setAttribute('data-success', 'data-success');
-          } else {
-            currInput.classList.add('input-task_error');
-            this.showMessage(currInput, 'Error value');
-          }
+          // if (validate[name](value)) {
+          //   currInput.classList.remove('input-task_error');
+          //   currInput.setAttribute('data-success', 'data-success');
+          // } else {
+          //   currInput.classList.add('input-task_error');
+          //   this.showMessage(currInput, 'Error value');
+          // }
         }
       };
     });

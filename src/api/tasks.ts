@@ -4,18 +4,24 @@ import { ITask } from '../types';
 
 const ENDPOINT = `${settings.SERVER}/tasks`;
 
-const getStatusTasks = async (statusId: number) => baseFetch<ITask[]>(`${ENDPOINT}/?statusId=${statusId}`, 'GET');
+const getStatusTasks = async (statusId: string) => baseFetch<ITask[]>(`${ENDPOINT}/?statusId=${statusId}`, 'GET');
 
-const createTask = async (statusId: number, content: string) => {
-  const taskData = { name: content, statusId };
+const getTaskById = async (taskId: string) => baseFetch<ITask>(`${ENDPOINT}/${taskId}`, 'GET');
+
+const createTask = async (statusId: string, content: string) => {
+  const taskData = { text: content, statusId };
   return baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(taskData));
 };
 
-const deleteTask = async (id: number) => baseFetch<ITask>(`${ENDPOINT}/${id}`, 'DELETE');
+const updateTask = async (task: ITask) => baseFetch<ITask>(`${ENDPOINT}`, 'PUT', JSON.stringify(task));
+
+const deleteTask = async (id: string) => baseFetch<ITask>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const tasks = {
   getByStatus: getStatusTasks,
+  getById: getTaskById,
   create: createTask,
+  update: updateTask,
   delete: deleteTask,
 };
 

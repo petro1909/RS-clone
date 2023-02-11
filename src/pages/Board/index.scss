@@ -1,15 +1,15 @@
-.board-page{
+.board-page {
   height: calc(100vh - $header-height);
   margin-top: $header-height;
   background-image: url(../assets/img/board/default_bg.jpg);
   background-position: center;
 
   &__header {
-      height: $header-height;
-      width: 100%;
-      padding: 0.25rem 1rem;
-      background-color: $color-background-status;
-      backdrop-filter: blur(10px);
+    height: $header-height;
+    width: 100%;
+    padding: 0.25rem 1rem;
+    background-color: $color-background-status;
+    backdrop-filter: blur(10px);
   }
 
 }
@@ -45,21 +45,21 @@
   border-bottom: 1px solid $color-border-element;
 
   &__title {
-      margin-left: 0.5rem;
-      @include set-font($font-family-base, map-get($font-size, xl));
-      color: $color-font-regular-light;
+    margin-left: 0.5rem;
+    @include set-font($font-family-base, map-get($font-size, xl));
+    color: $color-font-regular-light;
   }
 
   &__menu {
-      display: flex;
-      align-items: center;
-      gap: map-get($font-size, m);
+    display: flex;
+    align-items: center;
+    gap: map-get($font-size, m);
   }
 
   &__menu-btn {
-      @include set-font($font-family-base, map-get($font-size, 2xl), 0,5); // 0.5 line-height
-      @include square-view(28px);
-      padding: 0 0 3px 0;
+    @include set-font($font-family-base, map-get($font-size, 2xl), 0, 5); // 0.5 line-height
+    @include square-view(28px);
+    padding: 0 0 3px 0;
   }
 
 }
@@ -72,12 +72,44 @@
   list-style: none;
 
   &__user {
-      margin-right: map-get($font-size, xs);
-      @include icon-square-background('../assets/img/task/default_user.svg', 28px);
+    position: relative;
+    margin-right: map-get($font-size, xs);
+    @include icon-square-background('../assets/img/task/default_user.svg', 28px);
+
+    &-details {
+      position: absolute;
+      bottom: -92px;
+      right: 0;
+      display: none;
+      background-color: hsl(0deg, 0%, 20%);
+      color: white;
+      padding: 5px 10px;
+      font-size: 14px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        
+        border-left: 30px solid rgba(0, 0, 0, 0);
+        border-right: 13px solid rgba(0, 0, 0, 0);
+        border-top: 19px solid rgba(0, 0, 0, 0);
+        right: 0px;
+        top: -25px;
+        border-bottom: 12px solid hsl(0deg, 0%, 20%);
+      }
+    }
+
+    &:hover &-details {
+      display: block;
+    }
   }
 
   @include _576 {
     display: none;
-  };
+  }
+
+  ;
 
 }

@@ -1,10 +1,11 @@
 import api from '../../api';
 import state from '../../store/state';
-import { IBoard, IUserBoard } from '../../types';
+import { IBoard, IBoardUser } from '../../types';
 import createElement from '../../utils/createElement';
-import apiHandler from '../../services/apiHandler';
+// import apiHandler from '../../services/apiHandler';
 import boardsMenutemplate from './boards-menu-template.html';
 import boardMenuTemplate from './board-menu-template.html';
+import createInputButton from '../createInputButton';
 
 class AppBoardsPanel extends HTMLElement {
   private boardsData: IBoard[];
@@ -64,7 +65,7 @@ class AppBoardsPanel extends HTMLElement {
           this.renderBoard(this.boardWrapper, board);
         };
       });
-
+      // console.log('LOADED!!!!!!!!!!!!!', this.boardsData, state.activeBoardId);
       const currentBoard = this.boardsData.find((board) => board?.id === state.activeBoardId);
 
       this.renderBoard(this.boardWrapper, currentBoard);
@@ -78,60 +79,40 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private renderAddBoardButton() {
-    const addBoardWrapper = createElement('div', this.boardsMenu, {
-      class: '',
-    }) as HTMLDivElement;
-    const addBoardButton = createElement('button', addBoardWrapper, {
-      class: 'board-menu__btn menu-btn',
-    }, 'Add board +') as HTMLButtonElement;
-    const addBoardInput = createElement('input', addBoardWrapper, {
-      class: 'board-menu__btn menu-btn',
-      type: 'text',
-    }) as HTMLInputElement;
-    addBoardInput.style.display = 'none';
-    addBoardButton.onclick = () => {
-      addBoardButton.style.display = 'none';
-      addBoardInput.style.display = 'block';
-    };
-
-    addBoardInput.onblur = () => {
-      if (addBoardInput.value.trim()) {
-        const newBoardName = addBoardInput.value.trim();
-        addBoardInput.disabled = true;
-        addBoardInput.value = 'Saving...';
-        this.addNewBoard(newBoardName);
-      } else {
-        addBoardButton.style.display = 'block';
-        addBoardInput.style.display = 'none';
-      }
-    };
+    createInputButton(this.boardsMenu, this.addNewBoard.bind(this), {
+      buttonName: 'Add board +',
+      buttonClassName: 'board-menu__btn menu-btn',
+      inputClassName: 'board-menu__btn menu-btn input-text',
+    });
   }
 
   private getMinBoardId(boardsData: IBoard[]) {
     const boardsIds = boardsData.map((board) => board.id);
 
-    return Math.min(...boardsIds);
+    return boardsIds[0];
   }
 
-  private async getBoardsData(): Promise<(IBoard | undefined)[] | undefined> {
-    const boardsData = await apiHandler.getUserBoards();
-
+  private async getBoardsData(): Promise<IBoard[] | undefined> {
+    if (!state.user?.id) return undefined;
+    const id = state.user?.id;
+    const boardsData = await api.boards.getUserBoards(id);
+    if (!boardsData.data) return undefined;
     return boardsData.data;
   }
 
-  private showAddBoardForm(parentElement: HTMLElement): void {
-    const boardNameInput = createElement('input', parentElement, {
-      class: 'input-text',
-      type: 'text',
-    }) as HTMLInputElement;
-    const boardCreateButton = createElement('button', parentElement, {
-      class: 'add-board-button',
-    }, 'create board') as HTMLButtonElement;
+  // private showAddBoardForm(parentElement: HTMLElement): void {
+  //   const boardNameInput = createElement('input', parentElement, {
+  //     class: 'input-text',
+  //     type: 'text',
+  //   }) as HTMLInputElement;
+  //   const boardCreateButton = createElement('button', parentElement, {
+  //     class: 'add-board-button',
+  //   }, 'create board') as HTMLButtonElement;
 
-    boardCreateButton.onclick = () => {
-      this.addNewBoard(boardNameInput.value);
-    };
-  }
+  //   boardCreateButton.onclick = () => {
+  //     this.addNewBoard(boardNameInput.value);
+  //   };
+  // }
 
   // private showRenameBoardForm(parentElement: HTMLElement, board: IBoard): void {
   //   const wrapper = parentElement;
@@ -160,6 +141,7 @@ class AppBoardsPanel extends HTMLElement {
 
   private async updateBoard(board: IBoard): Promise<void> {
     const result = await api.boards.update(board);
+
     if (result.success) {
       // TODO: replace render only board ???
       this.renderBoardsMenu();
@@ -167,25 +149,27 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private async addNewBoard(boardName: string): Promise<void> {
-    const result = await apiHandler.createBoard(boardName);
+    if (!state.user?.id) return;
+    const id = state.user?.id;
+    const result = await api.boards.createUserBoard(id, boardName);
     if (result.success) {
-      const newUserBoard = result.data as IUserBoard;
-      state.activeBoardId = newUserBoard.boardId;
+      const newUserBoard = result.data as IBoard;
+      state.activeBoardId = newUserBoard.id;
       this.renderBoardsMenu();
     }
   }
 
   private async renderBoard(parent: HTMLDivElement, board: IBoard | undefined): Promise<void> {
-    if (!board) return;
     const wrapper = parent;
+    if (!board) {
+      wrapper.innerHTML = '<div class="board-page__header board-header" id="board-page__header"><h3>you don\'t have any projects yet</h3></div>';
+      return;
+    }
     wrapper.innerHTML = `
         <div class="board-page__header board-header" id="board-page__header">
         <input class="board-header__title input-text" id="board-header__title" type="" value="${board.name}">
         <div class="board-header__menu">
           <ul class="board-users" id="board-users">
-            <li class="board-users__user"></li>
-            <li class="board-users__user"></li>
-            <li class="board-users__user"></li>
           </ul>
           <button class="board-header__menu-btn menu-btn" id="board-menu-button">≡</button>
         </div>
@@ -201,8 +185,9 @@ class AppBoardsPanel extends HTMLElement {
     const boardMenuBtn = wrapper.querySelector('#board-menu-button') as HTMLButtonElement;
     const closeMenuBtn = wrapper.querySelector('#board-menu-close-btn') as HTMLButtonElement;
     const addStatusBoardWrapper = wrapper.querySelector('#board-menu-list__item-add-status') as HTMLLIElement;
+    const boardUsersWrapper = wrapper.querySelector('#board-users') as HTMLUListElement;
     this.renderAddStatusButton(addStatusBoardWrapper);
-
+    this.renderBoardUsers(boardUsersWrapper);
     nameInput.onblur = () => {
       const boardName = nameInput.value;
       if (boardName.trim() && boardName !== board.name) {
@@ -227,34 +212,31 @@ class AppBoardsPanel extends HTMLElement {
     };
   }
 
-  private renderAddStatusButton(parent: HTMLLIElement) {
-    // const addBoardWrapper = createElement('div', this.boardsMenu, {
-    //   class: '',
-    // }) as HTMLDivElement;
-    const addBStatusButton = createElement('button', parent, {
-      class: 'board-menu__btn menu-btn',
-    }, 'Add status +') as HTMLButtonElement;
-    const addStatusInput = createElement('input', parent, {
-      class: 'board-menu__btn menu-btn',
-      type: 'text',
-    }) as HTMLInputElement;
-    addStatusInput.style.display = 'none';
-    addBStatusButton.onclick = () => {
-      addBStatusButton.style.display = 'none';
-      addStatusInput.style.display = 'block';
-    };
+  private async renderBoardUsers(wrapper: HTMLUListElement) {
+    const boardUsersData = await api.boardUsers.getBoardUsers(state.activeBoardId);
+    const boardUsers = boardUsersData.data as IBoardUser[];
+    const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
+    const usersData = (await Promise.all(users)).map((user) => user.data);
 
-    addStatusInput.onblur = () => {
-      if (addStatusInput.value.trim()) {
-        const newStatusName = addStatusInput.value.trim();
-        addStatusInput.disabled = true;
-        addStatusInput.value = 'Saving...';
-        this.addStatus(newStatusName);
-      } else {
-        addBStatusButton.style.display = 'block';
-        addStatusInput.style.display = 'none';
-      }
-    };
+    // render
+    usersData.forEach((user) => {
+      createElement('li', wrapper, {
+        class: 'board-users__user',
+      }, `
+        <div class="board-users__user-details">
+          <p>${user?.name || 'NoName'}</>
+          <p>${user?.email}</>
+        </div>
+      `) as HTMLLIElement;
+    });
+  }
+
+  private renderAddStatusButton(parent: HTMLLIElement) {
+    createInputButton(parent, this.addStatus.bind(this), {
+      buttonName: 'Add status +',
+      buttonClassName: 'board-menu__btn menu-btn',
+      inputClassName: 'board-menu__btn menu-btn input-text',
+    });
   }
 
   private async addStatus(newStatusName: string) {
@@ -266,7 +248,7 @@ class AppBoardsPanel extends HTMLElement {
 
   private async removeBoard(): Promise<void> {
     await api.boards.delete(state.activeBoardId);
-    state.activeBoardId = 0;
+    state.activeBoardId = '';
     this.renderBoardsMenu();
   }
 }

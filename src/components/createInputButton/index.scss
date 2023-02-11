@@ -1,0 +1,31 @@
+.inputButton {
+  &__wrapper {
+    text-align: inherit;
+  }
+
+  &__main-button {
+    text-align: inherit;
+  }
+
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__input-submit {
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transform: translateY(-50%);
+    transition: all 0.5s;
+
+    &:hover {
+      color: green;
+    }
+  }
+}

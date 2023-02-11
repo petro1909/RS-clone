@@ -2,6 +2,9 @@ import state from '../../store/state';
 import createElement from '../../utils/createElement';
 import template from './template.html';
 import appEvent from '../../events';
+import router from '../../router';
+import userMenuTemplate from './user-menu-template.html';
+import authService from '../../services/auth';
 
 class AppHeader extends HTMLElement {
   constructor() {
@@ -19,12 +22,12 @@ class AppHeader extends HTMLElement {
     }
     console.log('app-header added');
 
-    // document.querySelector('.user-menu__login')?.addEventListener('click', () => {
-    //   if (!state.isAuthorized) {
-    //     createElement('login-form', document.body);
-    //     document.body.classList.add('overflow-hidden');
-    //   }
-    // });
+    document.querySelector('.user-menu__login')?.addEventListener('click', () => {
+      if (!state.isAuthorized) {
+        createElement('login-form', document.body);
+        document.body.classList.add('overflow-hidden');
+      }
+    });
   }
 
   private createAppMenu(parent: HTMLDivElement) {
@@ -32,11 +35,55 @@ class AppHeader extends HTMLElement {
       this.createShowBoardsBtn(parent);
     }
 
-    createElement('a', parent, {
+    if (state.currentPage === 'User') {
+      this.createBackToBoardsBtn(parent);
+    }
+
+    const userMenuBtn = createElement('button', parent, {
       class: 'user-menu__profile',
-      'data-local-link': 'data-local-link',
-      href: '/board',
-    }) as HTMLAnchorElement;
+    }) as HTMLButtonElement;
+
+    const userMenuWrapper = createElement('div', this, {
+      class: 'task-menu element--invisible',
+    }, `${userMenuTemplate}`);
+    const userName = state.user?.name || 'Noname';
+    const userRole = state.user?.role as string;
+    const openProfileBtn = userMenuWrapper.querySelector('#open-profile') as HTMLButtonElement;
+    const logoutBtn = userMenuWrapper.querySelector('#user-logout') as HTMLButtonElement;
+    const userNameMenuTitle = userMenuWrapper.querySelector('#user-profile-name') as HTMLHeadingElement;
+    const userRoleMenuTitle = userMenuWrapper.querySelector('#user-profile-role') as HTMLHeadingElement;
+    userNameMenuTitle.innerHTML = `Hi, ${userName.toUpperCase()}`;
+    userRoleMenuTitle.innerHTML = `${userRole.toLowerCase()}`;
+
+    userMenuBtn.onclick = () => {
+      userMenuWrapper.classList.remove('element--invisible');
+    };
+
+    openProfileBtn.onclick = () => {
+      router.goTo('/user');
+    };
+
+    logoutBtn.onclick = () => {
+      authService.logout();
+    };
+
+    window.addEventListener('click', (e) => {
+      const ev = e as Event;
+      const target = ev.target as HTMLElement;
+      if (target !== userMenuBtn) {
+        userMenuWrapper.classList.add('element--invisible');
+      }
+    });
+  }
+
+  private createBackToBoardsBtn(parent: HTMLDivElement) {
+    const backToBoardsBtn = createElement('button', parent, {
+      class: 'user-menu__login  btn',
+    }, 'Back to boards') as HTMLButtonElement;
+
+    backToBoardsBtn.onclick = () => {
+      router.goTo('/board');
+    };
   }
 
   private createShowBoardsBtn(parent: HTMLDivElement) {
