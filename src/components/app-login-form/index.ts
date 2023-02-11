@@ -29,7 +29,6 @@ class AppLoginForm extends HTMLElement {
     const popupPage = this.querySelector('.popup-page') as HTMLFormElement;
 
     popupPage.onclick = (event) => {
-      console.log('click');
       const eventTarget = event.target as HTMLDivElement;
       if (eventTarget?.classList.contains('popup-page')) {
         this.remove();
@@ -38,7 +37,7 @@ class AppLoginForm extends HTMLElement {
 
     form.onsubmit = (e) => {
       e.preventDefault();
-      console.log('asdasdas');
+      console.log('login form submitted');
       this.submitHandler(form);
     };
     // this.setInputFieldState();
@@ -47,7 +46,7 @@ class AppLoginForm extends HTMLElement {
   private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
     const loginData = {} as Ilogin;
-    console.log(inputs);
+    // console.log(inputs);
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       const { name, value } = currInput;
@@ -62,7 +61,7 @@ class AppLoginForm extends HTMLElement {
   }
 
   private async logIn(loginData: Ilogin) {
-    console.log(loginData);
+    console.log('loginData', loginData);
     const res = await api.auth.login('email1@gmail.com');
     if (res.success) {
       const [user] = res.data as IUser[];

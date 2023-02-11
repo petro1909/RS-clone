@@ -11,7 +11,7 @@ class AppTask extends HTMLElement {
     this.innerHTML = template;
     this.classList.add('task');
     const taskId = this.getAttribute('taskId') as string;
-    console.log(taskId);
+    // console.log(taskId);
     this.setData();
     this.setMenu(taskId);
   }

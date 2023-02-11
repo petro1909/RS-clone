@@ -13,6 +13,7 @@ class AppStatus extends HTMLElement {
   private async render() {
     this.innerHTML = template;
     this.classList.add('status');
+    this.setAttribute('draggable', 'true');
     this.setStatusNameInput();
     this.setMenu();
     this.renderTaskForm();
