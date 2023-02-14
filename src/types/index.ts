@@ -2,6 +2,7 @@ export interface IUser {
   id: string,
   name: string,
   email: string,
+  profilePicture: string,
   // password: string,
   role: string
 }
@@ -34,6 +35,7 @@ export interface IState {
   isAuthorized: boolean,
   currentPage: string,
   activeBoardId: string
+  activeBoardUsers: IUser[]
 }
 
 export interface Ilogin {

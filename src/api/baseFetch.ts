@@ -3,7 +3,7 @@ interface IFetchOptions {
   headers: {
     [key: string]: string,
   }
-  body?: string,
+  body?: string | FormData,
 }
 
 interface IAPIResponse<T> {
@@ -12,21 +12,37 @@ interface IAPIResponse<T> {
 }
 
 const baseFetch = async <T>(
-  endpoint: string, method: string, body?: string,
+  endpoint: string, method: string, body?: string | FormData,
 ): Promise<IAPIResponse<T>> => {
   const result = {} as IAPIResponse<T>;
   const token = window.sessionStorage.getItem('app-token');
+  // const boundary = String(Math.random()).slice(2);
+  // const boundaryMiddle = `--${boundary}\r\n`;
+  // const boundaryLast = `--${boundary}--\r\n`;
   const fetchOptions: IFetchOptions = {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: {},
+    // headers: {
+    //   'Content-Type': 'multipart/form-data', // 'application/json',
+    // },
   };
+
+  if (!body || (typeof body === 'string')) {
+    fetchOptions.headers['Content-Type'] = 'application/json';
+  }
+
+  // if (body instanceof FormData) {
+  //   // fetchOptions.headers['Content-Type'] = `multipart/form-data; boundary=${boundary}`;
+  //   fetchOptions.body = body;
+  // }
 
   if (token) {
     fetchOptions.headers.Authorization = `Bearer ${token}`;
   }
+  // console.log('BODY', body);
+  // console.log('FORMDATA', body.get('profile') as FormData);
   if (body) fetchOptions.body = body;
+  // if (body) fetchOptions = Object.assign(fetchOptions, { body });
 
   try {
     const res = await fetch(endpoint, fetchOptions);
@@ -35,7 +51,7 @@ const baseFetch = async <T>(
       const data: T = await res.json();
       result.data = data;
     } else {
-      console.log(res);
+      console.log('RES', res);
     }
   } catch (error) {
     console.log(error);

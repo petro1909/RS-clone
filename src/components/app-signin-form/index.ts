@@ -1,14 +1,10 @@
 import template from './template.html';
-import { IRegisterUser, IUser } from '../../types';
+import { IRegisterUser } from '../../types';
 import validate from '../../utils/validate';
-// import getUser from '../../api';
-import api from '../../api';
-import state from '../../store/state';
-import router from '../../router';
+import authService from '../../services/auth';
 
 class AppSigninForm extends HTMLElement {
   connectedCallback() {
-    console.log('AppSigninForm added');
     this.innerHTML = template;
     const form = this.querySelector('.signin-form') as HTMLFormElement;
     const passEyeBtn = this.querySelector('.password-eye') as HTMLButtonElement;
@@ -29,7 +25,6 @@ class AppSigninForm extends HTMLElement {
     const popupPage = this.querySelector('.popup-page') as HTMLFormElement;
 
     popupPage.onclick = (event) => {
-      console.log('click');
       const eventTarget = event.target as HTMLDivElement;
       if (eventTarget?.classList.contains('popup-page')) {
         this.remove();
@@ -46,7 +41,6 @@ class AppSigninForm extends HTMLElement {
   private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
     const signinData = {} as IRegisterUser;
-    console.log(inputs);
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       const { name, value } = currInput;
@@ -61,29 +55,7 @@ class AppSigninForm extends HTMLElement {
   }
 
   private async signIn(signinData: IRegisterUser) {
-    console.log('signIn() =>', signinData);
-    const result = await api.users.create(signinData);
-    if (result.success) {
-      state.isAuthorized = true;
-      const user = result.data as unknown as IUser;
-      state.user = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      };
-      router.goTo('/board');
-      console.log(result);
-    }
-    // const res = await api.auth.login('email1@gmail.com');
-    // if (res.success) {
-    //   const [user] = res.data as IUser[];
-    //   // Object.assign(state.user, user);
-    //   state.user = user;
-    //   state.isAuthorized = true;
-    //   router.goTo('/board');
-    // }
-    // router.goTo('/board');
+    authService.register(signinData);
   }
 
   private showMessage(input: HTMLInputElement, str = '') {

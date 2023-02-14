@@ -20,7 +20,6 @@ class AppHeader extends HTMLElement {
     } else {
       this.createAuthMenu(userMenuWrapper);
     }
-    console.log('app-header added');
 
     document.querySelector('.user-menu__login')?.addEventListener('click', () => {
       if (!state.isAuthorized) {
@@ -42,6 +41,10 @@ class AppHeader extends HTMLElement {
     const userMenuBtn = createElement('button', parent, {
       class: 'user-menu__profile',
     }) as HTMLButtonElement;
+
+    if (state.user?.profilePicture) {
+      userMenuBtn.style.backgroundImage = `url(${state.user?.profilePicture})`;
+    }
 
     const userMenuWrapper = createElement('div', this, {
       class: 'task-menu element--invisible',

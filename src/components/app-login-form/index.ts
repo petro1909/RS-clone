@@ -1,19 +1,14 @@
 import template from './template.html';
-import { Ilogin, IUser } from '../../types';
+import { Ilogin } from '../../types';
 import validate from '../../utils/validate';
-// import getUser from '../../api';
-import api from '../../api';
-import state from '../../store/state';
-import router from '../../router';
+import authService from '../../services/auth';
 
 class AppLoginForm extends HTMLElement {
   connectedCallback() {
-    console.log('AppLoginForm added');
     this.innerHTML = template;
     const form = this.querySelector('.login-form') as HTMLFormElement;
     const passEyeBtn = this.querySelector('.password-eye') as HTMLButtonElement;
     passEyeBtn.onclick = () => {
-      console.log('passEyeBtn');
       const input = passEyeBtn.nextElementSibling as HTMLInputElement;
       if (input) {
         if (input.type === 'password') {
@@ -41,13 +36,11 @@ class AppLoginForm extends HTMLElement {
       console.log('asdasdas');
       this.submitHandler(form);
     };
-    // this.setInputFieldState();
   }
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
     const inputs = [...form.elements];
     const loginData = {} as Ilogin;
-    console.log(inputs);
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       const { name, value } = currInput;
@@ -63,15 +56,7 @@ class AppLoginForm extends HTMLElement {
 
   private async logIn(loginData: Ilogin) {
     console.log(loginData);
-    const res = await api.auth.login('email12@gmail.com');
-    if (res.success) {
-      const [user] = res.data as IUser[];
-      // Object.assign(state.user, user);
-      state.user = user;
-      state.isAuthorized = true;
-      router.goTo('/board');
-    }
-    router.goTo('/board');
+    authService.login(loginData);
   }
 
   private showMessage(input: HTMLInputElement, str = '') {
@@ -93,7 +78,6 @@ class AppLoginForm extends HTMLElement {
           currInput.classList.add('input-auth_error');
         } else {
           currInput.classList.add('input-auth_filled');
-          console.log(name, value, validate[name](value));
           if (validate[name](value)) {
             currInput.classList.remove('input-auth_error');
             currInput.setAttribute('data-success', 'data-success');

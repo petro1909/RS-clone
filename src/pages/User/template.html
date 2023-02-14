@@ -3,7 +3,14 @@
     <form action="#" class="user-profile" id="profile">
       <fieldset form="profile" class="user-profile__details" id="profile-details">
         <h3 class="user-profile__details-title">Account details</h3>
-        <img class="userpic" src="../../assets/img/task/default_user.svg" id="userpic">
+        <div class="user-profile__avatar__wrapper" id="avatar-wrapper">
+          <button class="empty-button userpic-button" id="userpic">
+            <img class="userpic" src="../../assets/img/task/default_user.svg">
+          </button>
+          <!-- <button class="userpic__del-ntn" id="del-userpic">✖</button> -->
+        </div>
+       
+        
         <label class="profile-detail" for="input-fullname">
           Full name
           <input class="profile-detail__input input-text" value="John Doe" type="text" name="fullname" id="input-fullname">

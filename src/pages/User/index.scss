@@ -36,27 +36,39 @@
 
     @include _1400 {
       padding: 60px;
-    };
+    }
+
+    ;
 
     @include _1200 {
       padding: 50px;
-    };
+    }
+
+    ;
 
     @include _991 {
       padding: 40px;
-    };
+    }
+
+    ;
 
     @include _768 {
       padding: 30px;
-    };
+    }
+
+    ;
 
     @include _576 {
       padding: 20px;
-    };
+    }
+
+    ;
 
     @include _414 {
       padding: 10px;
-    };
+    }
+
+    ;
   }
 
   &__details-title {
@@ -67,29 +79,51 @@
 
   @include _1400 {
     padding: 60px;
-  };
+  }
+
+  ;
 
   @include _1200 {
     padding: 50px;
-  };
+  }
+
+  ;
 
   @include _991 {
     padding: 40px;
-  };
+  }
+
+  ;
 
   @include _768 {
     padding: 30px;
-  };
+  }
+
+  ;
 
   @include _576 {
     padding: 20px;
-  };
+  }
+
+  ;
 
   @include _414 {
     padding: 10px;
-  };
+  }
 
+  ;
+
+  &__avatar__wrapper {
+    position: relative;
+    &:hover .userpic__del-ntn{
+      color: rgba(255, 255, 255, .8);
+      &:hover {
+        color: red;
+      }
+    }
+  }
 }
+
 
 .userpic {
   align-self: center;
@@ -98,15 +132,41 @@
   margin: 0 0 map-get($font-size, l) 0;
   object-fit: 100% 100%;
   object-position: center;
+  border-radius: 50%;
+  transition: all .5s;
+
+  &:hover {
+    box-shadow: 0px 0px 10px hsl(39deg, 100%, 50%);
+  }
+
+  &-button {
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  &__del-ntn {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    color: rgba(255, 255, 255, .3);
+    transition: all .5s;
+  }
 }
 
-.profile-detail{
+.profile-detail {
   position: relative;
   width: 450px;
   @include set-font($font-family-base, map-get($font-size, m) * 1.25);
   color: $color-font-regular;
 
-  &__input{
+  &__input {
     width: 100%;
     margin-top: map-get($font-size, xs);
     border-radius: $border-radius-small-element;
@@ -124,27 +184,39 @@
 
   @include _1400 {
     width: 425px;
-  };
+  }
+
+  ;
 
   @include _1200 {
     width: 400px;
-  };
+  }
+
+  ;
 
   @include _991 {
     width: 350px;
-  };
+  }
+
+  ;
 
   @include _768 {
     width: 325px;
-  };
+  }
+
+  ;
 
   @include _576 {
     width: 300px;
-  };
+  }
+
+  ;
 
   @include _414 {
     width: 275px;
-  };
+  }
+
+  ;
 }
 
 .input-text {
@@ -156,9 +228,9 @@
   transition: $delay*3;
 
   &:focus {
-      outline: 3px solid $color-border-input-focused;
-      background-color: $color-background-light;
-      color: $color-font-regular-dark;
+    outline: 3px solid $color-border-input-focused;
+    background-color: $color-background-light;
+    color: $color-font-regular-dark;
   }
 
 }
