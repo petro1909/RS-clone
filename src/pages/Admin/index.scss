@@ -1,0 +1,36 @@
+.admin-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - $header-height);
+  margin-top: $header-height;
+  background: radial-gradient(circle, rgba(145,0,0,1) 0%, rgba(59,0,0,1) 33%, rgba(0,0,0,1) 66%);
+  background-position: center;
+}
+
+.datalist-input {
+  width: 280px;
+  padding: 0.25rem;
+  margin-top: 2rem;
+  border: none;
+  border-radius: $border-radius-small-element;
+  @include set-font($font-family-base, map-get($font-size, m) * 1.7);
+  background-color: $color-background-light;
+  color: $color-font-regular-dark;
+  outline: none;
+  outline: 1px solid $color-border-element;
+  transition: $delay*3;
+  @include _576 {
+    margin-top: 1rem;
+  };
+}
+
+.btns-wrapper {
+  display: flex;
+  margin-top: 2rem;
+  gap: 1rem;
+  @include _576 {
+    margin-top: 1rem;
+  };
+}
