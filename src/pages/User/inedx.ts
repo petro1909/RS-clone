@@ -1,6 +1,8 @@
 import api from '../../api';
 import state from '../../store/state';
 import { IUser } from '../../types';
+import createElement from '../../utils/createElement';
+// import createElement from '../../utils/createElement';
 import template from './template.html';
 
 class UserPage {
@@ -11,9 +13,10 @@ class UserPage {
     <app-header></app-header>
     ${template}`;
     this.setUserValues();
+    this.setAvatar();
   }
 
-  private setUserValues() {
+  private setUserValues(): void {
     const user = state.user as IUser;
     const profileForm = document.querySelector('#profile') as HTMLFormElement;
     const formElems = [...profileForm.elements] as HTMLInputElement[];
@@ -33,6 +36,50 @@ class UserPage {
       };
     });
     console.log('user', user);
+  }
+
+  private setAvatar() {
+    console.log('USER', state.user);
+    const avatarWrapper = document.querySelector('#avatar-wrapper') as HTMLButtonElement;
+    const avatarBtn = avatarWrapper.querySelector('#userpic') as HTMLButtonElement;
+    const user = state.user as IUser;
+    if (user.profilePicture) {
+      avatarBtn.innerHTML = `
+        <img class="userpic" src="${user.profilePicture}">
+      `;
+
+      const delBtn = createElement('button', avatarWrapper, {
+        class: 'userpic__del-ntn',
+      }, '✖') as HTMLButtonElement;
+      delBtn.onclick = (e) => {
+        e.preventDefault();
+        this.deleteAvatar(user.id);
+      };
+    }
+    avatarBtn.onclick = (e) => {
+      e.preventDefault();
+      // createElement('image-loader', document.body);
+      document.body.innerHTML += '<image-loader></image-loader>';
+    };
+
+    window.addEventListener('file-uploaded', (e) => {
+      const ev = e as CustomEvent;
+      const userState = state.user as IUser;
+      userState.profilePicture = ev.detail as string;
+      // updatestate
+      this.render();
+    });
+  }
+
+  private async deleteAvatar(userId: string) {
+    const apiRes = await api.users.deleteAvatar(userId);
+    console.log('RESPONSE1', apiRes, state);
+    if (apiRes.success) {
+      const user = state.user as IUser;
+      console.log('RESPONSE', apiRes, state);
+      user.profilePicture = '';
+      this.render();
+    }
   }
 
   private async updateUser(user: IUser) {

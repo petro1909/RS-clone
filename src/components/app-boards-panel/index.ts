@@ -1,8 +1,8 @@
 import api from '../../api';
 import state from '../../store/state';
-import { IBoard, IBoardUser } from '../../types';
+import { IBoard, IUser } from '../../types';
 import createElement from '../../utils/createElement';
-// import apiHandler from '../../services/apiHandler';
+import apiService from '../../services/apiHandler';
 import boardsMenutemplate from './boards-menu-template.html';
 import boardMenuTemplate from './board-menu-template.html';
 import createInputButton from '../createInputButton';
@@ -213,14 +213,15 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private async renderBoardUsers(wrapper: HTMLUListElement) {
-    const boardUsersData = await api.boardUsers.getBoardUsers(state.activeBoardId);
-    const boardUsers = boardUsersData.data as IBoardUser[];
-    const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
-    const usersData = (await Promise.all(users)).map((user) => user.data);
-
+    // const boardUsersData = await api.boardUsers.getBoardUsers(state.activeBoardId);
+    // const boardUsers = boardUsersData.data as IBoardUser[];
+    // const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
+    // const usersData = (await Promise.all(users)).map((user) => user.data);
+    const usersData = await apiService.getBoardUsers(state.activeBoardId) as IUser[];
+    state.activeBoardUsers = usersData;
     // render
     usersData.forEach((user) => {
-      createElement('li', wrapper, {
+      const userElement = createElement('li', wrapper, {
         class: 'board-users__user',
       }, `
         <div class="board-users__user-details">
@@ -228,6 +229,9 @@ class AppBoardsPanel extends HTMLElement {
           <p>${user?.email}</>
         </div>
       `) as HTMLLIElement;
+      if (user.profilePicture) {
+        userElement.style.backgroundImage = `url(${user.profilePicture})`;
+      }
     });
   }
 

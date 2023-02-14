@@ -1,0 +1,80 @@
+.image-loader {
+  position: absolute;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+  background: hsl(0deg, 0%, 25%);
+  border: 1px solid hsl(0deg, 0%, 50%);
+
+  &__drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    padding: 20px;
+    background: hsl(0deg, 0%, 25%);
+    transition: all .5s;
+
+    &_active {
+      border-color: hsl(39deg, 100%, 50%);
+      background: hsl(0, 0%, 55%);
+    }
+  }
+
+  &__form {
+    margin-bottom: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__text {
+    margin-top: 0;
+    font-size: 20px;
+    text-align: center;
+    color: hsl(0deg, 0%, 100%);
+  }
+
+  &__gallery {
+    margin-top: 10px;
+
+    img {
+      width: 150px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 10px;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    background: #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+
+    &:hover {
+      background: #ddd;
+    }
+  }
+
+  &__input-file {
+    display: none;
+  }
+}

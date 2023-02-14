@@ -1,6 +1,35 @@
-// import api from '../api';
+import api from '../api';
 // import state from '../store/state';
-// import { IUserBoard } from '../types';
+import { IBoardUser, IUser } from '../types';
+
+const getUserWithAvatarURL = async (userIncorrectAvatar: IUser) => {
+  const user = { ...userIncorrectAvatar };
+  if (user.profilePicture) {
+    const avatarRes = await api.users.getAvatar(user.id);
+    if (avatarRes.data) {
+      user.profilePicture = avatarRes.data.url;
+    }
+  } else {
+    user.profilePicture = '';
+  }
+  return user;
+};
+
+const getUsersWithAvatars = async (users: IUser[]) => {
+  const usersWithAvatars = users.map((user) => getUserWithAvatarURL(user));
+  const data = await Promise.all(usersWithAvatars);
+  return data;
+};
+
+const getBoardUsers = async (boardId: string) => {
+  const boardUsersData = await api.boardUsers.getBoardUsers(boardId);
+  const boardUsers = boardUsersData.data as IBoardUser[];
+  const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
+  const usersData = (await Promise.all(users)).map((user) => user.data) as IUser[];
+  const usersWithAvatars = await getUsersWithAvatars(usersData);
+
+  return usersWithAvatars;
+};
 
 // const getUserBoards = async () => {
 //   if (state.user) {
@@ -48,9 +77,9 @@
 //   return { success: false };
 // };
 
-// const apiHandler = {
-//   getUserBoards,
-//   createBoard,
-// };
+const apiService = {
+  getUserWithAvatarURL,
+  getBoardUsers,
+};
 
-// export default apiHandler;
+export default apiService;

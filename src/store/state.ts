@@ -5,6 +5,7 @@ const state: IState = {
   isAuthorized: false,
   currentPage: 'Main',
   activeBoardId: '',
+  activeBoardUsers: [],
 };
 
 export default state;
