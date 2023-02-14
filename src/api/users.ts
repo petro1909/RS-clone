@@ -6,6 +6,8 @@ const ENDPOINT = `${settings.SERVER}/users`;
 
 const getById = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'GET');
 
+const getAllUsers = async () => baseFetch<IUser[]>(`${ENDPOINT}`, 'GET');
+
 const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`${ENDPOINT}/register`, 'POST', JSON.stringify(registerUser));
 
 const updateUser = async (user: IUser) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
@@ -20,6 +22,7 @@ const updateUser = async (user: IUser) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT',
 // const deleteBoard = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const users = {
+  getAllUsers,
   getById,
   create,
   update: updateUser,
