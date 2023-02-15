@@ -7,8 +7,8 @@
   height: calc(100vh - $header-height);
   width: 320px;
   padding: map-get($font-size, xs);
-  background-color: var(--color-background-light);
-  box-shadow: -3px 0 20px var(--color-font-regular-black);
+  background-color: var(--color-background-secondary);
+  box-shadow: -3px 0 20px var(--color-box-shadow);
   transform: translateX(340px);
   transition: $delay*3 ease;
 
@@ -30,27 +30,27 @@
   &__title {
     margin: 0;
     @include set-font($font-family-base, map-get($font-size, l));
-    color: var(--color-font-regular-dark);
+    color: var(--color-font-regular);
   }
 
   &__btn {
     width: 100%;
     @include set-font($font-family-base, map-get($font-size, l));
-    color: var(--color-font-regular-dark);
+    color: var(--color-font-regular);
     text-align: left;
   }
 
   &__close-btn {
     @include square-view(28px);
     @include set-font($font-family-base, map-get($font-size, l));
-    color: var(--color-font-regular-dark);
+    color: var(--color-font-regular);
     padding: 2px 0 0 0;
   }
 
   &__list {
     height: calc(100vh - $header-height * 2 - 175px);
     border-radius: $border-radius-big-element;
-    background-color: var(--color-background-regular);
+    background-color: var(--color-background-primary);
     outline: 1px solid var(--color-border-element);
   }
 

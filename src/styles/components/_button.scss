@@ -37,10 +37,10 @@
 }
 
 .delete-btn {
-    color: var(--color-delete);
+    color: var(--color-danger);
 
     &:hover {
-        background-color: var(--color-button-delete-hover);
+        background-color: var(--color-danger-button-hover);
     }
 
 }

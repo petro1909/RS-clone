@@ -7,7 +7,7 @@
   height: calc(100vh - $header-height);
   width: 320px;
   padding: map-get($font-size, xs);
-  background-color: var(--color-background-light);
+  background-color: var(--color-background-secondary);
   box-shadow: -3px 0 20px var(--color-font-regular-black);
   transform: translateX(340px);
   transition: $delay*3 ease;
@@ -47,7 +47,7 @@
   &__list {
     height: calc(100vh - $header-height * 2 - 175px);
     border-radius: $border-radius-big-element;
-    background-color: var(--color-background-regular);
+    background-color: var(--color-background-primary);
     outline: 1px solid var(--color-border-element);
   }
 

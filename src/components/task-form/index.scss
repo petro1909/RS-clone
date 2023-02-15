@@ -9,7 +9,7 @@
   height: 100vh;
   width: 100vw;
   @include set-font($font-family-base, map-get($font-size, m));
-  background-color: var(--color-background-status);
+  background-color: var(--color-background-modal);
   backdrop-filter: blur(20px);
   cursor: pointer;
 }
@@ -88,17 +88,17 @@
   }
 
   &:focus {
-    outline: 2px solid var(--color-border-input-focused);
-    background-color: var(--color-background-light);
+    outline: 2px solid var(--color-border-warning);
+    background-color: var(--color-background-secondary);
     color: var(--color-font-regular-dark);
   }
 
   &:valid {
-    background-color: var(--color-background-light);
+    background-color: var(--color-background-secondary);
   }
 
   &_error {
-    outline: 2px solid var(--color-delete);
+    outline: 2px solid var(--color-danger);
   }
 
   &--underscored {
@@ -116,7 +116,7 @@
   font-size: 12px;
   padding-right: 4px;
   background-color: var(--color-background-task);
-  color: var(--color-delete);
+  color: var(--color-danger);
 }
 
 .password-eye {

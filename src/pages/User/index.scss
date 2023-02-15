@@ -5,7 +5,7 @@
   width: 100%;
   min-height: calc(100vh - $header-height);
   margin-top: $header-height;
-  background-image: url(../assets/img/board/default_bg.jpg);
+  background-image: var(--default-background-image);
   background-position: center;
 }
 
@@ -228,9 +228,9 @@
   transition: $delay*3;
 
   &:focus {
-    outline: 3px solid var(--color-border-input-focused);
-    background-color: var(--color-background-light);
-    color: var(--color-font-regular-dark);
+    outline: 3px solid var(--color-border-warning);
+    background-color: var(--color-background-secondary);
+    color: var(--color-font-regular);
   }
 
 }
