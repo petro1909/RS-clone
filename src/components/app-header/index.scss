@@ -9,8 +9,8 @@
   height: $header-height;
   width: 100vw;
   padding: 0.25rem 2rem;
-  border: 1px solid $color-border-element;
-  background-color: $color-background-header-footer;
+  border: 1px solid var(--color-border-element);
+  background-color: var(--color-background-header-footer);
 }
 
 .nav {
@@ -49,10 +49,10 @@
     @include icon-square-background('../assets/img/task/default_user.svg', 28px);
     cursor: pointer;
     outline: none;
-    outline: 1px solid $color-primary-hover;
+    outline: 1px solid var(--color-primary-hover);
 
     &:hover {
-      outline: 3px solid $color-primary-hover;
+      outline: 3px solid var(--color-primary-hover);
     }
 
   }
@@ -73,4 +73,27 @@
   // }
 }
 
+.theme-switcher {
+  position: relative;
+  height: 24px;
+  width: 36px;
+  border-radius: 24px;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  outline: none;
+  cursor: pointer;
+}
 
+.theme-switcher::before {
+  content: var(--theme-sign);
+  position: absolute;
+  top: -1px;
+  left: var(--theme-sign-position);
+  height: 24px;
+  width: 24px;
+  font-size: 22px;
+  border-radius: 50%;
+  color: var(--color-primary);
+  transition: all $delay*5 ease;
+}

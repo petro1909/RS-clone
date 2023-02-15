@@ -8,7 +8,7 @@
     height: $header-height;
     width: 100%;
     padding: 0.25rem 1rem;
-    background-color: $color-background-status;
+    background-color: var(--color-background-status);
     backdrop-filter: blur(10px);
   }
 
@@ -32,8 +32,8 @@
     height: 40px;
     width: 300px;
     border-radius: $border-radius-big-element;
-    border: 1px solid $color-border-element;
-    background-color: $color-background-status;
+    border: 1px solid var(--color-border-element);
+    background-color: var(--color-background-status);
     backdrop-filter: blur(10px);
   }
 }
@@ -42,12 +42,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid $color-border-element;
+  border-bottom: 1px solid var(--color-border-element);
 
   &__title {
     margin-left: 0.5rem;
     @include set-font($font-family-base, map-get($font-size, xl));
-    color: $color-font-regular-light;
+    color: var(--color-font-regular-light);
   }
 
   &__menu {
@@ -75,11 +75,11 @@
     position: relative;
     margin-right: map-get($font-size, xs);
     border-radius: 50%;
-    outline: 1px solid $color-primary-hover;
+    outline: 1px solid var(--color-primary-hover);
     @include icon-square-background('../assets/img/task/default_user.svg', 28px);
 
     &:hover{
-      outline: 3px solid $color-primary-hover;
+      outline: 3px solid var(--color-primary-hover);
     }
 
     &-details {

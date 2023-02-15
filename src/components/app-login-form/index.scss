@@ -9,13 +9,19 @@
   height: 100vh;
   width: 100vw;
   @include set-font($font-family-base, map-get($font-size, m));
-  background-color: $color-background-status;
-  backdrop-filter: blur(20px);
-  cursor: pointer;
-}
+  background-color: var(--color-background-status);
+  border-radius: $border-radius-big-element;
+  background-color: var(--color-background-task);
+  cursor: auto;
 
-.overflow-hidden{
-  overflow: hidden;
+  @include _576 {
+    padding: 50px;
+  };
+
+  @include _414 {
+    padding: 40px;
+  };
+
 }
 
 .login-form {
@@ -27,10 +33,9 @@
   height: fit-content;
   width: fit-content;
   padding: 70px;
-  border: 1px solid $color-border-element;
+  border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
-  background-color: $color-background-task;
-  cursor: auto;
+  background-color: var(--color-background-task);
 
   @include _576 {
     padding: 50px;
@@ -70,8 +75,8 @@
     top: 10px;
     left: 0;
     font-size: 20px;
-    background-color: $color-background-task;
-    color: $color-font-regular-light;
+    background-color: var(--color-background-task);
+    color: var(--color-font-regular-light);
     padding: 0 5px;
     transition: all .3s;
   }
@@ -82,25 +87,25 @@
     left: -7px;
     top: -20px;
     font-size: 12px;
-    color: $color-font-regular;
+    color: var(--color-font-regular);
   }
 
   &:focus {
-    outline: 3px solid $color-border-input-focused;
-    background-color: $color-background-light;
-    color: $color-font-regular-dark;
+    outline: 3px solid var(--color-border-input-focused);
+    background-color: var(--color-background-light);
+    color: var(--color-font-regular-dark);
   }
 
   &:valid {
-    background-color: $color-background-light;
+    background-color: var(--color-background-light);
   }
 
   &_error {
-    outline: 3px solid $color-delete;
+    outline: 3px solid var(--color-delete);
   }
 
   &--underscored {
-    border-bottom: 1px solid $color-border-element;
+    border-bottom: 1px solid var(--color-border-element);
   }
 }
 
@@ -111,7 +116,7 @@
   display: block;
   height: 12px;
   font-size: 12px;
-  color: $color-delete;
+  color: var(--color-delete);
 }
 
 .password-eye {
@@ -130,7 +135,7 @@
   }
 
   &[data-success] {
-    outline: 3px solid $color-success;
+    outline: 3px solid var(--color-success);
   }
 }
 
