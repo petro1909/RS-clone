@@ -74,7 +74,13 @@
   &__user {
     position: relative;
     margin-right: map-get($font-size, xs);
+    border-radius: 50%;
+    outline: 1px solid $color-primary-hover;
     @include icon-square-background('../assets/img/task/default_user.svg', 28px);
+
+    &:hover{
+      outline: 3px solid $color-primary-hover;
+    }
 
     &-details {
       position: absolute;
@@ -92,7 +98,6 @@
         position: absolute;
         width: 0;
         height: 0;
-        
         border-left: 30px solid rgba(0, 0, 0, 0);
         border-right: 13px solid rgba(0, 0, 0, 0);
         border-top: 19px solid rgba(0, 0, 0, 0);

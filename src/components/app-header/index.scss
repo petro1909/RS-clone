@@ -49,6 +49,7 @@
     @include icon-square-background('../assets/img/task/default_user.svg', 28px);
     cursor: pointer;
     outline: none;
+    outline: 1px solid $color-primary-hover;
 
     &:hover {
       outline: 3px solid $color-primary-hover;
