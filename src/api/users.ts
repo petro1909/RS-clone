@@ -11,10 +11,9 @@ const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`
 const updateUser = async (user: IUser) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
 
 const getAvatar = async (id: string) => {
-  const res = await baseFetch<{ url: string }>(`${ENDPOINT}/${id}/profilePicture`, 'GET');
-  console.log('RES', res);
+  const res = await baseFetch<{ profilePicture: string }>(`${ENDPOINT}/${id}/profilePicture`, 'GET');
   if (res.success && res.data) {
-    res.data.url = `${settings.SERVER}${res.data.url}`;
+    res.data.profilePicture = `${settings.SERVER}${res.data.profilePicture}`;
   }
   return res;
 };

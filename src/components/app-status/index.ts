@@ -26,7 +26,7 @@ class AppStatus extends HTMLElement {
     tasks.data.forEach((task) => {
       createElement('app-task', tasksWrapper, {
         taskId: `${task.id}`,
-        taskName: `${task.text}`,
+        taskName: `${task.name}`,
       }) as HTMLDivElement;
     });
   }

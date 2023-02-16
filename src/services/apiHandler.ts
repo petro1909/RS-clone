@@ -1,14 +1,14 @@
 import api from '../api';
 import state from '../store/state';
 // import state from '../store/state';
-import { IBoardUser, IUser } from '../types';
+import { IBoardUser, ITask, IUser } from '../types';
 
 const getUserWithAvatarURL = async (userIncorrectAvatar: IUser) => {
   const user = { ...userIncorrectAvatar };
   if (user.profilePicture) {
     const avatarRes = await api.users.getAvatar(user.id);
     if (avatarRes.data) {
-      user.profilePicture = avatarRes.data.url;
+      user.profilePicture = avatarRes.data.profilePicture;
     }
   } else {
     user.profilePicture = '';
@@ -53,6 +53,15 @@ const deleteStatus = async (id: string) => {
   if (result.success) {
     state.statuses = state.statuses.filter((status) => status.id !== id);
   }
+  return result;
+};
+
+const addTask = async (newTask: ITask) => {
+  const tasks = (await api.tasks.getByStatus(newTask.statusId)).data as ITask[];
+  console.log('NEWTASK', newTask);
+  const order = tasks.length
+    ? Math.max(...tasks.map((task) => +task.order)) + 1 : 1;
+  const result = await api.tasks.create(Object.assign(newTask, { order }));
   return result;
 };
 
@@ -108,6 +117,7 @@ const apiService = {
   getBoardStatuses,
   addStatus,
   deleteStatus,
+  addTask,
 };
 
 export default apiService;

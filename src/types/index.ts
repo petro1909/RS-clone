@@ -27,7 +27,12 @@ export interface IStatus {
 
 export interface ITask {
   id: string,
-  text: string,
+  name: string,
+  description?: string,
+  order: number,
+  done?: boolean,
+  startDate?: Date,
+  endDate?: Date,
   statusId: string,
 }
 

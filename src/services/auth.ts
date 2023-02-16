@@ -12,15 +12,15 @@ const setStateUser = async (user: IUser, token: string) => {
     profilePicture: '',
     role: user.role,
   };
+  state.isAuthorized = true;
+  state.token = token;
 
   if (user.profilePicture) {
     const avatarRes = await api.users.getAvatar(user.id);
     if (avatarRes.data) {
-      state.user.profilePicture = avatarRes.data.url;
+      state.user.profilePicture = avatarRes.data.profilePicture;
     }
   }
-  state.isAuthorized = true;
-  state.token = token;
   router.goTo('/board');
 };
 

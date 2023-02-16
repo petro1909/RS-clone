@@ -8,10 +8,11 @@ const getStatusTasks = async (statusId: string) => baseFetch<ITask[]>(`${ENDPOIN
 
 const getTaskById = async (taskId: string) => baseFetch<ITask>(`${ENDPOINT}/${taskId}`, 'GET');
 
-const createTask = async (statusId: string, content: string) => {
-  const taskData = { text: content, statusId };
-  return baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(taskData));
-};
+// const createTask = async (statusId: string, content: string, order: number) => {
+//   const taskData = { text: content, statusId, order };
+//   return baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(taskData));
+// };
+const createTask = async (task: ITask) => baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(task));
 
 const updateTask = async (task: ITask) => baseFetch<ITask>(`${ENDPOINT}`, 'PUT', JSON.stringify(task));
 
