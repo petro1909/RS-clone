@@ -6,8 +6,8 @@ const ENDPOINT = `${settings.SERVER}/statuses`;
 
 const getBoardStatuses = async (boardId: string) => baseFetch<IStatus[]>(`${ENDPOINT}/?boardId=${boardId}`, 'GET');
 
-const createStatus = async (boardId: string, name: string) => {
-  const statusData = { name, boardId };
+const createStatus = async (boardId: string, name: string, order: number) => {
+  const statusData = { name, boardId, order };
   return baseFetch<IStatus>(`${ENDPOINT}`, 'POST', JSON.stringify(statusData));
 };
 

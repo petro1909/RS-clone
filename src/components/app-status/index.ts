@@ -4,6 +4,7 @@ import api from '../../api';
 import createElement from '../../utils/createElement';
 import state from '../../store/state';
 import { IStatus } from '../../types';
+import apiService from '../../services/apiHandler';
 
 class AppStatus extends HTMLElement {
   connectedCallback() {
@@ -33,13 +34,16 @@ class AppStatus extends HTMLElement {
   private setStatusNameInput(): void {
     const name = this.getAttribute('statusName') as string;
     const id = this.getAttribute('statusId') as string;
+    const order = this.getAttribute('order') as string;
     const nameInput = this.querySelector('#name-input') as HTMLInputElement;
     nameInput.value = name;
     nameInput.onblur = () => {
       const statusName = nameInput.value;
       console.log(statusName);
       if (statusName.trim() && statusName !== name) {
-        this.updateStatus({ id, name: statusName.trim(), boardId: state.activeBoardId });
+        this.updateStatus({
+          id, name: statusName.trim(), boardId: state.activeBoardId, order: +order,
+        });
       } else {
         nameInput.value = name;
       }
@@ -86,7 +90,7 @@ class AppStatus extends HTMLElement {
 
   private async removeStatus() {
     const id = this.getAttribute('statusId') as string;
-    const result = await api.statuses.delete(id);
+    const result = await apiService.deleteStatus(id);
     if (result.success) {
       this.remove();
     }

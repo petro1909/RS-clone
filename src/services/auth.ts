@@ -4,7 +4,7 @@ import state from '../store/state';
 import { IUser, IRegisterUser, Ilogin } from '../types';
 import api from '../api';
 
-const setStateUser = async (user: IUser) => {
+const setStateUser = async (user: IUser, token: string) => {
   state.user = {
     id: user.id,
     name: user.name,
@@ -20,27 +20,51 @@ const setStateUser = async (user: IUser) => {
     }
   }
   state.isAuthorized = true;
+  state.token = token;
   router.goTo('/board');
 };
 
+// const login = async (loginData: Ilogin) => {
+//   console.log(loginData);
+//   const res = await api.auth.login('email12@gmail.com');
+//   if (res.success) {
+//     const [user] = res.data as IUser[];
+//     setStateUser(user);
+//     // state.user = user;
+//     // state.isAuthorized = true;
+//     // router.goTo('/board');
+//   }
+//   // router.goTo('/board');
+// };
+
 const login = async (loginData: Ilogin) => {
   console.log(loginData);
-  const res = await api.auth.login('email12@gmail.com');
+  const res = await api.auth.login({ email: 'admin@mail.ru', password: '1234' });
   if (res.success) {
-    const [user] = res.data as IUser[];
-    setStateUser(user);
-    // state.user = user;
-    // state.isAuthorized = true;
+    console.log('data', res.data);
+    const user = res.data?.findedUser as IUser;
+    const token = res.data?.token as string;
+    setStateUser(user, token);
+    console.log('user', user);
+    console.log('token', token);
     // router.goTo('/board');
   }
+  // if (res.success) {
+  //   const [user] = res.data as IUser[];
+  //   setStateUser(user);
+  //   // state.user = user;
+  //   // state.isAuthorized = true;
+  //   // router.goTo('/board');
+  // }
   // router.goTo('/board');
 };
 
 const register = async (registerUser: IRegisterUser) => {
   const result = await api.users.create(registerUser);
   if (result.success) {
-    const user = result.data as unknown as IUser;
-    setStateUser(user);
+    // const user = result.data as unknown as IUser;
+    login({ email: registerUser.email, password: registerUser.password });
+    // setStateUser(user);
 
     // state.user = {
     //   id: user.id,

@@ -22,6 +22,7 @@ export interface IStatus {
   id: string,
   name: string,
   boardId: string,
+  order: number,
 }
 
 export interface ITask {
@@ -36,6 +37,8 @@ export interface IState {
   currentPage: string,
   activeBoardId: string
   activeBoardUsers: IUser[]
+  token: string,
+  statuses: IStatus[],
 }
 
 export interface Ilogin {
