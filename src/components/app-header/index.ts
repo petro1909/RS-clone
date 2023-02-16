@@ -27,6 +27,12 @@ class AppHeader extends HTMLElement {
         document.body.classList.add('overflow-hidden');
       }
     });
+
+    const themeSwitcher = this.querySelector('#theme-switcher') as HTMLDivElement;
+    themeSwitcher.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      document.body.classList.toggle('dark-theme');
+    })
   }
 
   private createAppMenu(parent: HTMLDivElement) {

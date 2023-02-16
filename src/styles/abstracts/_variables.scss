@@ -4,31 +4,31 @@
 
 // ============= Color-scheme-default ============
 
-$color-primary: hsl(0, 0%, 90%);
-$color-primary-hover: hsl(0, 0%, 60%);
-$color-disable: hsl(0, 0%, 40%);
-$color-delete: hsl(0, 100%, 50%);
-$color-success: hsl(120, 100%, 50%);
+// $color-primary: hsl(0, 0%, 90%);
+// $color-primary-hover: hsl(0, 0%, 60%);
+// $color-disable: hsl(0, 0%, 40%);
+// $color-delete: hsl(0, 100%, 50%);
+// $color-success: hsl(120, 100%, 50%);
 
-$color-button-delete-hover: hsla(0, 100%, 50%, 0.2);
+// $color-button-delete-hover: hsla(0, 100%, 50%, 0.2);
 
-$color-background-page: hsl(0, 0%, 25%);
-$color-background-status: hsla(0, 0%, 100%, 0.1);
-$color-background-task: hsl(0, 0%, 25%);
-$color-background-regular: hsl(0, 0%, 65%);
-$color-background-light: hsl(0, 0%, 85%);
-$color-background-header-footer: hsl(0, 0%, 20%);
-$color-background-modal: hsla(0, 0%, 75%, 0.7);
+// $color-background-page: hsl(0, 0%, 25%);
+// $color-background-status: hsla(0, 0%, 100%, 0.1);
+// $color-background-task: hsl(0, 0%, 25%);
+// $color-background-regular: hsl(0, 0%, 65%);
+// $color-background-light: hsl(0, 0%, 85%);
+// $color-background-header-footer: hsl(0, 0%, 20%);
+// $color-background-modal: hsla(0, 0%, 75%, 0.7);
 
-$color-font-regular: hsl(0, 0%, 70%);
-$color-font-regular-light: hsl(0, 0%, 100%);
-$color-font-regular-dark: hsl(0, 0%, 25%);
-$color-font-regular-black: hsl(0, 0%, 0%);
-$color-font-button: hsl(0, 0%, 0%);
-$color-font-link-hover: $color-primary-hover;
+// $color-font-regular: hsl(0, 0%, 70%);
+// $color-font-regular-light: hsl(0, 0%, 100%);
+// $color-font-regular-dark: hsl(0, 0%, 25%);
+// $color-font-regular-black: hsl(0, 0%, 0%);
+// $color-font-button: hsl(0, 0%, 0%);
+// $color-font-link-hover: $color-primary-hover;
 
-$color-border-input-focused: hsl(39, 100%, 50%);
-$color-border-element: hsl(0, 0%, 50%);
+// $color-border-input-focused: hsl(39, 100%, 50%);
+// $color-border-element: hsl(0, 0%, 50%);
 
 // ============= Element properties ============
 
@@ -55,3 +55,71 @@ $header-height: 50px;
 
 // =========== Transition delay ===========
 $delay: 0.1s;
+
+.dark-theme {
+  --theme-sign: "☀";
+  --theme-sign-position: -2px;
+  --color-primary: hsl(0, 0%, 90%);
+  --color-primary-hover: hsl(0, 0%, 50%);
+  --color-disable: hsl(0, 0%, 40%);
+  --color-danger: hsl(0, 100%, 50%);
+  --color-border-warning: hsl(39, 100%, 50%);
+  --color-success: hsl(120, 100%, 50%);
+
+  --color-danger-button-hover: hsla(0, 100%, 50%, 0.2);
+
+  --color-background-page: hsl(0, 0%, 10%);
+  --color-background-status: hsla(0, 0%, 100%, 0.1);
+  --color-background-task: hsl(0, 0%, 20%);
+  --color-background-primary: hsl(0, 0%, 50%);
+  --color-background-secondary: hsl(0, 0%, 40%);
+  --color-background-header-footer: hsl(0, 0%, 0%);
+  --color-background-modal: hsla(0, 0%, 100%, 0.1);
+
+  --default-background-image: url(../assets/img/board/dark-theme_bg.jpg);
+
+  --color-box-shadow: hsl(0, 0%, 0%);
+
+  --color-font-regular: hsl(0, 0%, 90%);
+  --color-font-regular-light: hsl(0, 0%, 100%);
+  --color-font-regular-dark: hsl(0, 0%, 25%);
+  --color-font-regular-black: hsl(0, 0%, 0%);
+  --color-font-button: hsl(0, 0%, 0%);
+  --color-font-link-hover: --color-primary-hover;
+
+  --color-border-element: hsl(0, 0%, 50%);
+}
+
+.light-theme {
+  --theme-sign: "☾";
+  --theme-sign-position: 10px;
+  --color-primary: hsl(0, 0%, 50%);
+  --color-primary-hover: hsl(0, 0%, 90%);
+  --color-disable: hsl(0, 0%, 70%);
+  --color-danger: hsl(0, 100%, 50%);
+  --color-border-warning: hsl(39, 100%, 50%);
+  --color-success: hsl(120, 100%, 50%);
+
+  --color-danger-button-hover: hsla(0, 100%, 50%, 0.2);
+
+  --color-background-page: hsl(0, 0%, 100%);
+  --color-background-status: hsla(0, 0%, 0%, 0.1);
+  --color-background-task: hsl(0, 0%, 80%);
+  --color-background-primary: hsl(0, 0%, 70%);
+  --color-background-secondary: hsl(0, 0%, 80%);
+  --color-background-header-footer: hsl(0, 0%, 75%);
+  --color-background-modal: hsla(0, 0%, 0%, 0.3);
+
+  --default-background-image: url(../assets/img/board/light-theme_bg.jpg);
+
+  --color-box-shadow: hsl(0, 0%, 0%);
+
+  --color-font-regular: hsl(0, 0%, 10%);
+  --color-font-regular-light: hsl(0, 0%, 50%);
+  --color-font-regular-dark: hsl(0, 0%, 70%);
+  --color-font-regular-black: hsl(0, 0%, 90%);
+  --color-font-button: hsl(0, 0%, 80%);
+  --color-font-link-hover: --color-primary-hover;
+
+  --color-border-element: hsl(0, 0%, 50%);
+}
