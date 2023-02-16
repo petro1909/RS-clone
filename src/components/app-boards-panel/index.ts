@@ -169,13 +169,14 @@ class AppBoardsPanel extends HTMLElement {
         <div class="board-page__header board-header" id="board-page__header">
         <input class="board-header__title input-text" id="board-header__title" type="" value="${board.name}">
         <div class="board-header__menu">
+          <select class="select-user" id="select-user"></select>
+          <button class="btn" id="add-select-user">+User</button>
           <ul class="board-users" id="board-users">
           </ul>
           <button class="board-header__menu-btn menu-btn" id="board-menu-button">≡</button>
         </div>
       </div>
-      <app-board><app-board> 
-     `;
+      <app-board><app-board>`;
     const menuWrapper = createElement('div', wrapper, {
       class: 'board-menu board-menu_board',
     }) as HTMLDivElement;
@@ -186,8 +187,10 @@ class AppBoardsPanel extends HTMLElement {
     const closeMenuBtn = wrapper.querySelector('#board-menu-close-btn') as HTMLButtonElement;
     const addStatusBoardWrapper = wrapper.querySelector('#board-menu-list__item-add-status') as HTMLLIElement;
     const boardUsersWrapper = wrapper.querySelector('#board-users') as HTMLUListElement;
+    const addSelectUser = wrapper.querySelector('#add-select-user') as HTMLButtonElement;
+    const selectUser = wrapper.querySelector('#select-user') as HTMLSelectElement;
     this.renderAddStatusButton(addStatusBoardWrapper);
-    this.renderBoardUsers(boardUsersWrapper);
+    await this.renderBoardUsers(boardUsersWrapper);
     nameInput.onblur = () => {
       const boardName = nameInput.value;
       if (boardName.trim() && boardName !== board.name) {
@@ -201,6 +204,10 @@ class AppBoardsPanel extends HTMLElement {
     //   boardNameWrapper.innerHTML = '';
     //   this.showRenameBoardForm(boardNameWrapper, board);
     // };
+    addSelectUser.onclick = () => {
+      console.log('click select-user value', selectUser.value);
+       // TODO make API request for adding user to board after that call this.renderBoardUsers();
+    };
     boardMenuBtn.onclick = () => {
       menuWrapper.classList.add('board-menu--visible');
     };
@@ -210,6 +217,21 @@ class AppBoardsPanel extends HTMLElement {
     deleteBoardButton.onclick = () => {
       this.removeBoard();
     };
+  }
+
+  private async renderSelectUsers() {
+    const allUsers = Array.from((await api.users.getAllUsers()).data!);
+    const selectUser = document.querySelector('#select-user') as HTMLInputElement;
+    const users = Array.from(document.querySelectorAll('.board-users__user'));
+    selectUser.innerHTML = '<option> </option>';
+    allUsers?.forEach((user) => {
+      users.find((item) => {
+        if (!(item.getAttribute('id') === user.id)) {
+          selectUser.innerHTML += `<option id="${user.id}" value="${user.id}">${user.name}</option>`;
+          console.log('NOT MATCH');
+        }
+      });
+    })
   }
 
   private async renderBoardUsers(wrapper: HTMLUListElement) {
@@ -223,6 +245,7 @@ class AppBoardsPanel extends HTMLElement {
     usersData.forEach((user) => {
       const userElement = createElement('li', wrapper, {
         class: 'board-users__user',
+        id: `${user?.id}`,
       }, `
         <div class="board-users__user-details">
           <p>${user?.name || 'NoName'}</>
@@ -233,6 +256,7 @@ class AppBoardsPanel extends HTMLElement {
         userElement.style.backgroundImage = `url(${user.profilePicture})`;
       }
     });
+    await this.renderSelectUsers();
   }
 
   private renderAddStatusButton(parent: HTMLLIElement) {

@@ -63,7 +63,7 @@ class AppHeader extends HTMLElement {
     };
 
     openProfileBtn.onclick = () => {
-      router.goTo('/user');
+      router.goTo('/admin');
     };
 
     logoutBtn.onclick = () => {
