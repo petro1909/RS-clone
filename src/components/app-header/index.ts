@@ -32,7 +32,7 @@ class AppHeader extends HTMLElement {
     themeSwitcher.addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
       document.body.classList.toggle('dark-theme');
-    })
+    });
   }
 
   private createAppMenu(parent: HTMLDivElement) {
