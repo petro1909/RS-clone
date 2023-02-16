@@ -1,8 +1,8 @@
 import state from '../../store/state';
-import api from '../../api';
 import createElement from '../../utils/createElement';
 import template from './template.html';
 import createInputButton from '../createInputButton';
+import apiService from '../../services/apiHandler';
 
 class AppBoard extends HTMLElement {
   connectedCallback() {
@@ -13,16 +13,19 @@ class AppBoard extends HTMLElement {
     this.innerHTML = '<h3>No tasks found</h3>';
     if (state.user) {
       this.innerHTML = `${template}`;
-      const statuses = await api.statuses.getByBoard(state.activeBoardId);
-      if (!statuses.data) return;
+      // const statuses = await api.statuses.getByBoard(state.activeBoardId);
+      // if (!statuses.data) return;
+      const statuses = await apiService.getBoardStatuses(state.activeBoardId);
+      if (!statuses) return;
 
       const boardWrapper = this.querySelector('#board') as HTMLInputElement;
 
-      statuses.data.forEach((status) => {
+      statuses.forEach((status) => {
         createElement('app-status', boardWrapper, {
           class: 'status__wrapper',
           statusId: `${status.id}`,
           statusName: `${status.name}`,
+          order: `${status.order}`,
         }) as HTMLDivElement;
       });
 
@@ -32,6 +35,7 @@ class AppBoard extends HTMLElement {
   }
 
   private renderAddStatusBtn(parent: HTMLDivElement) {
+    console.log('add BTNSTATUS');
     const addStatusWrapper = createElement('div', parent, {
       class: 'status', // board__add-btn',
     }) as HTMLDivElement;
@@ -78,7 +82,9 @@ class AppBoard extends HTMLElement {
   }
 
   private async addStatus(newStatusName: string) {
-    const result = await api.statuses.create(state.activeBoardId, newStatusName);
+    console.log('add status');
+    // const result = await api.statuses.create(state.activeBoardId, newStatusName);
+    const result = await apiService.addStatus(state.activeBoardId, newStatusName);
     if (result.success) {
       this.renderBoard();
     }

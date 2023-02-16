@@ -6,6 +6,8 @@ const state: IState = {
   currentPage: 'Main',
   activeBoardId: '',
   activeBoardUsers: [],
+  token: '',
+  statuses: [],
 };
 
 export default state;

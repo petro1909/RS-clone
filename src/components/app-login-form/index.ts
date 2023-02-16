@@ -55,7 +55,7 @@ class AppLoginForm extends HTMLElement {
   }
 
   private async logIn(loginData: Ilogin) {
-    console.log(loginData);
+    console.log('login', loginData);
     authService.login(loginData);
   }
 

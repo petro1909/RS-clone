@@ -18,6 +18,7 @@ class Router {
       const currRoute = correctRoutes[0];
       document.body.innerHTML = '';
       state.currentPage = currRoute.title;
+      console.log('render page', currRoute.title);
       currRoute.page.render();
     }
   }
