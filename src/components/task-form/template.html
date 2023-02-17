@@ -11,12 +11,14 @@
       <label for="input-desc" class="input-task-label">Description</label>
     </div>
     <div class="input-task-wrapper">
-      <input id="input-task-start" name="startDate" type="date" class="input-task input-task--underscored"/>
+      <input id="input-task-start" name="startDate" type="date" class="input-task input-task--underscored display-none"/>
+      <date-picker id="picker-task-start" class="input-task input-task--underscored"></date-picker>
       <!-- <span class="error-message"></span> -->
       <label for="input-desc" class="input-task-label">Start task</label>
     </div>
     <div class="input-task-wrapper">
-      <input id="input-task-end" name="endDate" type="date" class="input-task input-task--underscored"/>
+      <input id="input-task-end" name="endDate" type="date" class="input-task input-task--underscored display-none"/>
+      <date-picker id="picker-task-end" class="input-task input-task--underscored"></date-picker>
       <!-- <span class="error-message"></span> -->
       <label for="input-desc" class="input-task-label">End task</label>
     </div>

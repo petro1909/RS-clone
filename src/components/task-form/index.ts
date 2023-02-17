@@ -15,7 +15,6 @@ class TaskForm extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log('TaskForm added');
     this.innerHTML = template;
     const form = this.querySelector('.task-form') as HTMLFormElement;
     const popupPage = this.querySelector('.popup-page') as HTMLFormElement;
@@ -38,6 +37,32 @@ class TaskForm extends HTMLElement {
     this.setInputFieldState();
   }
 
+  private connectDatePickers() {
+    const startDateInput = this.querySelector('#input-task-start') as HTMLInputElement;
+    const endDateInput = this.querySelector('#input-task-end') as HTMLInputElement;
+    const startDatePicker = this.querySelector('#picker-task-start') as HTMLInputElement;
+    const endDatePicker = this.querySelector('#picker-task-end') as HTMLInputElement;
+
+    if (startDateInput.value) {
+      startDatePicker.value = startDateInput.value;
+    }
+
+    if (endDateInput.value) {
+      endDatePicker.value = endDateInput.value;
+    }
+
+    endDatePicker?.addEventListener('input', () => {
+      if (endDatePicker.value) {
+        endDateInput.value = endDatePicker.value;
+      }
+    });
+    startDatePicker?.addEventListener('input', () => {
+      if (startDatePicker.value) {
+        startDateInput.value = startDatePicker.value;
+      }
+    });
+  }
+
   private async setValues() {
     const taskId = this.getAttribute('taskId') as string;
     const result = await api.tasks.getById(taskId);
@@ -45,7 +70,6 @@ class TaskForm extends HTMLElement {
 
     if (!result.success) return;
     this.task = result.data as ITask;
-    console.log('THISTASK', this.task);
 
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
@@ -65,6 +89,7 @@ class TaskForm extends HTMLElement {
         }
       }
     });
+    this.connectDatePickers();
   }
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
@@ -99,7 +124,6 @@ class TaskForm extends HTMLElement {
     // const taskData = {
     //   name: inputs['name']
     // }
-    // console.log('submitHandler', inputs);
     // inputs.forEach((input) => {
     //   const currInput = input as HTMLInputElement;
     //   const { name, value } = currInput;
@@ -123,9 +147,8 @@ class TaskForm extends HTMLElement {
   }
 
   private async sendTask(taskData: ITask) {
-    console.log('addTask() valid data =>', taskData);
-    const taskform = document.querySelector('task-form') as HTMLElement;
-    const currentStatus = taskform?.getAttribute('statusId') as string;
+    // const taskform = document.querySelector('task-form') as HTMLElement;
+    // const currentStatus = taskform?.getAttribute('statusId') as string;
     if (this.hasAttribute('taskId')) {
       const result = await api.tasks.update(taskData);
       if (result.success) {
@@ -133,18 +156,14 @@ class TaskForm extends HTMLElement {
       }
     } else {
       const result = await apiService.addTask(taskData);
-      console.log(currentStatus, taskData);
       if (result.success) {
-        console.log('TASK ADDED');
+        router.goTo('/board');
       }
-      router.goTo('/board');
     }
   }
 
   private showMessage(input: HTMLInputElement, str = '') {
-    // console.log('showMessage()', str);
     const messageWrapper = input.nextElementSibling;
-    // console.log('messageWrapper', messageWrapper);
     if (messageWrapper) messageWrapper.textContent = str;
   }
 
@@ -165,7 +184,6 @@ class TaskForm extends HTMLElement {
           // //
           currInput.classList.remove('input-task_error');
           currInput.setAttribute('data-success', 'data-success');
-          // console.log(name, value, validate[name](value));
           // if (validate[name](value)) {
           //   currInput.classList.remove('input-task_error');
           //   currInput.setAttribute('data-success', 'data-success');

@@ -1,0 +1,49 @@
+.app-date-picker {
+  padding: 0;
+  .picker-calendar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--color-background-modal);
+    backdrop-filter: blur(20px);
+    z-index: 200;
+    padding: 10px 5px;
+    border: 1px solid rgba(0, 0, 0, .8);
+    thead {
+      height: 25px;
+    }
+    // &__btns-wrapper {
+    //   flex-grow: 1;
+    // }
+    &__date-button {
+      cursor: pointer;
+      &_active {
+        color: var(--color-border-warning);
+      }
+      &_disabled {
+        cursor: default;
+      }
+    }
+  }
+  input {
+    width: 100%;
+    border: none;
+    background-color: var(--color-background-secondary);
+    padding: 0.25rem 1rem;
+    border-radius: 0.25rem;
+    transition: 0.3s;
+    &:focus {
+      outline: 2px solid var(--color-border-warning);
+    }
+  }
+  &__calendar-btn {
+    svg {
+      transition: .3s;
+    }
+    &:hover {
+      svg {
+        fill: var(--color-border-warning);
+      }
+    }
+  }
+}

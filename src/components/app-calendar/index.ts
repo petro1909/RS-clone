@@ -1,13 +1,21 @@
 import createElement from '../../utils/createElement';
 
+interface IMonthNames {
+  [key: string]: string[]
+}
+
 class AppCalendar extends HTMLElement {
-  static MONTH_NAMES_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+  static MONTH_NAMES: IMonthNames = {
+    ru: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    ru_sm: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+    en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    en_sm: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  };
 
-  static MONTH_NAMES_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-  static DAYS_NAMES_RU = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
-  static DAYS_NAMES_EN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  static DAYS_NAMES = {
+    ru: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+    en: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+  };
 
   private today: Date;
 
@@ -29,8 +37,9 @@ class AppCalendar extends HTMLElement {
     super();
     this.today = new Date();
     this.classNamePrefix = this.getAttribute('class-prefix') || 'calendar';
-    this.daysNames = this.getAttribute('lang') === 'en' ? AppCalendar.DAYS_NAMES_EN : AppCalendar.DAYS_NAMES_RU;
-    this.monthsNames = this.getAttribute('lang') === 'en' ? AppCalendar.MONTH_NAMES_EN : AppCalendar.MONTH_NAMES_RU;
+    this.daysNames = this.getAttribute('lang') === 'en' || this.getAttribute('lang') === 'en_sm' ? AppCalendar.DAYS_NAMES.en : AppCalendar.DAYS_NAMES.ru;
+    const langKey = this.getAttribute('lang') as string;
+    this.monthsNames = AppCalendar.MONTH_NAMES[langKey || 'ru'];
     this.setAttribute('class', `${this.classNamePrefix}`);
     this.currentDate = {
       date: this.today.getDate().toString(),
@@ -55,12 +64,21 @@ class AppCalendar extends HTMLElement {
           align-items: center;
           justify-content: center;
         }
+        .${this.classNamePrefix}__header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
       </style>
-      <div>
-        <button class="${this.classNamePrefix}__months-btn" id="${this.classNamePrefix}-show-months">${this.getMonthName(this.today.getMonth())}</button>
-        <button class="${this.classNamePrefix}__years-btn" id="${this.classNamePrefix}-show-years">${this.today.getFullYear()}</button>
+      <div class="${this.classNamePrefix}__header">
+        <button class="${this.classNamePrefix}__header-btn" id="${this.classNamePrefix}-prev-btn"><</button>
+        <div class="${this.classNamePrefix}__header-center">
+          <button class="${this.classNamePrefix}__months-btn" id="${this.classNamePrefix}-show-months">${this.getMonthName(this.today.getMonth())}</button>
+          <button class="${this.classNamePrefix}__years-btn" id="${this.classNamePrefix}-show-years">${this.today.getFullYear()}</button>
+        </div>
+        <button class="${this.classNamePrefix}__header-btn" id="${this.classNamePrefix}-next-btn">></button>  
       </div>
-      <div class="${this.classNamePrefix}__btns-wrapper" id="${this.classNamePrefix}-btns"></div>
+      <table class="${this.classNamePrefix}__btns-wrapper" id="${this.classNamePrefix}-btns"></table>
     `;
     // <div class="${this.classNamePrefix}__dates-wrapper" id="${this.classNamePrefix}-dates"></div>
     // <div class="${this.classNamePrefix}__months-wrapper" id="${this.classNamePrefix}-months"></di
@@ -72,10 +90,12 @@ class AppCalendar extends HTMLElement {
     const yearsBtn = this.querySelector(`#${this.classNamePrefix}-show-years`) as HTMLButtonElement;
     const monthsBtn = this.querySelector(`#${this.classNamePrefix}-show-months`) as HTMLButtonElement;
 
-    yearsBtn.onclick = () => {
+    yearsBtn.onclick = (e) => {
+      e.preventDefault();
       this.renderYears();
     };
-    monthsBtn.onclick = () => {
+    monthsBtn.onclick = (e) => {
+      e.preventDefault();
       this.renderMonths();
     };
     this.renderDates();
@@ -126,8 +146,32 @@ class AppCalendar extends HTMLElement {
 
   private renderDates() {
     const datesWrapper = this.querySelector(`#${this.classNamePrefix}-btns`) as HTMLDivElement;
-    datesWrapper.innerHTML = '';
+    const prevBtn = this.querySelector(`#${this.classNamePrefix}-prev-btn`) as HTMLButtonElement;
+    const nextBtn = this.querySelector(`#${this.classNamePrefix}-next-btn`) as HTMLButtonElement;
     const { month, year } = this.currentDate;
+
+    datesWrapper.innerHTML = '';
+    prevBtn.onclick = (e) => {
+      e.preventDefault();
+      if (+month === 0) {
+        this.setYear((+year - 1).toString());
+        this.setMonth(this.monthsNames[11]);
+      } else {
+        this.setMonth(this.monthsNames[+month - 1]);
+      }
+    };
+    nextBtn.onclick = (e) => {
+      e.preventDefault();
+      if (+month === 11) {
+        this.setYear((+year + 1).toString());
+        this.setMonth(this.monthsNames[0]);
+      } else {
+        this.setMonth(this.monthsNames[+month + 1]);
+      }
+      // e.preventDefault();
+      // const newMonth = +month === 11 ? 0 : +month + 1;
+      // this.setMonth(newMonth.toString());
+    };
     this.renderTable(datesWrapper, this.daysNames, this.getTableData(month, year));
   }
 
@@ -157,11 +201,12 @@ class AppCalendar extends HTMLElement {
   private getTableData(month: string, year: string): HTMLButtonElement[] {
     const lastDayOfMonth = this.getLastDateOfMonth(+month, +year);
     const firstWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, 1);
-    const lastWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, lastDayOfMonth);
+    // const lastWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, lastDayOfMonth);
     const lastDateOfPrevMonth = this.getLastDateOfMonth(+year, (+month - 1));
     const datesBefore = this.getDatesBefore(firstWeekDayOfMonth, lastDateOfPrevMonth);
-    const datesAfter = this.getDatesAfter(lastWeekDayOfMonth);
     const datesThisMonth = this.getDatesThisMonth(lastDayOfMonth);
+    const datesAfterCount = 42 - datesBefore.length - datesThisMonth.length;
+    const datesAfter = this.getDatesAfter(datesAfterCount);
     const datesBeforeBtns = datesBefore.map((dateValue) => this.getButton(`${dateValue}`, 'disabled'));
     const datesAftereBtns = datesAfter.map((dateValue) => this.getButton(`${dateValue}`, 'disabled'));
 
@@ -206,11 +251,11 @@ class AppCalendar extends HTMLElement {
     return arr.reverse();
   }
 
-  private getDatesAfter(lastDayOfweek: number): number[] {
+  private getDatesAfter(count: number): number[] {
     const arr = [];
-    console.log('datesAfter', lastDayOfweek);
     let date = 1;
-    for (let i = Number(lastDayOfweek) + 1; i <= 7; i += 1) {
+    // for (let i = Number(lastDayOfweek) + 1; i <= count; i += 1) {
+    for (let i = 1; i <= count; i += 1) {
       // let btn = new Component(null, 'button', 'btn-disabled', date++);
       // btn.node.setAttribute('disabled', 'disabled')
       arr.push(date);
@@ -260,7 +305,8 @@ class AppCalendar extends HTMLElement {
       button.classList.add('class', `${this.classNamePrefix}__date-button_active`);
     }
     if (callback) {
-      button.onclick = () => {
+      button.onclick = (e) => {
+        e.preventDefault();
         callback(value);
       };
     }
