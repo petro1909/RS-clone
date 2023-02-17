@@ -4,10 +4,10 @@
   flex-direction: column;
   width: 290px;
   padding: 0.5rem;
-  border: 1px solid $color-border-element;
+  border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
-  background-color: $color-background-task;
-  color: $color-font-regular-light;
+  background-color: var(--color-background-task);
+  color: var(--color-font-regular-light);
   cursor: grab;
 
   &__header {
@@ -47,10 +47,10 @@
   width: 150px;
   padding: map-get($font-size , xs);
   margin: 0;
-  border: 1px solid $color-border-element;
+  border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
-  background-color: $color-background-task;
-  color: $color-font-regular-light;
+  background-color: var(--color-background-modal);
+  color: var(--color-font-regular-light);
   list-style: none;
 
   &__item {

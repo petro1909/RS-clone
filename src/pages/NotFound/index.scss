@@ -16,7 +16,7 @@
 .page-404__title {
   margin: 0 0 map-get($font-size, 3xl) 0;
   @include set-font($font-family-base, map-get($font-size, 3xl));
-  color: $color-font-regular-light;
+  color: var(--color-font-regular-light);
   @include _414 {
     font-size: map-get($font-size, 2xl);
   };
@@ -25,7 +25,7 @@
 .page-404__value {
   margin: 0 0 map-get($font-size, 3xl) 0;
   @include set-font($font-family-base, map-get($font-size, 3xl) * 3);
-  color: $color-font-regular-light;
+  color: var(--color-font-regular-light);
   @include _414 {
     font-size: map-get($font-size, 3xl);
   };

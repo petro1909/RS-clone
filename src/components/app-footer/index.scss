@@ -9,13 +9,13 @@
   height: $header-height;
   width: 100vw;
   padding: 0.25rem 1rem;
-  border: 1px solid $color-border-element;
-  background-color: $color-background-header-footer;
+  border: 1px solid var(--color-border-element);
+  background-color: var(--color-background-header-footer);
 }
 
 .link {
   @include set-font($font-family-base, map-get($font-size, m) * 1.5, 0,5); // 0.5 line-height
-  color: $color-font-regular-light;
+  color: var(--color-font-regular-light);
   transition: $delay * 3;
 
   @include _414 {
@@ -23,7 +23,7 @@
   };
 
   &:hover {
-      color: $color-border-input-focused;
+      color: var(--color-border-warning);
   }
 
 }
@@ -59,14 +59,14 @@
   };
 
   &:hover {
-      background-color: $color-border-input-focused;
+      background-color: var(--color-border-warning);
   }
 
 }
 
 .github:hover,
 .rsschool:hover {
-  color: $color-border-input-focused;
+  color: var(--color-border-warning);
 }
 
 .github {

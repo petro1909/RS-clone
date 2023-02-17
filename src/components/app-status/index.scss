@@ -6,9 +6,9 @@
   width: 300px;
   min-height: 94px;
   padding: 0.5rem;
-  border: 1px solid $color-border-element;
+  border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
-  background-color: $color-background-status;
+  background-color: var(--color-background-status);
   backdrop-filter: blur(10px);
   overflow-y: auto;
 
@@ -25,35 +25,12 @@
     height: 24px;
     padding: 0.25rem;
     @include set-font($font-family-base, map-get($font-size, l), 1);
-    color: $color-font-regular-light;
-  }
-
-  &__menu {
-    @include square-view(24px);
-    @include set-font($font-family-base, map-get($font-size, l));
-    padding: 0;
-  }
-
-  &-menu {
-    position: absolute;
-    right: 42px;
-    top: 5px;
-    z-index: 100;
-  }
-
-  &__footer {
-    width: 100%;
-  }
-
-  &__add-task {
-    width: 100%;
-    text-align: left;
-    color: $color-font-regular;
+    color: var(--color-font-regular-light);
     outline: 1px solid transparent;
 
     &:hover {
-      color: $color-font-regular-light;
-      outline: 1px solid $color-font-regular-dark;
+      color: var(--color-font-regular-light);
+      outline: 1px solid var(--color-font-regular-dark);
     }
   }
 
@@ -72,10 +49,10 @@
   width: 150px;
   padding: map-get($font-size , xs);
   margin: 0;
-  border: 1px solid $color-border-element;
+  border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
-  background-color: $color-background-task;
-  color: $color-font-regular-light;
+  background-color: var(--color-background-task);
+  color: var(--color-font-regular-light);
   list-style: none;
 
   &__item {

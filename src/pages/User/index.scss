@@ -5,7 +5,7 @@
   width: 100%;
   min-height: calc(100vh - $header-height);
   margin-top: $header-height;
-  background-image: url(../assets/img/board/default_bg.jpg);
+  background-image: var(--default-background-image);
   background-position: center;
 }
 
@@ -18,9 +18,9 @@
   height: fit-content;
   width: fit-content;
   padding: 70px;
-  border: 1px solid $color-border-element;
+  border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
-  background-color: $color-background-status;
+  background-color: var(--color-background-status);
   backdrop-filter: blur(10px);
 
   &__details {
@@ -32,7 +32,7 @@
     padding: 70px;
     border: transparent;
     border-radius: $border-radius-big-element;
-    background-color: $color-background-task;
+    background-color: var(--color-background-task);
 
     @include _1400 {
       padding: 60px;
@@ -74,7 +74,7 @@
   &__details-title {
     margin: 0 0 map-get($font-size, xl) 0;
     @include set-font($font-family-base, map-get($font-size, xl));
-    color: $color-font-regular-light;
+    color: var(--color-font-regular-light);
   }
 
   @include _1400 {
@@ -164,7 +164,7 @@
   position: relative;
   width: 450px;
   @include set-font($font-family-base, map-get($font-size, m) * 1.25);
-  color: $color-font-regular;
+  color: var(--color-font-regular);
 
   &__input {
     width: 100%;
@@ -173,13 +173,13 @@
     border: 0;
     font-size: map-get($font-size, l);
     text-align: center;
-    background-color: $color-background-header-footer;
-    color: $color-font-regular-light;
+    background-color: var(--color-background-header-footer);
+    color: var(--color-font-regular-light);
     outline: none;
   }
 
   &--underscored {
-    border-bottom: 1px solid $color-border-element;
+    border-bottom: 1px solid var(--color-border-element);
   }
 
   @include _1400 {
@@ -228,9 +228,9 @@
   transition: $delay*3;
 
   &:focus {
-    outline: 3px solid $color-border-input-focused;
-    background-color: $color-background-light;
-    color: $color-font-regular-dark;
+    outline: 3px solid var(--color-border-warning);
+    background-color: var(--color-background-secondary);
+    color: var(--color-font-regular);
   }
 
 }

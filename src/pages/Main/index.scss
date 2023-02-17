@@ -16,8 +16,8 @@
 }
 
 .body-scrollbar--invisible {
-	background: $color-background-page;
-	color: $color-font-regular-light;
+	background: var(--color-background-page);
+	color: var(--color-font-regular-light);
 	font-size: calc(var(--index) * .8);
 	font-family: raleway_c, sans-serif;
 	line-height: 1.75;
@@ -47,7 +47,7 @@
 	transition: var(--transition), opacity .75s ease;
 	will-change: transform;
 	transform-style: preserve-3d;
-	text-shadow: 0 0 1px $color-font-regular-black, 0 0 3px $color-font-regular-black;
+	text-shadow: 0 0 1px var(--color-font-regular-black), 0 0 3px var(--color-font-regular-black);
 }
 
 .frame__title {
@@ -55,15 +55,15 @@
 	text-transform: uppercase;
 	width: min-content;
 	line-height: 1;
-	color: $color-font-regular-light;
-	text-shadow: 0 0 1px $color-font-regular-black, 0 0 3px $color-font-regular-black;
+	color: var(--color-font-regular-light);
+	text-shadow: 0 0 1px var(--color-font-regular-black), 0 0 3px var(--color-font-regular-black);
 }
 
 .frame_h1 {
 	text-align: center;
 	font-size: calc(var(--index) * 3.3);
-	color: $color-font-regular-light;
-	text-shadow: 0 0 1px $color-font-regular-black, 0 0 3px $color-font-regular-black;
+	color: var(--color-font-regular-light);
+	text-shadow: 0 0 1px var(--color-font-regular-black), 0 0 3px var(--color-font-regular-black);
 }
 
 .frame_h2 {
@@ -106,7 +106,7 @@ video.frame-media_left {
 }
 
 .frame_bg {
-	background-color: $color-background-page;
+	background-color: var(--color-background-page);
 }
 
 .frame {

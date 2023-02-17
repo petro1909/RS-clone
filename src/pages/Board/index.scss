@@ -1,14 +1,14 @@
 .board-page {
   height: calc(100vh - $header-height);
   margin-top: $header-height;
-  background-image: url(../assets/img/board/default_bg.jpg);
+  background-image: var(--default-background-image);
   background-position: center;
 
   &__header {
     height: $header-height;
     width: 100%;
     padding: 0.25rem 1rem;
-    background-color: $color-background-status;
+    background-color: var(--color-background-status);
     backdrop-filter: blur(10px);
   }
 
@@ -32,8 +32,8 @@
     height: 40px;
     width: 300px;
     border-radius: $border-radius-big-element;
-    border: 1px solid $color-border-element;
-    background-color: $color-background-status;
+    border: 1px solid var(--color-border-element);
+    background-color: var(--color-background-status);
     backdrop-filter: blur(10px);
   }
 }
@@ -42,12 +42,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid $color-border-element;
+  border-bottom: 1px solid var(--color-border-element);
 
   &__title {
     margin-left: 0.5rem;
     @include set-font($font-family-base, map-get($font-size, xl));
-    color: $color-font-regular-light;
+    color: var(--color-font-regular-light);
   }
 
   &__menu {
@@ -74,7 +74,13 @@
   &__user {
     position: relative;
     margin-right: map-get($font-size, xs);
+    border-radius: 50%;
+    outline: 1px solid var(--color-primary-hover);
     @include icon-square-background('../assets/img/task/default_user.svg', 28px);
+
+    &:hover{
+      outline: 3px solid var(--color-primary-hover);
+    }
 
     &-details {
       position: absolute;
@@ -92,7 +98,6 @@
         position: absolute;
         width: 0;
         height: 0;
-        
         border-left: 30px solid rgba(0, 0, 0, 0);
         border-right: 13px solid rgba(0, 0, 0, 0);
         border-top: 19px solid rgba(0, 0, 0, 0);
