@@ -1,5 +1,6 @@
 import api from '../../api';
 import appEvent from '../../events';
+import state from '../../store/state';
 import template from './template.html';
 
 class ImageLoader extends HTMLElement {
@@ -117,11 +118,13 @@ class ImageLoader extends HTMLElement {
   private async sendFile(file: File) {
     const formData = new FormData();
     formData.append('profile', file);
-    const apiRes = await api.users.uploadAvatar('7d5a5159-6622-4b77-9f2d-3859e880e8a5', formData);
+    const userId = state.user?.id as string;
+    const apiRes = await api.users.uploadAvatar(userId, formData);
     if (apiRes.success) {
-      const avatarRes = await api.users.getAvatar('7d5a5159-6622-4b77-9f2d-3859e880e8a5');
+      const avatarRes = await api.users.getAvatar(userId);
+      console.log(avatarRes);
       if (avatarRes.data) {
-        return avatarRes.data.url;
+        return avatarRes.data.profilePicture;
       }
     }
     return undefined;

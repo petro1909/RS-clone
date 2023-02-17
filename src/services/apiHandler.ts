@@ -1,13 +1,14 @@
 import api from '../api';
+import state from '../store/state';
 // import state from '../store/state';
-import { IBoardUser, IUser } from '../types';
+import { IBoardUser, ITask, IUser } from '../types';
 
 const getUserWithAvatarURL = async (userIncorrectAvatar: IUser) => {
   const user = { ...userIncorrectAvatar };
   if (user.profilePicture) {
     const avatarRes = await api.users.getAvatar(user.id);
     if (avatarRes.data) {
-      user.profilePicture = avatarRes.data.url;
+      user.profilePicture = avatarRes.data.profilePicture;
     }
   } else {
     user.profilePicture = '';
@@ -29,6 +30,39 @@ const getBoardUsers = async (boardId: string) => {
   const usersWithAvatars = await getUsersWithAvatars(usersData);
 
   return usersWithAvatars;
+};
+
+const getBoardStatuses = async (boardId: string) => {
+  const statuses = await api.statuses.getByBoard(boardId);
+  if (!statuses.data) return undefined;
+  state.statuses = statuses.data;
+  console.log('STATE', state);
+  return statuses.data;
+};
+
+const addStatus = async (boardId: string, statusName: string) => {
+  const order = state.statuses.length
+    ? Math.max(...state.statuses.map((status) => +status.order)) + 1 : 1;
+  console.log('ORDER', state.statuses.length, state, order);
+  const result = await api.statuses.create(boardId, statusName, order);
+  return result;
+};
+
+const deleteStatus = async (id: string) => {
+  const result = await api.statuses.delete(id);
+  if (result.success) {
+    state.statuses = state.statuses.filter((status) => status.id !== id);
+  }
+  return result;
+};
+
+const addTask = async (newTask: ITask) => {
+  const tasks = (await api.tasks.getByStatus(newTask.statusId)).data as ITask[];
+  console.log('NEWTASK', newTask);
+  const order = tasks.length
+    ? Math.max(...tasks.map((task) => +task.order)) + 1 : 1;
+  const result = await api.tasks.create(Object.assign(newTask, { order }));
+  return result;
 };
 
 // const getUserBoards = async () => {
@@ -80,6 +114,10 @@ const getBoardUsers = async (boardId: string) => {
 const apiService = {
   getUserWithAvatarURL,
   getBoardUsers,
+  getBoardStatuses,
+  addStatus,
+  deleteStatus,
+  addTask,
 };
 
 export default apiService;

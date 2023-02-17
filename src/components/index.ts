@@ -10,3 +10,5 @@ import './app-login-form';
 import './app-signin-form';
 import './app-footer';
 import './app-imageLoader';
+import './app-calendar';
+import './app-date-picker';
