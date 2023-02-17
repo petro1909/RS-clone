@@ -1,16 +1,29 @@
 <section class="popup-page" id="popup-page">
   <form class="task-form">
     <div class="input-task-wrapper">
-      <input id="input-taskname" name="text" type="text" class="input-task input-task--underscored" required/>
+      <input id="input-taskname" name="name" type="text" class="input-task input-task--underscored"/>
       <span class="error-message"></span>
       <!-- <label for="input-task-name" class="input-task-label">Task Name</label> -->
     </div>
-    <!-- <div class="input-task-wrapper">
-      <textarea id="input-desc" name="description" type="text" class="input-task input-desc input-task--underscored" required></textarea>
+    <div class="input-task-wrapper">
+      <textarea id="input-taskdesc" name="description" type="text" class="input-task input-desc input-task--underscored"></textarea>
       <span class="error-message"></span>
       <label for="input-desc" class="input-task-label">Description</label>
     </div>
     <div class="input-task-wrapper">
+      <input id="input-task-start" name="startDate" type="date" class="input-task input-task--underscored display-none"/>
+      <date-picker id="picker-task-start" class="input-task input-task--underscored"></date-picker>
+      <!-- <span class="error-message"></span> -->
+      <label for="input-desc" class="input-task-label">Start task</label>
+    </div>
+    <div class="input-task-wrapper">
+      <input id="input-task-end" name="endDate" type="date" class="input-task input-task--underscored display-none"/>
+      <date-picker id="picker-task-end" class="input-task input-task--underscored"></date-picker>
+      <!-- <span class="error-message"></span> -->
+      <label for="input-desc" class="input-task-label">End task</label>
+    </div>
+
+    <!-- <div class="input-task-wrapper">
       <input id="input-deadline" name="deadline" type="datetime-local" class="input-task input-deadline input-task--underscored" required/>
       <span class="error-message"></span>
       <label for="input-deadline" class="input-task-label">Deadline</label>

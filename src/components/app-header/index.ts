@@ -14,6 +14,7 @@ class AppHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    console.log('hrader');
     const userMenuWrapper = this.querySelector('#user-menu') as HTMLDivElement;
     if (state.isAuthorized) {
       this.createAppMenu(userMenuWrapper);
@@ -32,7 +33,7 @@ class AppHeader extends HTMLElement {
     themeSwitcher.addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
       document.body.classList.toggle('dark-theme');
-    })
+    });
   }
 
   private createAppMenu(parent: HTMLDivElement) {

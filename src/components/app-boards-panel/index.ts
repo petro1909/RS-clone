@@ -30,6 +30,7 @@ class AppBoardsPanel extends HTMLElement {
 
   connectedCallback() {
     this.renderBoardsMenu();
+    console.log('board added');
   }
 
   private async renderBoardsMenu(): Promise<void> {
@@ -244,7 +245,7 @@ class AppBoardsPanel extends HTMLElement {
   }
 
   private async addStatus(newStatusName: string) {
-    const result = await api.statuses.create(state.activeBoardId, newStatusName);
+    const result = await apiService.addStatus(state.activeBoardId, newStatusName);
     if (result.success) {
       this.renderBoardsMenu();
     }

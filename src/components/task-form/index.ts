@@ -1,8 +1,10 @@
 import template from './template.html';
-import { IFormTask, ITask } from '../../types';
+import { ITask } from '../../types';
 // import validate from '../../utils/validate';
 import router from '../../router';
 import api from '../../api';
+import apiService from '../../services/apiHandler';
+import convertTimeForDateInput from '../../utils/convertTimeForDateInput';
 
 class TaskForm extends HTMLElement {
   private task: ITask;
@@ -13,7 +15,6 @@ class TaskForm extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log('TaskForm added');
     this.innerHTML = template;
     const form = this.querySelector('.task-form') as HTMLFormElement;
     const popupPage = this.querySelector('.popup-page') as HTMLFormElement;
@@ -36,6 +37,32 @@ class TaskForm extends HTMLElement {
     this.setInputFieldState();
   }
 
+  private connectDatePickers() {
+    const startDateInput = this.querySelector('#input-task-start') as HTMLInputElement;
+    const endDateInput = this.querySelector('#input-task-end') as HTMLInputElement;
+    const startDatePicker = this.querySelector('#picker-task-start') as HTMLInputElement;
+    const endDatePicker = this.querySelector('#picker-task-end') as HTMLInputElement;
+
+    if (startDateInput.value) {
+      startDatePicker.value = startDateInput.value;
+    }
+
+    if (endDateInput.value) {
+      endDatePicker.value = endDateInput.value;
+    }
+
+    endDatePicker?.addEventListener('input', () => {
+      if (endDatePicker.value) {
+        endDateInput.value = endDatePicker.value;
+      }
+    });
+    startDatePicker?.addEventListener('input', () => {
+      if (startDatePicker.value) {
+        startDateInput.value = startDatePicker.value;
+      }
+    });
+  }
+
   private async setValues() {
     const taskId = this.getAttribute('taskId') as string;
     const result = await api.tasks.getById(taskId);
@@ -48,31 +75,68 @@ class TaskForm extends HTMLElement {
       const currInput = input as HTMLInputElement;
       const { name } = currInput;
       if (name) {
-        if (name in this.task) {
-          const taskKey = name as keyof ITask;
-          currInput.value = this.task[taskKey];
-        }
-      }
-    });
-  }
-
-  private async submitHandler(form: HTMLFormElement): Promise<void> {
-    const inputs = [...form.elements];
-    const taskData = {} as IFormTask;
-    // console.log('submitHandler', inputs);
-    inputs.forEach((input) => {
-      const currInput = input as HTMLInputElement;
-      const { name, value } = currInput;
-      if (name) {
-        if (currInput.hasAttribute('data-success')) {
-          taskData[name] = value;
-          if (this.hasAttribute('taskId') && (name in this.task)) {
-            this.task[name as keyof ITask] = value;
+        const taskKey = name as keyof ITask;
+        if (name in this.task && this.task[taskKey]) {
+          if (currInput.type === 'date') {
+            // const dateInput = currInput as HTMLDa
+            const stringDate = this.task[taskKey] as string;
+            const date = new Date(stringDate);
+            currInput.setAttribute('value', `${convertTimeForDateInput(date)}`);
+            console.log('DATE', date, currInput);
+          } else {
+            currInput.value = this.task[taskKey]?.toString() as string;
           }
         }
       }
     });
-    if (Object.values(taskData).length === 1) this.sendTask(taskData);
+    this.connectDatePickers();
+  }
+
+  private async submitHandler(form: HTMLFormElement): Promise<void> {
+    const inputs = [...form.elements] as HTMLInputElement[];
+    const taskform = document.querySelector('task-form') as HTMLElement;
+    const currentStatus = taskform?.getAttribute('statusId') as string;
+    const name = inputs.find((input) => input.name === 'name')?.value;
+    const description = inputs.find((input) => input.name === 'description')?.value;
+    const startDate = inputs.find((input) => input.name === 'startDate')?.value;
+    const endDate = inputs.find((input) => input.name === 'endDate')?.value;
+    const task = {
+      statusId: currentStatus,
+      name,
+    } as ITask;
+    if (description) {
+      Object.assign(task, { description });
+    }
+    if (startDate) {
+      Object.assign(task, { startDate });
+    }
+    if (endDate) {
+      Object.assign(task, { endDate });
+    }
+    if (this.hasAttribute('taskId')) {
+      Object.assign(task, {
+        id: this.getAttribute('taskId'),
+        statusId: this.task.statusId,
+      });
+    }
+    this.sendTask(task);
+
+    // const taskData = {
+    //   name: inputs['name']
+    // }
+    // inputs.forEach((input) => {
+    //   const currInput = input as HTMLInputElement;
+    //   const { name, value } = currInput;
+    //   if (name) {
+    //     if (currInput.hasAttribute('data-success')) {
+    //       taskData[name] = value;
+    //       if (this.hasAttribute('taskId') && (name in this.task)) {
+    //         this.task[name as keyof ITask] = value;
+    //       }
+    //     }
+    //   }
+    // });
+    // if (Object.values(taskData).length === 1) this.sendTask(taskData);
     // {
     //   if (this.hasAttribute('taskId')) {
     //     this.updateTask();
@@ -82,29 +146,24 @@ class TaskForm extends HTMLElement {
     // }
   }
 
-  private async sendTask(taskData: IFormTask) {
-    console.log('addTask() valid data =>', taskData.text);
-    const taskform = document.querySelector('task-form') as HTMLElement;
-    const currentStatus = taskform?.getAttribute('statusId') as string;
+  private async sendTask(taskData: ITask) {
+    // const taskform = document.querySelector('task-form') as HTMLElement;
+    // const currentStatus = taskform?.getAttribute('statusId') as string;
     if (this.hasAttribute('taskId')) {
-      const result = await api.tasks.update(this.task);
+      const result = await api.tasks.update(taskData);
       if (result.success) {
         router.goTo('/board');
       }
     } else {
-      const result = await api.tasks.create(currentStatus, taskData.text);
-      console.log(currentStatus, taskData);
+      const result = await apiService.addTask(taskData);
       if (result.success) {
-        console.log('TASK ADDED');
+        router.goTo('/board');
       }
-      router.goTo('/board');
     }
   }
 
   private showMessage(input: HTMLInputElement, str = '') {
-    // console.log('showMessage()', str);
     const messageWrapper = input.nextElementSibling;
-    // console.log('messageWrapper', messageWrapper);
     if (messageWrapper) messageWrapper.textContent = str;
   }
 
@@ -125,7 +184,6 @@ class TaskForm extends HTMLElement {
           // //
           currInput.classList.remove('input-task_error');
           currInput.setAttribute('data-success', 'data-success');
-          // console.log(name, value, validate[name](value));
           // if (validate[name](value)) {
           //   currInput.classList.remove('input-task_error');
           //   currInput.setAttribute('data-success', 'data-success');
