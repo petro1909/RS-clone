@@ -66,6 +66,42 @@
     padding: 0.5rem;
     @include set-font($font-family-base, map-get($font-size, l));
   }
-
 }
 
+.board-calendar {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  &__header-btn,
+  &__months-btn,
+  &__years-btn {
+    background: transparent;
+    font-size: 26px;
+    border: none;
+    font-weight: bolder;
+  }
+  &__date-button {
+    position: relative;
+    background: transparent;
+    border: none;
+    &_active {
+      color: rgb(253, 48, 48);
+    }
+    &_marked {
+      background-color: var(--color-border-warning);
+    }
+  }
+  &__date-tooltip {
+    width: max-content;
+    max-width: 250px;
+    top: 130%;
+    bottom: auto;
+    right: 5px;
+    .tooltip__header {
+      font-size: 20;
+      color: var(--color-border-warning);
+    }
+
+  }
+}

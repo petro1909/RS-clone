@@ -42,7 +42,7 @@ class AppDatePicker extends HTMLElement {
           fill: rgba(0, 0, 0, .5)
         }
       </style>
-      <app-calendar id="calendar-picker" lang="en_sm" class-prefix="picker-calendar"><app-calendar>
+      <app-calendar id="calendar-picker" lang="en_sm" class-prefix="picker-calendar"></app-calendar>
     `;
     this.classList.add('app-date-picker');
     // this.innerHTML = '<app-calendar id="calendar-picker"><app-calendar>';
@@ -50,7 +50,6 @@ class AppDatePicker extends HTMLElement {
     //   type: 'date',
     // }) as HTMLInputElement;
     // dateInput.onclick = () => {
-    //   console.log(dateInput.value);
     // };
     const picker = this.querySelector('#calendar-picker') as HTMLInputElement;
     const mainInput = createElement('input', this, {
@@ -59,11 +58,9 @@ class AppDatePicker extends HTMLElement {
     mainInput.id = `${this.id}-input`;
     mainInput.oninput = (e) => {
       const ev = e as InputEvent;
-      // console.log(dateInput.value);
       this.watchMainInput(ev);
     };
     picker?.addEventListener('input', () => {
-      console.log('DATE INPUT', picker.value);
       const dateValue = picker.value as unknown as Date;
       this.val = convertTimeForDateInput(dateValue);
       const mainInputValue = convertTimeForDateInput(dateValue);
@@ -139,7 +136,6 @@ class AppDatePicker extends HTMLElement {
       const elems = e.composedPath() as HTMLElement[];
       const elPicker = picker as HTMLElement;
       const elBtn = calendarBtn as HTMLElement;
-      console.log('clcllcl', e, elems.includes(elPicker));
       if (!elems.includes(elPicker) && !elems.includes(elBtn)) {
         picker.classList.add('element--invisible');
       }
@@ -180,7 +176,6 @@ class AppDatePicker extends HTMLElement {
 
       if (input.value.length === 10) {
         const value = input.value.split('/').reverse().join('-');
-        console.log('KLHKJHKJHJKHJK', value);
         this.val = value;
         const ev = new Event('input');
         this.dispatchEvent(ev);
