@@ -40,10 +40,14 @@ export interface IState {
   user?: IUser,
   isAuthorized: boolean,
   currentPage: string,
-  activeBoardId: string
-  activeBoardUsers: IUser[]
+  currentTable: number,
+  limitTables: number,
+  sortProperty: string,
+  sortOrder: string,
+  activeBoardId: string,
+  activeBoardUsers: IUser[],
   token: string,
-  statuses: IStatus[],
+  statuses: [],
 }
 
 export interface Ilogin {
@@ -85,4 +89,9 @@ export interface IRegisterUser {
   name: string,
   email: string,
   password: string,
+}
+
+export enum UserRole {
+  user = 'USER',
+  admin = 'ADMIN',
 }

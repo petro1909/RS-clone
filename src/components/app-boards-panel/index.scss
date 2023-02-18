@@ -69,3 +69,9 @@
 
 }
 
+.select-user {
+  height: 28px;
+  border-radius: $border-radius-big-element;
+  @include set-font($font-family-base, map-get($font-size, l));
+}
+
