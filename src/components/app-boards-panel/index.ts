@@ -207,7 +207,7 @@ class AppBoardsPanel extends HTMLElement {
     // };
     addSelectUser.onclick = () => {
       console.log('click select-user value', selectUser.value);
-       // TODO make API request for adding user to board after that call this.renderBoardUsers();
+      // TODO make API request for adding user to board after that call this.renderBoardUsers();
     };
     boardMenuBtn.onclick = () => {
       menuWrapper.classList.add('board-menu--visible');
@@ -231,8 +231,9 @@ class AppBoardsPanel extends HTMLElement {
           selectUser.innerHTML += `<option id="${user.id}" value="${user.id}">${user.name}</option>`;
           console.log('NOT MATCH');
         }
+        return item;
       });
-    })
+    });
   }
 
   private async renderBoardUsers(wrapper: HTMLUListElement) {

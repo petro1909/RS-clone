@@ -21,7 +21,11 @@ const setStateUser = async (user: IUser, token: string) => {
       state.user.profilePicture = avatarRes.data.profilePicture;
     }
   }
-  router.goTo('/board');
+  if (state.currentPage === 'Admin') {
+    router.goTo('/admin');
+  } else {
+    router.goTo('/board');
+  }
 };
 
 // const login = async (loginData: Ilogin) => {
