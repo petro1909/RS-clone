@@ -18,7 +18,7 @@
     &__date-button {
       cursor: pointer;
       &_active {
-        color: var(--color-border-warning);
+        color: var(--color-warning);
       }
       &_disabled {
         cursor: default;
@@ -33,7 +33,7 @@
     border-radius: 0.25rem;
     transition: 0.3s;
     &:focus {
-      outline: 2px solid var(--color-border-warning);
+      outline: 2px solid var(--color-warning);
     }
   }
   &__calendar-btn {
@@ -42,7 +42,7 @@
     }
     &:hover {
       svg {
-        fill: var(--color-border-warning);
+        fill: var(--color-warning);
       }
     }
   }

@@ -228,7 +228,7 @@
   transition: $delay*3;
 
   &:focus {
-    outline: 3px solid var(--color-border-warning);
+    outline: 2px solid var(--color-warning);
     background-color: var(--color-background-secondary);
     color: var(--color-font-regular);
   }

@@ -23,7 +23,7 @@
   };
 
   &:hover {
-      color: var(--color-border-warning);
+      color: var(--color-warning);
   }
 
 }
@@ -59,14 +59,14 @@
   };
 
   &:hover {
-      background-color: var(--color-border-warning);
+      background-color: var(--color-warning);
   }
 
 }
 
 .github:hover,
 .rsschool:hover {
-  color: var(--color-border-warning);
+  color: var(--color-warning);
 }
 
 .github {
