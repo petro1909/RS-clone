@@ -86,3 +86,16 @@ export interface IRegisterUser {
   email: string,
   password: string,
 }
+
+export interface IBoardMark {
+  id: string,
+  name: string,
+  color: string,
+  boardId: string
+}
+
+export interface ITaskMark {
+  id: string,
+  taskId: string,
+  boardMarkId: string
+}
