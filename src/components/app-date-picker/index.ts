@@ -4,9 +4,12 @@ import convertTimeForDateInput from '../../utils/convertTimeForDateInput';
 class AppDatePicker extends HTMLElement {
   private val: string;
 
+  private globalClickHandler: (e: Event) => void;
+
   constructor() {
     super();
     this.val = '';
+    this.globalClickHandler = this.closeCalendar.bind(this);
   }
 
   connectedCallback() {
@@ -42,15 +45,10 @@ class AppDatePicker extends HTMLElement {
           fill: rgba(0, 0, 0, .5)
         }
       </style>
-      <app-calendar id="calendar-picker" lang="en_sm" class-prefix="picker-calendar"></app-calendar>
+      <app-calendar id="${this.id}-cal" lang="en_sm" class-prefix="picker-calendar"></app-calendar>
     `;
     this.classList.add('app-date-picker');
-    // this.innerHTML = '<app-calendar id="calendar-picker"><app-calendar>';
-    // const dateInput = createElement('input', this, {
-    //   type: 'date',
-    // }) as HTMLInputElement;
-    // dateInput.onclick = () => {
-    // };
+
     const picker = this.querySelector('#calendar-picker') as HTMLInputElement;
     const mainInput = createElement('input', this, {
       type: 'text',
@@ -69,6 +67,11 @@ class AppDatePicker extends HTMLElement {
       this.dispatchEvent(ev);
     });
     this.renderCalendarBtn();
+    window.addEventListener('click', this.globalClickHandler);
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener('click', this.globalClickHandler);
   }
 
   public get value(): string {
@@ -86,6 +89,7 @@ class AppDatePicker extends HTMLElement {
   renderCalendarBtn() {
     const calendarBtn = createElement('button', this, {
       class: 'app-date-picker__calendar-btn',
+      id: `${this.id}-btn`,
     }, `
     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
     viewBox="0 0 926.3 926.3" style="enable-background:new 0 0 926.3 926.3;" xml:space="preserve">
@@ -124,22 +128,23 @@ class AppDatePicker extends HTMLElement {
  </g>
  </svg>
     `) as HTMLButtonElement;
-    const picker = this.querySelector('#calendar-picker') as HTMLInputElement;
+    const picker = this.querySelector(`#${this.id}-cal`) as HTMLInputElement;
     calendarBtn.onclick = (e) => {
       e.preventDefault();
       calendarBtn.classList.toggle('app-date-picker__calendar-btn_active');
       picker.classList.toggle('element--invisible');
     };
-    window.addEventListener('click', (e) => {
-      // const ev = e as Event;
-      // const target = ev.target as HTMLElement;
-      const elems = e.composedPath() as HTMLElement[];
-      const elPicker = picker as HTMLElement;
-      const elBtn = calendarBtn as HTMLElement;
-      if (!elems.includes(elPicker) && !elems.includes(elBtn)) {
-        picker.classList.add('element--invisible');
-      }
-    });
+  }
+
+  private closeCalendar(e: Event) {
+    const picker = document.querySelector(`#${this.id}-cal`) as HTMLInputElement;
+    const calendarBtn = document.querySelector(`#${this.id}-btn`) as HTMLElement;
+    const elems = e.composedPath() as HTMLElement[];
+    const elPicker = picker as HTMLElement;
+    const elBtn = calendarBtn as HTMLElement;
+    if (!elems.includes(elPicker) && !elems.includes(elBtn)) {
+      picker.classList.add('element--invisible');
+    }
   }
 
   private watchMainInput(e: InputEvent) {
