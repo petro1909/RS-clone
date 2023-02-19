@@ -84,7 +84,6 @@ class AdminPage {
   }
 
   async renderTableBody() {
-    console.log('renderTableBody() =>', state);
     const endpoint = 'http://localhost:3000/users';
     const tableBody = document.getElementById('table-body')!;
     const viewState = tableBody.getAttribute('data-view');
@@ -132,13 +131,6 @@ class AdminPage {
             <button class="btn btn-delete" data-action="delete">✖</button>
           </td>
         </tr>`;
-        // <select class="input-text role">
-        //       <option value="ADMIN" selected="${user.role === 'ADMIN'}">ADMIN</option>
-        //       <option value="USER" selected="${user.role === 'USER'}">USER</option>
-        //     </select>
-        // const roleSelect = tableBody.querySelector(`#${user.id}`) as HTMLInputElement;
-        // console.log('RRROW', user, user.role === 'ADMIN');
-        // roleSelect.value = `${user.role}`;
       });
     } else {
       tableBody.innerHTML += '<td colspan="6"><h2 class="not-found">Not found ...</h2></td>';
