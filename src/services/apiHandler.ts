@@ -1,7 +1,9 @@
 import api from '../api';
 import state from '../store/state';
 // import state from '../store/state';
-import { IBoardUser, ITask, IUser } from '../types';
+import {
+  IBoardUser, IStatus, ITask, IUser,
+} from '../types';
 
 const getUserWithAvatarURL = async (userIncorrectAvatar: IUser) => {
   const user = { ...userIncorrectAvatar };
@@ -65,6 +67,17 @@ const addTask = async (newTask: ITask) => {
   return result;
 };
 
+const getTasksByDeadline = async () => {
+  const statuses = (await api.statuses.getByBoard(state.activeBoardId)).data as IStatus[];
+  const tasksResps = statuses.map((status) => api.tasks.getByStatus(status.id));
+  const tasks = (await Promise.all(tasksResps))
+    .map((task) => task.data)
+    .flat()
+    .filter((task) => task?.endDate);
+
+  return tasks;
+};
+
 // const getUserBoards = async () => {
 //   if (state.user) {
 //     const userBoards = await api.userBoards.getByUser(state.user?.id);
@@ -118,6 +131,7 @@ const apiService = {
   addStatus,
   deleteStatus,
   addTask,
+  getTasksByDeadline,
 };
 
 export default apiService;

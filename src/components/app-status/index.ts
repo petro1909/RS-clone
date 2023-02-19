@@ -71,7 +71,7 @@ class AppStatus extends HTMLElement {
       };
     };
     // refactor: to global EvLis
-    window.addEventListener('click', (e) => {
+    document.body.addEventListener('click', (e) => {
       const ev = e as Event;
       const target = ev.target as HTMLElement;
       if (target !== menuBtn) {

@@ -4,10 +4,12 @@ import { ITask } from '../types';
 
 const ENDPOINT = `${settings.SERVER}/tasks`;
 
-const getStatusTasks = async (statusId: string) => baseFetch<ITask[]>(`${ENDPOINT}/?statusId=${statusId}`, 'GET');
+const getStatusTasks = async (statusId: string) => baseFetch<ITask[]>(`${ENDPOINT}/?statusId=${statusId}&sort=order&order=ASC`, 'GET');
 
 const getTaskById = async (taskId: string) => baseFetch<ITask>(`${ENDPOINT}/${taskId}`, 'GET');
 
+// eslint-disable-next-line max-len
+const getTasksByDate = async (statusId: string) => baseFetch<ITask[]>(`${ENDPOINT}/?statusId=${statusId}&sort=endDate&order=ASC`, 'GET');
 // const createTask = async (statusId: string, content: string, order: number) => {
 //   const taskData = { text: content, statusId, order };
 //   return baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(taskData));
@@ -20,6 +22,7 @@ const deleteTask = async (id: string) => baseFetch<ITask>(`${ENDPOINT}/${id}`, '
 
 const tasks = {
   getByStatus: getStatusTasks,
+  getTasksByDate,
   getById: getTaskById,
   create: createTask,
   update: updateTask,
