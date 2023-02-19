@@ -3,6 +3,7 @@ import state from '../../store/state';
 import { IUser, UserRole } from '../../types';
 import createElement from '../../utils/createElement';
 import template from './template.html';
+import defaultUserIcon from '../../assets/img/task/default_user.svg';
 
 class AdminPage {
   render(): void {
@@ -16,6 +17,7 @@ class AdminPage {
     this.tableEventsHandler();
     this.headerAdminPageEventsHandler();
     this.tableHeaderEventsHandler();
+    console.log(state);
   }
 
   renderUsersTable() {
@@ -82,7 +84,7 @@ class AdminPage {
   }
 
   async renderTableBody() {
-    console.log('renderTableBody() =>');
+    console.log('renderTableBody() =>', state);
     const endpoint = 'http://localhost:3000/users';
     const tableBody = document.getElementById('table-body')!;
     const viewState = tableBody.getAttribute('data-view');
@@ -112,7 +114,7 @@ class AdminPage {
         if (user.profilePicture) {
           imageUrl = `${endpoint}/${user.id}/${user.profilePicture}`;
         } else {
-          imageUrl = `${endpoint}/default/default_user.svg`;
+          imageUrl = defaultUserIcon;// `${endpoint}/default/default_user.svg`;
         }
         tableBody.innerHTML += `
         <tr class="table__row user" id="${user.id}">
@@ -130,6 +132,13 @@ class AdminPage {
             <button class="btn btn-delete" data-action="delete">✖</button>
           </td>
         </tr>`;
+        // <select class="input-text role">
+        //       <option value="ADMIN" selected="${user.role === 'ADMIN'}">ADMIN</option>
+        //       <option value="USER" selected="${user.role === 'USER'}">USER</option>
+        //     </select>
+        // const roleSelect = tableBody.querySelector(`#${user.id}`) as HTMLInputElement;
+        // console.log('RRROW', user, user.role === 'ADMIN');
+        // roleSelect.value = `${user.role}`;
       });
     } else {
       tableBody.innerHTML += '<td colspan="6"><h2 class="not-found">Not found ...</h2></td>';
@@ -200,9 +209,10 @@ class AdminPage {
 
   async deleteUser(elem: HTMLElement) {
     const tableRow = elem.closest('.table__row')!;
-    const apiRes = await api.users.delete(tableRow.id);
+    const apiRes = await api.admin.deleteUser(tableRow.id); //  users.delete(tableRow.id);
     if (apiRes.success) {
       console.log(apiRes.success);
+      this.renderTableBody();
     }
   }
 

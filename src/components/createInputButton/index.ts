@@ -51,7 +51,7 @@ const createInputButton = (parent: HTMLElement, callback: (value: string) => voi
     const ev = e as KeyboardEvent;
     if (ev.key === 'Enter') submit();
   };
-  input.onblur = submit;
+  // input.onblur = submit;
   submitButton.onclick = submit;
 };
 

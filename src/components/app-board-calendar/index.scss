@@ -19,7 +19,7 @@
       color: rgb(253, 48, 48);
     }
     &_marked {
-      background-color: var(--color-border-warning);
+      background-color: var(--color-warning);
     }
   }
   &__date-tooltip {
@@ -30,7 +30,7 @@
     right: 5px;
     .tooltip__header {
       font-size: 20;
-      color: var(--color-border-warning);
+      color: var(--color-warning);
     }
 
   }

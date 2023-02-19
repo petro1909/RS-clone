@@ -1,7 +1,3 @@
-edit status from ID ??
-
-// CRUD task
-
-component add form
-user???
-logout
+admin
+- role - select?
+- sorting?
