@@ -8,17 +8,20 @@
   border-radius: $border-radius-big-element;
   background-color: var(--color-background-task);
   color: var(--color-font-regular-light);
-  cursor: grab;
+  cursor: move;
+  user-select: none;
 
   &__header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    user-select: none;
   }
 
   &__assignee {
     height: 32px;
     width: 32px;
+    user-select: none;
   }
 
   .task__menu {
@@ -30,6 +33,7 @@
   .task__content {
     padding: 0.5rem 0 0 0;
     @include set-font($font-family-base, map-get($font-size, m));
+    user-select: none;
   }
 
 }
