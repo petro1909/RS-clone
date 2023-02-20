@@ -90,6 +90,7 @@ $delay: 0.1s;
 
   --color-border-element: hsl(0, 0%, 50%);
 
+  --spinner-gif: url(../assets/img/spinner/spinner-dark.gif);
 }
 
 .light-theme {
@@ -125,4 +126,6 @@ $delay: 0.1s;
   --color-font-link-hover: --color-primary-hover;
 
   --color-border-element: hsl(0, 0%, 50%);
+
+  --spinner-gif: url(../assets/img/spinner/spinner-light.gif);
 }

@@ -1,14 +1,52 @@
 .selected-task {
-  transform: rotate(2deg);
+  transform: rotate(2deg) scale(1.05);
   box-shadow: 2px 2px 10px 0 var(--color-box-shadow);
   cursor: grab;
 }
 
 .new-task,
 .old-task {
-  height: 59px;
+  height: 60px;
   width: 290px;
   border-radius: $border-radius-big-element;
   border: 1px solid var(--color-border-element);
   background-color: var(--color-background-modal);
+}
+
+.loader {
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  width: 5vw;
+  height: 5vw;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: var(--spinner-gif);
+  transform: translateX(-30%) translateY(-50%);
+
+  @include _1400 {
+    width: 7vw;
+    height: 7vw;
+  };
+
+  @include _991 {
+    width: 10vw;
+    height:10vw;
+  };
+
+  @include _768 {
+    width: 12vw;
+    height:12vw;
+  };
+
+  @include _576 {
+    width: 15vw;
+    height:15vw;
+  };
+
+  @include _414 {
+    width: 17vw;
+    height:17vw;
+  };
 }
