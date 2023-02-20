@@ -104,15 +104,15 @@ class AppBoard extends HTMLElement {
 
         const droppableBelow = elemBelow.closest('.task')! as HTMLElement;
         if (droppableBelow) {
-          const newTask = board.querySelector('#new-task');
           const oldTask = board.querySelector('#old-task');
-          newTask?.remove();
           if (oldTask) oldTask?.remove();
-          const newTaskHTML = '<div class="new-task" id="new-task"></div>';
+          const newTask = board.querySelector('#new-task');
+          newTask?.remove();
           const belowTaskCoord = currentDroppable!.getBoundingClientRect();
           const centerY = belowTaskCoord.y + belowTaskCoord.height / 2;
-          if (centerY < taskCenterY) droppableBelow?.insertAdjacentHTML('beforebegin', newTaskHTML);
-          if (centerY > taskCenterY) droppableBelow?.insertAdjacentHTML('afterend', newTaskHTML);
+          const newTaskHTML = '<div class="new-task" id="new-task"></div>';
+          if (centerY > taskCenterY) droppableBelow?.insertAdjacentHTML('beforebegin', newTaskHTML);
+          if (centerY <= taskCenterY) droppableBelow?.insertAdjacentHTML('afterend', newTaskHTML);
         } else {
           const emptyStatus = elemBelow.closest('.status')! as HTMLElement;
           if (!emptyStatus) return;
