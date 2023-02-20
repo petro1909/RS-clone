@@ -14,7 +14,7 @@ class AppBoard extends HTMLElement {
       this.innerHTML = `${template}`;
       const statuses = await api.statuses.getByBoard(state.activeBoardId);
       state.statuses = statuses.data!;
-      console.log('class AppBoard renderBoard() => state.statuses =', state.statuses);
+      // console.log('class AppBoard renderBoard() => state.statuses =', state.statuses);
       if (!statuses.data) return;
       // const statuses = await api.statuses.getByBoard(state.activeBoardId);
       // if (!statuses.data) return;
@@ -50,7 +50,7 @@ class AppBoard extends HTMLElement {
     board.addEventListener('mousedown', (event: MouseEvent) => {
       const eventTarget = event.target as HTMLElement;
       task = eventTarget.closest('.task') as HTMLElement;
-      console.log('mousedown =>', task);
+      // console.log('mousedown =>', task);
 
       if (task) {
         shiftX = event.clientX - task!.getBoundingClientRect().left;
@@ -68,7 +68,7 @@ class AppBoard extends HTMLElement {
       }
 
       document.onmouseup = () => {
-        console.log('mouseup =>', task);
+        // console.log('mouseup =>', task);
         const newTask = board.querySelector('#new-task');
         const oldTask = board.querySelector('#old-task');
         if (newTask) {
@@ -157,7 +157,7 @@ class AppBoard extends HTMLElement {
     const updatingTasks = tasksLoaded.map((task) => api.tasks.update(task.data!));
     const updatedTasks = Array.from(await Promise.all(updatingTasks));
     for (let i = 0; i < updatedTasks.length; i += 1) {
-      console.log('newTasksPromises[i].data?.order', updatedTasks[i].data?.order);
+      // console.log('newTasksPromises[i].data?.order', updatedTasks[i].data?.order);
     }
   }
 }
