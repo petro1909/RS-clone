@@ -35,7 +35,6 @@ class UserPage {
         }
       };
     });
-    console.log('user', user);
   }
 
   private setAvatar() {
@@ -73,7 +72,6 @@ class UserPage {
 
   private async deleteAvatar(userId: string) {
     const apiRes = await api.users.deleteAvatar(userId);
-    console.log('RESPONSE1', apiRes, state);
     if (apiRes.success) {
       const user = state.user as IUser;
       console.log('RESPONSE', apiRes, state);

@@ -47,7 +47,7 @@ export interface IState {
   activeBoardId: string,
   activeBoardUsers: IUser[],
   token: string,
-  statuses: [],
+  statuses: IStatus[],
 }
 
 export interface Ilogin {
@@ -94,4 +94,17 @@ export interface IRegisterUser {
 export enum UserRole {
   user = 'USER',
   admin = 'ADMIN',
+}
+
+export interface IBoardMark {
+  id: string,
+  name: string,
+  color: string,
+  boardId: string
+}
+
+export interface ITaskMark {
+  id: string,
+  taskId: string,
+  boardMarkId: string
 }

@@ -12,7 +12,6 @@ class AppTask extends HTMLElement {
     this.innerHTML = template;
     this.classList.add('task');
     const taskId = this.getAttribute('taskId') as string;
-    console.log(taskId);
     this.setData();
     this.setMenu(taskId);
   }
@@ -48,7 +47,7 @@ class AppTask extends HTMLElement {
       };
     };
 
-    window.addEventListener('click', (e) => {
+    document.body.addEventListener('click', (e) => {
       const ev = e as Event;
       const target = ev.target as HTMLElement;
       if (target !== menuBtn) {

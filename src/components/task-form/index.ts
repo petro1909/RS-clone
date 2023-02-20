@@ -5,6 +5,7 @@ import router from '../../router';
 import api from '../../api';
 import apiService from '../../services/apiHandler';
 import convertTimeForDateInput from '../../utils/convertTimeForDateInput';
+import appEvent from '../../events';
 
 class TaskForm extends HTMLElement {
   private task: ITask;
@@ -28,6 +29,8 @@ class TaskForm extends HTMLElement {
 
     if (this.hasAttribute('taskId')) {
       this.setValues();
+    } else {
+      this.connectDatePickers();
     }
 
     form.onsubmit = (event) => {
@@ -82,7 +85,6 @@ class TaskForm extends HTMLElement {
             const stringDate = this.task[taskKey] as string;
             const date = new Date(stringDate);
             currInput.setAttribute('value', `${convertTimeForDateInput(date)}`);
-            console.log('DATE', date, currInput);
           } else {
             currInput.value = this.task[taskKey]?.toString() as string;
           }
@@ -160,6 +162,8 @@ class TaskForm extends HTMLElement {
         router.goTo('/board');
       }
     }
+    const ev = appEvent.taskUpdateEvent;
+    window.dispatchEvent(ev);
   }
 
   private showMessage(input: HTMLInputElement, str = '') {

@@ -27,7 +27,7 @@ class AppCalendar extends HTMLElement {
 
   private value: Date;
 
-  private currentDate: {
+  public currentDate: {
     date: string;
     month: string;
     year: string;
@@ -149,7 +149,6 @@ class AppCalendar extends HTMLElement {
     const prevBtn = this.querySelector(`#${this.classNamePrefix}-prev-btn`) as HTMLButtonElement;
     const nextBtn = this.querySelector(`#${this.classNamePrefix}-next-btn`) as HTMLButtonElement;
     const { month, year } = this.currentDate;
-
     datesWrapper.innerHTML = '';
     prevBtn.onclick = (e) => {
       e.preventDefault();
@@ -173,6 +172,10 @@ class AppCalendar extends HTMLElement {
       // this.setMonth(newMonth.toString());
     };
     this.renderTable(datesWrapper, this.daysNames, this.getTableData(month, year));
+    const changeEvent = new Event('change');
+    this.dispatchEvent(changeEvent);
+    this.setAttribute('month', this.currentDate.month);
+    this.setAttribute('year', this.currentDate.year);
   }
 
   private renderTable(parent: HTMLDivElement, headers: string[], data: HTMLButtonElement[]) {
@@ -202,7 +205,7 @@ class AppCalendar extends HTMLElement {
     const lastDayOfMonth = this.getLastDateOfMonth(+month, +year);
     const firstWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, 1);
     // const lastWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, lastDayOfMonth);
-    const lastDateOfPrevMonth = this.getLastDateOfMonth(+year, (+month - 1));
+    const lastDateOfPrevMonth = this.getLastDateOfMonth((+month - 1), +year);
     const datesBefore = this.getDatesBefore(firstWeekDayOfMonth, lastDateOfPrevMonth);
     const datesThisMonth = this.getDatesThisMonth(lastDayOfMonth);
     const datesAfterCount = 42 - datesBefore.length - datesThisMonth.length;

@@ -5,6 +5,7 @@ import boards from './boards';
 import statuses from './statuses';
 import tasks from './tasks';
 import boardUsers from './boardUsers';
+import admin from './admin';
 
 const api = {
   auth,
@@ -13,6 +14,7 @@ const api = {
   boardUsers,
   statuses,
   tasks,
+  admin,
 };
 
 export default api;

@@ -47,13 +47,12 @@ const createInputButton = (parent: HTMLElement, callback: (value: string) => voi
     }
   };
 
-  // input.onblur = submit;
-  submitButton.onclick = submit;
-
   input.onkeydown = (e) => {
     const ev = e as KeyboardEvent;
     if (ev.key === 'Enter') submit();
   };
+  // input.onblur = submit;
+  submitButton.onclick = submit;
 };
 
 export default createInputButton;

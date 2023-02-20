@@ -14,6 +14,8 @@ class Router {
 
     if (correctRoute.isAuthorized && !state.isAuthorized) {
       this.goTo('/');
+    } else if (correctRoute.title === 'Admin' && state.user?.role !== 'ADMIN') {
+      this.goTo('/board');
     } else {
       const currRoute = correctRoutes[0];
       document.body.innerHTML = '';
