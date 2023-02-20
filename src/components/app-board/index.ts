@@ -49,6 +49,7 @@ class AppBoard extends HTMLElement {
 
     board.addEventListener('mousedown', (event: MouseEvent) => {
       const eventTarget = event.target as HTMLElement;
+      if (eventTarget.classList.contains('menu-btn')) return;
       task = eventTarget.closest('.task') as HTMLElement;
       // console.log('mousedown =>', task);
 
