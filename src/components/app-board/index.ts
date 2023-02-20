@@ -20,6 +20,7 @@ class AppBoard extends HTMLElement {
       // if (!statuses.data) return;
 
       const boardWrapper = this.querySelector('#board') as HTMLInputElement;
+      boardWrapper.innerHTML = '';
       statuses.data.forEach((status) => {
         createElement('app-status', boardWrapper, {
           class: 'status__wrapper',
@@ -46,9 +47,10 @@ class AppBoard extends HTMLElement {
       }
     };
 
-    document.addEventListener('mousedown', (event: MouseEvent) => {
+    board.addEventListener('mousedown', (event: MouseEvent) => {
       const eventTarget = event.target as HTMLElement;
       task = eventTarget.closest('.task') as HTMLElement;
+      console.log('mousedown =>', task);
 
       if (task) {
         shiftX = event.clientX - task!.getBoundingClientRect().left;
@@ -66,6 +68,7 @@ class AppBoard extends HTMLElement {
       }
 
       document.onmouseup = () => {
+        console.log('mouseup =>', task);
         const newTask = board.querySelector('#new-task');
         const oldTask = board.querySelector('#old-task');
         if (newTask) {
@@ -75,6 +78,9 @@ class AppBoard extends HTMLElement {
           task!.style.zIndex = '';
           task!.classList.remove('selected-task');
           document.onmouseup = null;
+          currentDroppable = null;
+          shiftX = 0;
+          shiftY = 0;
           task = null;
         }
         if (oldTask) {
@@ -84,6 +90,9 @@ class AppBoard extends HTMLElement {
           task!.style.zIndex = '';
           task!.classList.remove('selected-task');
           document.onmouseup = null;
+          currentDroppable = null;
+          shiftX = 0;
+          shiftY = 0;
           task = null;
         }
       };
