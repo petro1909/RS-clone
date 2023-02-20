@@ -81,7 +81,7 @@ class AppBoardsPanel extends HTMLElement {
 
   private renderAddBoardButton() {
     createInputButton(this.boardsMenu, this.addNewBoard.bind(this), {
-      buttonName: 'Add board +',
+      buttonName: 'Add board <span>✚</span>',
       buttonClassName: 'board-menu__btn menu-btn',
       inputClassName: 'board-menu__btn menu-btn input-text',
     });
@@ -263,7 +263,7 @@ class AppBoardsPanel extends HTMLElement {
 
   private renderAddStatusButton(parent: HTMLLIElement) {
     createInputButton(parent, this.addStatus.bind(this), {
-      buttonName: 'Add status +',
+      buttonName: 'Add status <span>✚</span>',
       buttonClassName: 'board-menu__btn menu-btn',
       inputClassName: 'board-menu__btn menu-btn input-text',
     });
