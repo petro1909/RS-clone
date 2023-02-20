@@ -1,9 +1,7 @@
 import state from '../../store/state';
 import createElement from '../../utils/createElement';
 import template from './template.html';
-import api from './../../api';
-import createInputButton from '../createInputButton';
-import apiService from '../../services/apiHandler';
+import api from '../../api';
 
 class AppBoard extends HTMLElement {
   connectedCallback() {
@@ -58,6 +56,7 @@ class AppBoard extends HTMLElement {
 
         task.style.position = 'absolute';
         task.style.zIndex = '999999';
+        task.classList.add('selected-task');
         const oldTaskHTML = '<div class="new-task" id="old-task"></div>';
         task.insertAdjacentHTML('beforebegin', oldTaskHTML);
         document.body.append(task);
@@ -74,6 +73,7 @@ class AppBoard extends HTMLElement {
           newTask.replaceWith(task!);
           this.saveResults(task!);
           task!.style.zIndex = '';
+          task!.classList.remove('selected-task');
           document.onmouseup = null;
           task = null;
         }
@@ -82,6 +82,7 @@ class AppBoard extends HTMLElement {
           oldTask.replaceWith(task!);
           this.saveResults(task!);
           task!.style.zIndex = '';
+          task!.classList.remove('selected-task');
           document.onmouseup = null;
           task = null;
         }

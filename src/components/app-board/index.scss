@@ -1,5 +1,6 @@
 .selected-task {
-  transform: rotate(3deg);
+  transform: rotate(2deg);
+  box-shadow: 2px 2px 10px 0 var(--color-box-shadow);
   cursor: grab;
 }
 
