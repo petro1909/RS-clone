@@ -21,12 +21,13 @@ class AppStatus extends HTMLElement {
 
     const tasks = await api.tasks.getByStatus(statusId);
     if (!tasks.data) return;
-    const tasksWrapper = this.querySelector('#task-list') as HTMLDivElement;
+    const tasksWrapper = this.querySelector('.status__task-list') as HTMLDivElement;
 
     tasks.data.forEach((task) => {
       createElement('app-task', tasksWrapper, {
         taskId: `${task.id}`,
         taskName: `${task.name}`,
+        taskOrder: `${task.order}`,
       }) as HTMLDivElement;
     });
   }

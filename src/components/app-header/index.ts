@@ -23,12 +23,12 @@ class AppHeader extends HTMLElement {
       this.createAuthMenu(userMenuWrapper);
     }
 
-    document.querySelector('.user-menu__login')?.addEventListener('click', () => {
-      if (!state.isAuthorized) {
-        createElement('login-form', document.body);
-        document.body.classList.add('overflow-hidden');
-      }
-    });
+    // document.querySelector('.user-menu__login')?.addEventListener('click', () => {
+    //   if (!state.isAuthorized) {
+    //     createElement('login-form', document.body);
+    //     document.body.classList.add('overflow-hidden');
+    //   }
+    // });
 
     const themeSwitcher = this.querySelector('#theme-switcher') as HTMLDivElement;
     themeSwitcher.addEventListener('click', () => {
@@ -133,6 +133,7 @@ class AppHeader extends HTMLElement {
 
     logInBtn.onclick = () => {
       createElement('login-form', document.body);
+      console.log('login-form');
       document.body.classList.add('overflow-hidden'); // Класс добавляется для блокировки скролла под формой.
     };
 

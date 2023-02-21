@@ -1,27 +1,37 @@
 import state from '../../store/state';
 import createElement from '../../utils/createElement';
 import template from './template.html';
-import createInputButton from '../createInputButton';
-import apiService from '../../services/apiHandler';
+import api from '../../api';
 
 class AppBoard extends HTMLElement {
   connectedCallback() {
     this.renderBoard();
+    this.board = document.getElementById('board')! as HTMLElement;
   }
+
+  private draggingElem: HTMLElement | null = null;
+
+  private shiftX: number = 0;
+
+  private shiftY: number = 0;
+
+  private currentDroppable: HTMLElement | null = null;
+
+  private board: HTMLElement = document.getElementById('board')! as HTMLElement;
 
   private async renderBoard() {
     this.innerHTML = '<h3>No tasks found</h3>';
+
     if (state.user) {
       this.innerHTML = `${template}`;
-      // const statuses = await api.statuses.getByBoard(state.activeBoardId);
-      // if (!statuses.data) return;
-      const statuses = await apiService.getBoardStatuses(state.activeBoardId);
-      if (!statuses) return;
 
-      const boardWrapper = this.querySelector('#board') as HTMLInputElement;
+      const statuses = await api.statuses.getByBoard(state.activeBoardId);
+      state.statuses = statuses.data!;
+      if (!statuses.data) return;
 
-      statuses.forEach((status) => {
-        createElement('app-status', boardWrapper, {
+      this.board.innerHTML = '';
+      statuses.data.forEach((status) => {
+        createElement('app-status', this.board, {
           class: 'status__wrapper',
           statusId: `${status.id}`,
           statusName: `${status.name}`,
@@ -29,64 +39,137 @@ class AppBoard extends HTMLElement {
         }) as HTMLDivElement;
       });
 
-      this.renderAddStatusBtn(boardWrapper);
-      // <button class="board__add-btn menu-btn" id="add-status">+ Add status</button>
+      this.setTasksDragNDrop();
     }
   }
 
-  private renderAddStatusBtn(parent: HTMLDivElement) {
-    console.log('add BTNSTATUS');
-    const addStatusWrapper = createElement('div', parent, {
-      class: 'status', // board__add-btn',
-    }) as HTMLDivElement;
-    addStatusWrapper.style.textAlign = 'center';
-    addStatusWrapper.style.minHeight = 'auto';
-    createInputButton(addStatusWrapper, this.addStatus.bind(this), {
-      buttonName: '+ Add status',
-      buttonClassName: 'status__add-task menu-btn',
-      inputClassName: 'board-menu__btn menu-btn input-text',
+  setTasksDragNDrop() {
+    this.board.addEventListener('mousedown', (event: MouseEvent) => {
+      const eventTarget = event.target as HTMLElement;
+      if (eventTarget.classList.contains('menu-btn')) return;
+      this.draggingElem = eventTarget.closest('.task') as HTMLElement;
+
+      if (this.draggingElem) {
+        this.shiftX = event.clientX - this.draggingElem!.getBoundingClientRect().left;
+        this.shiftY = event.clientY - this.draggingElem!.getBoundingClientRect().top;
+
+        this.draggingElem.style.position = 'absolute';
+        this.draggingElem.style.zIndex = '999999';
+        this.draggingElem.classList.add('selected');
+        const emptyZoneHTML = '<div class="empty-zone" id="empty-zone"></div>';
+        this.draggingElem.insertAdjacentHTML('beforebegin', emptyZoneHTML);
+        document.body.append(this.draggingElem);
+
+        this.currentDroppable = this.draggingElem;
+        this.moveDroppableAt(event.pageX, event.pageY);
+      }
+
+      this.setMouseUp();
     });
-    // const addStatusWrapper = createElement('div', parent, {
-    //   class: 'board__add-btn',
-    // }) as HTMLDivElement;
-    // const addStatusBtn = createElement('button', addStatusWrapper, {
-    //   class: 'menu-btn',
-    // }, '+ Add status') as HTMLButtonElement;
-    // addStatusBtn.id = 'add-status';
-    // const addStatusInput = createElement('input', addStatusWrapper, {
-    //   class: 'status__name input-text',
-    //   type: 'text',
-    // }) as HTMLInputElement;
-    // addStatusInput.style.display = 'none';
-    // addStatusBtn.onclick = () => {
-    //   addStatusInput.style.display = 'block';
-    //   addStatusInput.focus();
-    //   addStatusBtn.textContent = 'Save';
-    //   addStatusBtn.onclick = () => {
-    //     if (addStatusInput.value.trim()) {
-    //       const newStatusName = addStatusInput.value.trim();
-    //       addStatusInput.disabled = true;
-    //       addStatusInput.value = 'Saving...';
-    //       this.addStatus(newStatusName);
-    //     }
-    //   };
-    // };
-    // addStatusInput.onblur = () => {
-    //   if (addStatusInput.value.trim()) {
-    //     console.log(addStatusInput.value.trim());
-    //   } else {
-    //     addStatusWrapper.remove();
-    //     this.renderAddStatusBtn(parent);
-    //   }
-    // };
+
+    this.setMouseMove();
   }
 
-  private async addStatus(newStatusName: string) {
-    console.log('add status');
-    // const result = await api.statuses.create(state.activeBoardId, newStatusName);
-    const result = await apiService.addStatus(state.activeBoardId, newStatusName);
-    if (result.success) {
-      this.renderBoard();
+  private setMouseMove() {
+    const onMouseMove = (event: MouseEvent) => {
+      if (!this.draggingElem) return;
+      const draggingElemCoord = this.draggingElem!.getBoundingClientRect();
+      const draggingElemCenterY = draggingElemCoord.y + draggingElemCoord.height / 2;
+
+      this.moveDroppableAt(event.pageX, event.pageY);
+
+      if (this.draggingElem) {
+        this.draggingElem.style.display = 'none';
+        const elemBelow = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
+        this.draggingElem.style.display = 'block';
+        if (!elemBelow) return;
+
+        const droppableBelow = elemBelow.closest('.task')! as HTMLElement;
+        if (droppableBelow) {
+          const emptyZone = this.board.querySelector('#empty-zone');
+          if (emptyZone) emptyZone?.remove();
+          const dropZone = this.board.querySelector('#drop-zone');
+          dropZone?.remove();
+          const belowTaskCoord = this.currentDroppable!.getBoundingClientRect();
+          const centerY = belowTaskCoord.y + belowTaskCoord.height / 2;
+          const dropZoneHTML = '<div class="drop-zone" id="drop-zone"></div>';
+          if (centerY > draggingElemCenterY) droppableBelow?.insertAdjacentHTML('beforebegin', dropZoneHTML);
+          if (centerY <= draggingElemCenterY) droppableBelow?.insertAdjacentHTML('afterend', dropZoneHTML);
+        } else {
+          const emptyStatus = elemBelow.closest('.status')! as HTMLElement;
+          if (!emptyStatus) return;
+          const isStatusNotEmpty = !!emptyStatus.querySelector('.task');
+          if (isStatusNotEmpty) return;
+          if (!isStatusNotEmpty) {
+            const dropZone = this.board.querySelector('#drop-zone');
+            if (dropZone) dropZone?.remove();
+            const dropZoneHTML = '<div class="drop-zone" id="drop-zone"></div>';
+            if (emptyStatus) {
+              emptyStatus!.querySelector('.status__task-list')!.innerHTML = dropZoneHTML;
+              const emptyZone = this.board.querySelector('#empty-zone');
+              if (emptyZone) emptyZone?.remove();
+            }
+          }
+        }
+      }
+    };
+    document.addEventListener('mousemove', onMouseMove);
+  }
+
+  private setMouseUp() {
+    document.onmouseup = () => {
+      // console.log('mouseup =>', task);
+      const dropZone = this.board.querySelector('#drop-zone');
+      const emptyZone = this.board.querySelector('#empty-zone');
+      if (dropZone) {
+        this.draggingElem!.style.position = 'static';
+        dropZone.replaceWith(this.draggingElem!);
+        this.saveMovedTasks(this.draggingElem!);
+        this.draggingElem!.style.zIndex = '';
+        this.draggingElem!.classList.remove('selected');
+        document.onmouseup = null;
+        this.currentDroppable = null;
+        this.shiftX = 0;
+        this.shiftY = 0;
+        this.draggingElem = null;
+      }
+      if (emptyZone) {
+        this.draggingElem!.style.position = 'static';
+        emptyZone.replaceWith(this.draggingElem!);
+        this.saveMovedTasks(this.draggingElem!);
+        this.draggingElem!.style.zIndex = '';
+        this.draggingElem!.classList.remove('selected');
+        document.onmouseup = null;
+        this.currentDroppable = null;
+        this.shiftX = 0;
+        this.shiftY = 0;
+        this.draggingElem = null;
+      }
+    };
+  }
+
+  private moveDroppableAt(pageX: number, pageY: number) {
+    if (this.draggingElem) {
+      this.draggingElem.style.left = `${pageX - this.shiftX}px`;
+      this.draggingElem.style.top = `${pageY - this.shiftY}px`;
+    }
+  }
+
+  private async saveMovedTasks(movedTask: HTMLElement) {
+    const taskId = movedTask.getAttribute('taskid')!;
+    const closestStatus = movedTask.closest('.status') as HTMLElement;
+    const statusId = closestStatus?.getAttribute('statusid');
+    const updatingTask = (await api.tasks.getById(taskId)).data;
+    if (updatingTask) { updatingTask.statusId! = statusId!; }
+    await api.tasks.update(updatingTask!);
+    const oldTasksRequests = Array
+      .from(closestStatus.querySelectorAll('.task')).map((task) => api.tasks.getById(task.getAttribute('taskid')!));
+    const tasksLoaded = Array.from(await Promise.all(oldTasksRequests));
+    for (let i = 0; i < tasksLoaded.length; i += 1) { tasksLoaded[i]!.data!.order = i + 1; }
+    const updatingTasks = tasksLoaded.map((task) => api.tasks.update(task.data!));
+    const updatedTasks = Array.from(await Promise.all(updatingTasks));
+    for (let i = 0; i < updatedTasks.length; i += 1) {
+      // console.log('newTasksPromises[i].data?.order', updatedTasks[i].data?.order);
     }
   }
 }

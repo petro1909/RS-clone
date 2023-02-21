@@ -10,6 +10,7 @@
   border-radius: $border-radius-big-element;
   background-color: var(--color-background-status);
   backdrop-filter: blur(10px);
+  cursor: move;
   overflow-y: auto;
 
   &__header {
@@ -21,7 +22,7 @@
   }
 
   &__name {
-    width: 80%;
+    width: 50%;
     height: 24px;
     padding: 0.25rem;
     @include set-font($font-family-base, map-get($font-size, l), 1);

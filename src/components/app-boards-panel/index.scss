@@ -34,6 +34,8 @@
   }
 
   &__btn {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
     @include set-font($font-family-base, map-get($font-size, l));
     color: var(--color-font-regular);
