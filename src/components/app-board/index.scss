@@ -1,11 +1,13 @@
-.selected-task {
-  transform: rotate(2deg) scale(1.05);
+.selected {
+  // transform: rotate(2deg) scale(1.05);
+  transform: rotateX(5deg) rotateY(-5deg) rotateZ(3deg) scale(1.05);
   box-shadow: 2px 2px 10px 0 var(--color-box-shadow);
   cursor: grab;
+  transition: all $delay * 100 ease;
 }
 
-.new-task,
-.old-task {
+.drop-zone,
+.empty-zone {
   height: 60px;
   width: 290px;
   border-radius: $border-radius-big-element;

@@ -6,136 +6,108 @@ import api from '../../api';
 class AppBoard extends HTMLElement {
   connectedCallback() {
     this.renderBoard();
+    this.board = document.getElementById('board')! as HTMLElement;
   }
+
+  private draggingElem: HTMLElement | null = null;
+
+  private shiftX: number = 0;
+
+  private shiftY: number = 0;
+
+  private currentDroppable: HTMLElement | null = null;
+
+  private board: HTMLElement = document.getElementById('board')! as HTMLElement;
 
   private async renderBoard() {
     this.innerHTML = '<h3>No tasks found</h3>';
+
     if (state.user) {
       this.innerHTML = `${template}`;
+
       const statuses = await api.statuses.getByBoard(state.activeBoardId);
       state.statuses = statuses.data!;
-      // console.log('class AppBoard renderBoard() => state.statuses =', state.statuses);
       if (!statuses.data) return;
-      // const statuses = await api.statuses.getByBoard(state.activeBoardId);
-      // if (!statuses.data) return;
 
-      const boardWrapper = this.querySelector('#board') as HTMLInputElement;
-      boardWrapper.innerHTML = '';
+      this.board.innerHTML = '';
       statuses.data.forEach((status) => {
-        createElement('app-status', boardWrapper, {
+        createElement('app-status', this.board, {
           class: 'status__wrapper',
           statusId: `${status.id}`,
           statusName: `${status.name}`,
           order: `${status.order}`,
         }) as HTMLDivElement;
       });
-      this.setStatusesDragNDrop();
+
+      this.setTasksDragNDrop();
     }
   }
 
-  setStatusesDragNDrop() {
-    const board = document.getElementById('board')! as HTMLElement;
-    let task: HTMLElement | null = null;
-    let shiftX: number = 0;
-    let shiftY: number = 0;
-    let currentDroppable: HTMLElement | null = null;
-
-    const moveTaskAt = (pageX: number, pageY: number) => {
-      if (task) {
-        task.style.left = `${pageX - shiftX}px`;
-        task.style.top = `${pageY - shiftY}px`;
-      }
-    };
-
-    board.addEventListener('mousedown', (event: MouseEvent) => {
+  setTasksDragNDrop() {
+    this.board.addEventListener('mousedown', (event: MouseEvent) => {
       const eventTarget = event.target as HTMLElement;
       if (eventTarget.classList.contains('menu-btn')) return;
-      task = eventTarget.closest('.task') as HTMLElement;
-      // console.log('mousedown =>', task);
+      this.draggingElem = eventTarget.closest('.task') as HTMLElement;
 
-      if (task) {
-        shiftX = event.clientX - task!.getBoundingClientRect().left;
-        shiftY = event.clientY - task!.getBoundingClientRect().top;
+      if (this.draggingElem) {
+        this.shiftX = event.clientX - this.draggingElem!.getBoundingClientRect().left;
+        this.shiftY = event.clientY - this.draggingElem!.getBoundingClientRect().top;
 
-        task.style.position = 'absolute';
-        task.style.zIndex = '999999';
-        task.classList.add('selected-task');
-        const oldTaskHTML = '<div class="new-task" id="old-task"></div>';
-        task.insertAdjacentHTML('beforebegin', oldTaskHTML);
-        document.body.append(task);
+        this.draggingElem.style.position = 'absolute';
+        this.draggingElem.style.zIndex = '999999';
+        this.draggingElem.classList.add('selected');
+        const emptyZoneHTML = '<div class="empty-zone" id="empty-zone"></div>';
+        this.draggingElem.insertAdjacentHTML('beforebegin', emptyZoneHTML);
+        document.body.append(this.draggingElem);
 
-        currentDroppable = task;
-        moveTaskAt(event.pageX, event.pageY);
+        this.currentDroppable = this.draggingElem;
+        this.moveDroppableAt(event.pageX, event.pageY);
       }
 
-      document.onmouseup = () => {
-        // console.log('mouseup =>', task);
-        const newTask = board.querySelector('#new-task');
-        const oldTask = board.querySelector('#old-task');
-        if (newTask) {
-          task!.style.position = 'static';
-          newTask.replaceWith(task!);
-          this.saveResults(task!);
-          task!.style.zIndex = '';
-          task!.classList.remove('selected-task');
-          document.onmouseup = null;
-          currentDroppable = null;
-          shiftX = 0;
-          shiftY = 0;
-          task = null;
-        }
-        if (oldTask) {
-          task!.style.position = 'static';
-          oldTask.replaceWith(task!);
-          this.saveResults(task!);
-          task!.style.zIndex = '';
-          task!.classList.remove('selected-task');
-          document.onmouseup = null;
-          currentDroppable = null;
-          shiftX = 0;
-          shiftY = 0;
-          task = null;
-        }
-      };
+      this.setMouseUp();
     });
 
+    this.setMouseMove();
+  }
+
+  private setMouseMove() {
     const onMouseMove = (event: MouseEvent) => {
-      if (!task) return;
-      const taskCoord = task!.getBoundingClientRect();
-      const taskCenterY = taskCoord.y + taskCoord.height / 2;
+      if (!this.draggingElem) return;
+      const draggingElemCoord = this.draggingElem!.getBoundingClientRect();
+      const draggingElemCenterY = draggingElemCoord.y + draggingElemCoord.height / 2;
 
-      moveTaskAt(event.pageX, event.pageY);
+      this.moveDroppableAt(event.pageX, event.pageY);
 
-      if (task) {
-        task.style.display = 'none';
+      if (this.draggingElem) {
+        this.draggingElem.style.display = 'none';
         const elemBelow = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-        task.style.display = 'block';
+        this.draggingElem.style.display = 'block';
         if (!elemBelow) return;
 
         const droppableBelow = elemBelow.closest('.task')! as HTMLElement;
         if (droppableBelow) {
-          const oldTask = board.querySelector('#old-task');
-          if (oldTask) oldTask?.remove();
-          const newTask = board.querySelector('#new-task');
-          newTask?.remove();
-          const belowTaskCoord = currentDroppable!.getBoundingClientRect();
+          const emptyZone = this.board.querySelector('#empty-zone');
+          if (emptyZone) emptyZone?.remove();
+          const dropZone = this.board.querySelector('#drop-zone');
+          dropZone?.remove();
+          const belowTaskCoord = this.currentDroppable!.getBoundingClientRect();
           const centerY = belowTaskCoord.y + belowTaskCoord.height / 2;
-          const newTaskHTML = '<div class="new-task" id="new-task"></div>';
-          if (centerY > taskCenterY) droppableBelow?.insertAdjacentHTML('beforebegin', newTaskHTML);
-          if (centerY <= taskCenterY) droppableBelow?.insertAdjacentHTML('afterend', newTaskHTML);
+          const dropZoneHTML = '<div class="drop-zone" id="drop-zone"></div>';
+          if (centerY > draggingElemCenterY) droppableBelow?.insertAdjacentHTML('beforebegin', dropZoneHTML);
+          if (centerY <= draggingElemCenterY) droppableBelow?.insertAdjacentHTML('afterend', dropZoneHTML);
         } else {
           const emptyStatus = elemBelow.closest('.status')! as HTMLElement;
           if (!emptyStatus) return;
           const isStatusNotEmpty = !!emptyStatus.querySelector('.task');
           if (isStatusNotEmpty) return;
           if (!isStatusNotEmpty) {
-            const newTask = board.querySelector('#new-task');
-            if (newTask) newTask?.remove();
-            const newTaskHTML = '<div class="new-task" id="new-task"></div>';
+            const dropZone = this.board.querySelector('#drop-zone');
+            if (dropZone) dropZone?.remove();
+            const dropZoneHTML = '<div class="drop-zone" id="drop-zone"></div>';
             if (emptyStatus) {
-              emptyStatus!.querySelector('.status__task-list')!.innerHTML = newTaskHTML;
-              const oldTask = board.querySelector('#old-task');
-              if (oldTask) oldTask?.remove();
+              emptyStatus!.querySelector('.status__task-list')!.innerHTML = dropZoneHTML;
+              const emptyZone = this.board.querySelector('#empty-zone');
+              if (emptyZone) emptyZone?.remove();
             }
           }
         }
@@ -144,7 +116,46 @@ class AppBoard extends HTMLElement {
     document.addEventListener('mousemove', onMouseMove);
   }
 
-  private async saveResults(movedTask: HTMLElement) {
+  private setMouseUp() {
+    document.onmouseup = () => {
+      // console.log('mouseup =>', task);
+      const dropZone = this.board.querySelector('#drop-zone');
+      const emptyZone = this.board.querySelector('#empty-zone');
+      if (dropZone) {
+        this.draggingElem!.style.position = 'static';
+        dropZone.replaceWith(this.draggingElem!);
+        this.saveMovedTasks(this.draggingElem!);
+        this.draggingElem!.style.zIndex = '';
+        this.draggingElem!.classList.remove('selected');
+        document.onmouseup = null;
+        this.currentDroppable = null;
+        this.shiftX = 0;
+        this.shiftY = 0;
+        this.draggingElem = null;
+      }
+      if (emptyZone) {
+        this.draggingElem!.style.position = 'static';
+        emptyZone.replaceWith(this.draggingElem!);
+        this.saveMovedTasks(this.draggingElem!);
+        this.draggingElem!.style.zIndex = '';
+        this.draggingElem!.classList.remove('selected');
+        document.onmouseup = null;
+        this.currentDroppable = null;
+        this.shiftX = 0;
+        this.shiftY = 0;
+        this.draggingElem = null;
+      }
+    };
+  }
+
+  private moveDroppableAt(pageX: number, pageY: number) {
+    if (this.draggingElem) {
+      this.draggingElem.style.left = `${pageX - this.shiftX}px`;
+      this.draggingElem.style.top = `${pageY - this.shiftY}px`;
+    }
+  }
+
+  private async saveMovedTasks(movedTask: HTMLElement) {
     const taskId = movedTask.getAttribute('taskid')!;
     const closestStatus = movedTask.closest('.status') as HTMLElement;
     const statusId = closestStatus?.getAttribute('statusid');
