@@ -1,15 +1,24 @@
 .selected {
-  // transform: rotate(2deg) scale(1.05);
-  transform: rotateX(5deg) rotateY(-5deg) rotateZ(3deg) scale(1.05);
+  transform: rotate(2deg);
+  // transform: rotateX(5deg) rotateY(-5deg) rotateZ(3deg) scale(1.05);
   box-shadow: 2px 2px 10px 0 var(--color-box-shadow);
+  // border: 1px dashed red;
+  user-select: none;
   cursor: grab;
-  transition: all $delay * 100 ease;
 }
 
-.drop-zone,
-.empty-zone {
+.drop-zone-task,
+.empty-zone-task {
   height: 60px;
   width: 290px;
+  border-radius: $border-radius-big-element;
+  border: 1px solid var(--color-border-element);
+  background-color: var(--color-background-modal);
+}
+
+.drop-zone-status,
+.empty-zone-status {
+  width: 300px;
   border-radius: $border-radius-big-element;
   border: 1px solid var(--color-border-element);
   background-color: var(--color-background-modal);
