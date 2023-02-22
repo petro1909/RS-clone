@@ -11,10 +11,7 @@ const createStatus = async (boardId: string, name: string, order: number) => {
   return baseFetch<IStatus>(`${ENDPOINT}`, 'POST', JSON.stringify(statusData));
 };
 
-// const updateStatus = async (status: IStatus) => {
-//   const { id, name, boardId } = status;
-//   return baseFetch<IStatus>(`${ENDPOINT}/${id}`, 'PUT', JSON.stringify({ name, boardId }));
-// };
+const getStatusById = async (statusId: string) => baseFetch<IStatus>(`${ENDPOINT}/${statusId}`, 'GET');
 
 const updateStatus = async (status: IStatus) => baseFetch<IStatus>(`${ENDPOINT}`, 'PUT', JSON.stringify(status));
 
@@ -28,6 +25,7 @@ const statuses = {
   update: updateStatus,
   deleteByBoard: deleteStatusesByBoard,
   delete: deleteStatus,
+  getStatus: getStatusById,
 };
 
 export default statuses;
