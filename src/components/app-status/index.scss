@@ -8,7 +8,7 @@
   border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
   background-color: var(--color-background-status);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   cursor: move;
   overflow-y: auto;
   transform: translate3d();

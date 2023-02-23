@@ -180,9 +180,6 @@ class AppBoard extends HTMLElement {
     };
   }
 
-  private _setMouseMove() {
-  }
-
   private renderMoveStatus(closestStatus: HTMLElement) {
     if(!closestStatus) return;
     const closestStatusRectCoord = closestStatus.getBoundingClientRect();
