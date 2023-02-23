@@ -50,8 +50,8 @@ class AppBoard extends HTMLElement {
   private setBoardDragNDrop() {
     this.board.addEventListener('mousedown', (event: MouseEvent) => {
       const eventTarget = event.target as HTMLElement;
-      if (eventTarget.classList.contains('menu-btn') ||
-        eventTarget.classList.contains('status__name')) return;
+      if (eventTarget.classList.contains('menu-btn')
+        || eventTarget.classList.contains('status__name')) return;
 
       const draggedStatus = eventTarget.closest('.status') as HTMLElement;
       const draggedTask = eventTarget.closest('.task') as HTMLElement;
@@ -74,8 +74,7 @@ class AppBoard extends HTMLElement {
         this.moveDroppableAt(event.pageX, event.pageY);
         this.setMouseMove();
         this.setMouseUp();
-      }
-      else if (draggedStatus) {
+      } else if (draggedStatus) {
         this.tag = 'STATUS';
         this.dragged = draggedStatus as HTMLElement;
 
@@ -94,7 +93,7 @@ class AppBoard extends HTMLElement {
             style="order: ${draggedStatusFlexOrder};
             height: ${Math.round(draggedStatusRectCoord.height)}px;">
           </div>`;
-          draggedStatus.insertAdjacentHTML('afterend', emptySpaceForDropZone);
+        draggedStatus.insertAdjacentHTML('afterend', emptySpaceForDropZone);
 
         this.moveDroppableAt(event.clientX, event.clientY);
         this.setMouseMove();
@@ -111,8 +110,8 @@ class AppBoard extends HTMLElement {
   }
 
   private setMouseMove() {
-    document.onmousemove  = (event: MouseEvent) => {
-      if(!this.dragged) return;
+    document.onmousemove = (event: MouseEvent) => {
+      if (!this.dragged) return;
       this.dragged!.style.display = 'none';
       const deepestElement = document.elementFromPoint(event.clientX, 120) as HTMLElement;
       this.dragged!.style.display = 'block';
@@ -121,7 +120,7 @@ class AppBoard extends HTMLElement {
       if (this.tag === 'STATUS') {
         let closestStatus: HTMLElement | null = null;
 
-        if(this.currentDropZone !== deepestElement) {
+        if (this.currentDropZone !== deepestElement) {
           closestStatus = deepestElement.closest('.status')!;
         } else {
           closestStatus = this.currentDropZone;
@@ -133,16 +132,17 @@ class AppBoard extends HTMLElement {
       }
 
       if (this.tag === 'TASK') {
-        document.onmousemove = (event: MouseEvent) => {
+        document.onmousemove = (e: MouseEvent) => {
           if (!this.dragged) return;
           const draggingElemCoord = this.dragged!.getBoundingClientRect();
           const draggingElemCenterY = draggingElemCoord.y + draggingElemCoord.height / 2;
 
-          this.moveDroppableAt(event.pageX, event.pageY);
+          this.moveDroppableAt(e.pageX, e.pageY);
 
           if (this.dragged) {
             this.dragged.style.display = 'none';
-            const elemBelow = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
+            const elemBelow = document
+              .elementFromPoint(e.clientX, e.clientY) as HTMLElement;
             this.dragged.style.display = 'block';
             if (!elemBelow) return;
 
@@ -176,12 +176,11 @@ class AppBoard extends HTMLElement {
           }
         };
       }
-
     };
   }
 
   private renderMoveStatus(closestStatus: HTMLElement) {
-    if(!closestStatus) return;
+    if (!closestStatus) return;
     const closestStatusRectCoord = closestStatus.getBoundingClientRect();
     const draggedRectCoord = this.dragged!.getBoundingClientRect();
 

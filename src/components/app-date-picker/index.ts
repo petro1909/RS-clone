@@ -49,7 +49,7 @@ class AppDatePicker extends HTMLElement {
     `;
     this.classList.add('app-date-picker');
 
-    const picker = this.querySelector('#calendar-picker') as HTMLInputElement;
+    const picker = this.querySelector(`#${this.id}-cal`) as HTMLInputElement;
     const mainInput = createElement('input', this, {
       type: 'text',
     }) as HTMLInputElement;
