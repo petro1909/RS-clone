@@ -16,6 +16,7 @@
     cursor: pointer;
     outline: none;
     transition: $delay*3;
+    user-select: none;
 }
 
 .menu-btn {

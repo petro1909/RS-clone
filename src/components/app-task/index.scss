@@ -48,6 +48,7 @@
 }
 
 .popup-menu {
+  position: relative;
   height: fit-content;
   width: 150px;
   padding: map-get($font-size , xs);
