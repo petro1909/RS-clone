@@ -24,7 +24,7 @@
   }
 
   &__name {
-    width: 50%;
+    width: 40%;
     height: 24px;
     padding: 0.25rem;
     @include set-font($font-family-base, map-get($font-size, l), 1);
@@ -36,8 +36,16 @@
       outline: 1px solid var(--color-font-regular-dark);
     }
 
-    &__task-list {
-      margin-bottom: 0.5rem;
+  }
+
+  &__task-list {
+    margin-bottom: 0.5rem;
+  }
+
+  &__add-task {
+    transition: all $delay * 3 ease;
+    &:hover{
+      outline: 1px solid var(--color-font-regular-black);
     }
   }
 
@@ -49,6 +57,11 @@
   top: 4px;
   z-index: 1000;
   transition: all 500ms ease;
+
+  &__btn {
+    @include square-view(24px);
+    padding: 0;
+  }
 }
 
 .popup-menu {

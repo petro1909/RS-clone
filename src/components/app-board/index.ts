@@ -50,7 +50,8 @@ class AppBoard extends HTMLElement {
   private setBoardDragNDrop() {
     this.board.addEventListener('mousedown', (event: MouseEvent) => {
       const eventTarget = event.target as HTMLElement;
-      if (eventTarget.classList.contains('menu-btn')) return;
+      if (eventTarget.classList.contains('menu-btn') ||
+        eventTarget.classList.contains('status__name')) return;
 
       const draggedStatus = eventTarget.closest('.status') as HTMLElement;
       const draggedTask = eventTarget.closest('.task') as HTMLElement;
