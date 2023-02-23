@@ -28,6 +28,8 @@
   width: fit-content;
   padding: 1rem;
   gap: 0.5rem;
+  transform: translate3d();
+  will-change: transform;
 
   &__add-btn {
     height: 40px;

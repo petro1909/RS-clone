@@ -10,7 +10,10 @@
   background-color: var(--color-background-task);
   color: var(--color-font-regular-light);
   cursor: move;
+  backdrop-filter: blur(5px);
+  transform: translate3d();
   user-select: none;
+  will-change: transform;
 
   &__header {
     display: flex;

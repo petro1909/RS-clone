@@ -8,9 +8,11 @@
   border: 1px solid var(--color-border-element);
   border-radius: $border-radius-big-element;
   background-color: var(--color-background-status);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
   cursor: move;
   overflow-y: auto;
+  transform: translate3d();
+  will-change: transform;
 
   &__header {
     width: 100%;
