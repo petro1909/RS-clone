@@ -29,6 +29,7 @@ class TaskForm extends HTMLElement {
 
     if (this.hasAttribute('taskId')) {
       this.setValues();
+      this.renderTaskMarks();
     } else {
       this.connectDatePickers();
     }
@@ -198,6 +199,21 @@ class TaskForm extends HTMLElement {
         }
       };
     });
+  }
+
+  private renderTaskMarks() {
+    const taskMarksWrapper = this.querySelector('.task-marks-wrapper') as HTMLDivElement;
+    const taskEditBtn = this.querySelector('#show-marks-edit') as HTMLButtonElement;
+    const taskId = this.getAttribute('taskId');
+
+    taskEditBtn.onclick = (e) => {
+      e.preventDefault();
+      taskMarksWrapper.innerHTML = `
+        <app-modal>
+        <mark-list id="${taskId}"></mark-list>
+        </app-modal>
+    `;
+    };
   }
 }
 
