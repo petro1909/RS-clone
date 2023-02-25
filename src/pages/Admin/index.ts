@@ -1,8 +1,11 @@
 import api from '../../api';
 import state from '../../store/state';
-import { IUser, UserRole } from '../../types';
+import { IUser, UserRole, IServerLogEntity } from '../../types';
 import createElement from '../../utils/createElement';
 import template from './template.html';
+import templateUsersTableHeader from './template-users-table-header.html';
+import templateLogsTableHeader from './template-logs-table-header.html';
+
 import defaultUserIcon from '../../assets/img/task/default_user.svg';
 
 class AdminPage {
@@ -12,15 +15,29 @@ class AdminPage {
     document.body.innerHTML = `
     <app-header></app-header>
     ${template}`;
-    this.renderUsersTable();
+    this.setLastPages();
     this.paginationHandler();
     this.tableEventsHandler();
     this.headerAdminPageEventsHandler();
     this.tableHeaderEventsHandler();
-    console.log(state);
   }
 
-  renderUsersTable() {
+  async setLastPages() {
+    const currentPage = document.getElementById('current-page') as HTMLInputElement;
+    const allUsers = Array.from((await api.users.getAllUsers()).data!);
+    const allLogs = Array.from((await api.statistics.getAllLogs()).data!);
+    const maxUsersPage = Math.ceil(allUsers.length / 5);
+    const maxLogsPage = Math.ceil(allLogs.length / 5);
+    state.currentTable = maxUsersPage;
+    state.limitTables = maxUsersPage;
+    state.currentLogTable = maxLogsPage;
+    state.limitLogTables = maxLogsPage;
+    currentPage.value = String(state.limitTables);
+    this.renderUsersTable();
+    this.renderLogsTable();
+  }
+
+  async renderUsersTable() {
     this.renderTableHeader();
     this.renderTableBody();
   }
@@ -28,57 +45,7 @@ class AdminPage {
   async renderTableHeader() {
     console.log('renderTableHeader() =>');
     const tableHeader = document.getElementById('table-header')!;
-    tableHeader.innerHTML = `
-      <tr class="table-header__row">
-        <th class="user__number cell">№</th>
-        <th class="user__userpic cell">Ava</th>
-        <th class="user__name cell" data-sort="ASC">
-          Name
-          <div class="sort-btns-wpapper">
-            <button class="sort-btn"
-                    data-sort-property="name"
-                    data-sort-order="ASC"
-                    id="name-ASC">▲
-            </button>
-            <button class="sort-btn"
-                    data-sort-property="name"
-                    data-sort-order="DESC"
-                    id="name-DESC">▼
-            </button>
-          </div>
-        </th>
-        <th class="user__email cell" data-sort="">
-          E-mail
-          <div class="sort-btns-wpapper">
-            <button class="sort-btn"
-                    data-sort-property="email"
-                    data-sort-order="ASC"
-                    id="email-ASC">▲
-            </button>
-            <button class="sort-btn"
-                    data-sort-property="email"
-                    data-sort-order="DESC"
-                    id="email-DESC">▼
-            </button>
-          </div>
-        </th>
-        <th class="user__role cell" data-sort="">
-          Role
-          <div class="sort-btns-wpapper">
-            <button class="sort-btn"
-                    data-sort-property="role"
-                    data-sort-order="ASC"
-                    id="role-ASC">▲
-            </button>
-            <button class="sort-btn"
-                    data-sort-property="role"
-                    data-sort-order="DESC"
-                    id="role-DESC">▼
-            </button>
-          </div>
-        </th>
-        <th class="user__btns-header cell">Actions</th>
-      </tr>`;
+    tableHeader.innerHTML = `${templateUsersTableHeader}`;
     const activeSortOrder = document.getElementById(`${state.sortProperty}-${state.sortOrder}`)!;
     activeSortOrder.classList.toggle('sort-btn--active');
   }
@@ -89,17 +56,13 @@ class AdminPage {
     const viewState = tableBody.getAttribute('data-view');
     let groupUsers: IUser[] = [];
     if (viewState === 'default') {
-      const allUsers = Array.from((await api.users.getAllUsers()).data!);
       groupUsers = Array
         .from((await api.users
           .sort(state.sortProperty, state.sortOrder, state.currentTable!, 5))
           .data!);
-      state.limitTables = Math.ceil(allUsers.length / 5);
     }
     if (viewState === 'search') {
       const search = document.getElementById('search') as HTMLInputElement;
-      const allUsers = Array.from((await api.users.searchAll(search.value)).data!);
-      state.limitTables = Math.ceil(allUsers.length / 5);
       groupUsers = Array
         .from((await api.users
           .searchGroup(search.value, state.currentTable!, 5, state.sortProperty, state.sortOrder))
@@ -137,11 +100,43 @@ class AdminPage {
     }
   }
 
+  async renderLogsTable() {
+    this.renderLogsTableHeader();
+    this.renderLogsTableBody();
+  }
+
+  async renderLogsTableHeader() {
+    const tableLogsHeader = document.getElementById('table-logs-header')!;
+    tableLogsHeader.innerHTML = (templateLogsTableHeader);
+  }
+
+  async renderLogsTableBody() {
+    const serverLogs = (await api.statistics
+      .getLogsPage(state.currentLogTable, 5)).data! as IServerLogEntity[];
+    const tableLogsBody = document.getElementById('table-logs-body')!;
+    tableLogsBody.innerHTML = '';
+    if (serverLogs.length !== 0) {
+      serverLogs.forEach((log: IServerLogEntity, index: number) => {
+        tableLogsBody.innerHTML += `
+        <tr class="table-header__row log" id="${log.id}">
+          <td class="log__number cell">${(state.currentLogTable - 1) * 5 + index + 1}</td>
+          <td class="log__id cell">${log.id}</td>
+          <td class="log__date cell">${log.logDate}</td>
+          <td class="log__url cell">${log.url}</td>
+          <td class="log__method cell">${log.method}</td>
+          <td class="log__os cell">${log.os}</td>
+          <td class="log__browser cell">${log.browser}</td>
+        </tr>`;
+      });
+    }
+  }
+
   async headerAdminPageEventsHandler() {
     const search = document.getElementById('search') as HTMLInputElement;
     const currentPage = document.getElementById('current-page') as HTMLInputElement;
     const tableBody = document.getElementById('table-body')!;
     const createUserBtn = document.getElementById('create-user')!;
+    const showLogs = document.getElementById('show-logs')! as HTMLButtonElement;
     search.addEventListener('input', () => {
       const currentValue = search.value;
       state.currentTable! = 1;
@@ -159,6 +154,42 @@ class AdminPage {
       document.getElementById('submit')!.textContent! = 'CREATE';
       document.body.classList.add('overflow-hidden');
       console.log('state.currentPage', state.currentPage);
+    });
+    showLogs.addEventListener('click', () => {
+      const allUsersList = document.getElementById('all-users-list')!;
+      const allLogsList = document.getElementById('all-logs-list')!;
+      if (state.currentTableView === 'users') {
+        allUsersList.style.display = 'none';
+        allLogsList.style.display = 'flex';
+        showLogs.textContent = 'Users';
+        state.currentTableView = 'logs';
+        currentPage.value = String(state.currentLogTable);
+      } else if (state.currentTableView === 'logs') {
+        allUsersList.style.display = 'flex';
+        allLogsList.style.display = 'none';
+        showLogs.textContent = 'Logs';
+        state.currentTableView = 'users';
+        currentPage.value = String(state.currentTable);
+      }
+      console.log('showLogs =>');
+    });
+    currentPage.addEventListener('change', () => {
+      const currentValue = Number(currentPage.value);
+      if (state.currentTableView === 'users') {
+        if (currentValue > state.limitTables || currentValue < 1 || Number.isNaN(currentValue)) {
+          currentPage.value = String(state.limitTables);
+        } else {
+          state.currentTable = Number(currentPage.value);
+          this.renderTableBody();
+        }
+      } else if (state.currentTableView === 'logs') {
+        if (currentValue > state.limitLogTables || currentValue < 1 || Number.isNaN(currentValue)) {
+          currentPage.value = String(state.limitLogTables);
+        } else {
+          state.currentLogTable = Number(currentPage.value);
+          this.renderLogsTableBody();
+        }
+      }
     });
   }
 
@@ -181,21 +212,34 @@ class AdminPage {
   async paginationHandler() {
     const pagination = document.getElementById('pagination') as HTMLDivElement;
     const currentPage = document.getElementById('current-page') as HTMLInputElement;
-    currentPage.value = String(state.currentTable);
     pagination?.addEventListener('click', (event: Event) => {
       console.log('paginationHandler() => click');
       const target = event.target as HTMLButtonElement;
       console.log('target.id', target.id);
-      if (target.id === 'prev' && state.currentTable !== 1) {
-        state.currentTable = state.currentTable! - 1;
-        console.log('paginationHandler() => state.currentTable - 1', state.currentTable);
-        this.renderTableBody();
-      } else if (target.id === 'next' && state.currentTable !== state.limitTables) {
-        state.currentTable = state.currentTable! + 1;
-        console.log('paginationHandler() => state.currentTable + 1', state.currentTable);
-        this.renderTableBody();
+      if (state.currentTableView === 'users') {
+        currentPage.value = String(state.currentTable);
+        if (target.id === 'prev' && state.currentTable !== 1) {
+          state.currentTable = state.currentTable! - 1;
+          console.log('paginationHandler() => state.currentTable - 1', state.currentTable);
+          this.renderTableBody();
+        } else if (target.id === 'next' && state.currentTable !== state.limitTables) {
+          state.currentTable = state.currentTable! + 1;
+          console.log('paginationHandler() => state.currentTable + 1', state.currentTable);
+          this.renderTableBody();
+        }
+        currentPage.value = String(state.currentTable);
+      } else if (state.currentTableView === 'logs') {
+        currentPage.value = String(state.currentLogTable);
+        if (target.id === 'prev' && state.currentLogTable !== 1) {
+          state.currentLogTable = state.currentLogTable! - 1;
+          console.log('paginationHandler() => state.currentTable - 1', state.currentLogTable);
+          this.renderLogsTableBody();
+        } else if (target.id === 'next' && state.currentLogTable !== state.limitLogTables) {
+          state.currentLogTable = state.currentLogTable! + 1;
+          console.log('paginationHandler() => state.currentTable + 1', state.currentLogTable);
+          this.renderLogsTableBody();
+        }
       }
-      currentPage.value = String(state.currentTable);
     });
   }
 

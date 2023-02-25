@@ -1,7 +1,10 @@
 <main class="main" id="main">
   <section class="admin-page" id="admin-page">
     <div class="admin-page__header" id="board-page__header">
-      <button class="btn" id="create-user">+ User</button>
+      <div>
+        <button class="btn" id="create-user">User ✚</button>
+        <button class="btn" id="show-logs">Logs</button>
+      </div>
       <div class="pagination" id="pagination">
         <button class="btn btn-step" id="prev">❮❮</button>
         <input class="input-text pagination__current" type="text" value="" id="current-page">
@@ -13,6 +16,12 @@
       <table class="table">
         <thead class="table-header" id="table-header"></thead>
         <tbody class="table-body" id="table-body" data-view="default"></tbody>
+      </table>
+    </div>
+    <div class="all-logs-list" id="all-logs-list">
+      <table class="table">
+        <thead class="table-header" id="table-logs-header"></thead>
+        <tbody class="table-body" id="table-logs-body"></tbody>
       </table>
     </div>
   </section>
