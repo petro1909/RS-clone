@@ -13,3 +13,6 @@ import './app-imageLoader';
 import './app-calendar';
 import './app-date-picker';
 import './app-board-calendar';
+import './app-input-mark';
+import './app-marks';
+import './app-modal';

@@ -6,6 +6,8 @@ import api from '../../api';
 import apiService from '../../services/apiHandler';
 import convertTimeForDateInput from '../../utils/convertTimeForDateInput';
 import appEvent from '../../events';
+import createElement from '../../utils/createElement';
+import { isLight } from '../../utils/colorHelpers';
 
 class TaskForm extends HTMLElement {
   private task: ITask;
@@ -29,6 +31,7 @@ class TaskForm extends HTMLElement {
 
     if (this.hasAttribute('taskId')) {
       this.setValues();
+      this.renderTaskMarks();
     } else {
       this.connectDatePickers();
     }
@@ -198,6 +201,43 @@ class TaskForm extends HTMLElement {
         }
       };
     });
+  }
+
+  private async renderTaskMarks() {
+    const boardMarksWrapper = this.querySelector('#board-marks-modal') as HTMLDivElement;
+    const taskEditBtn = this.querySelector('#show-marks-edit') as HTMLButtonElement;
+    const taskId = this.getAttribute('taskId') as string;
+
+    taskEditBtn.onclick = (e) => {
+      e.preventDefault();
+      boardMarksWrapper.innerHTML = `
+        <app-modal>
+        <mark-list id="${taskId}"></mark-list>
+        </app-modal>
+    `;
+      const markList = boardMarksWrapper.querySelector('mark-list');
+      markList?.addEventListener('change', () => {
+        this.renderTaskMarksTags();
+      });
+    };
+    this.renderTaskMarksTags();
+  }
+
+  private async renderTaskMarksTags() {
+    const taskMarksWrapper = this.querySelector('.task-marks-wrapper') as HTMLDivElement;
+    taskMarksWrapper.innerHTML = '';
+    const taskId = this.getAttribute('taskId') as string;
+    const marks = await apiService.getTaskMarks(taskId);
+    marks.forEach((mark) => {
+      const tag = createElement('span', taskMarksWrapper, {
+        class: 'task-mark-tag',
+      }, `${mark.name}`) as HTMLSpanElement;
+      if (mark.color) {
+        tag.style.backgroundColor = mark.color;
+        tag.style.color = isLight(mark.color) ? '#000' : '#fff';
+      }
+    });
+    console.log(taskMarksWrapper, 'MARKS', marks);
   }
 }
 

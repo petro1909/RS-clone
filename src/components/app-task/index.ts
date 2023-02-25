@@ -2,6 +2,7 @@ import createElement from '../../utils/createElement';
 import template from './template.html';
 import menuTemplate from './menu-template.html';
 import api from '../../api';
+import apiService from '../../services/apiHandler';
 
 class AppTask extends HTMLElement {
   connectedCallback() {
@@ -20,6 +21,22 @@ class AppTask extends HTMLElement {
     const taskName = this.getAttribute('taskName') as string;
     const contentWrapper = this.querySelector('#task-content') as HTMLDivElement;
     contentWrapper.innerHTML = `${taskName}`;
+    this.renderTaskMarks();
+  }
+
+  private async renderTaskMarks() {
+    const marksWrapper = this.querySelector('#task-marks-labels') as HTMLDivElement;
+    marksWrapper.innerHTML = '';
+    const taskId = this.getAttribute('taskId') as string;
+    const marks = await apiService.getTaskMarks(taskId);
+    marks.forEach((mark) => {
+      const tag = createElement('span', marksWrapper, {
+        class: 'task-mark-label',
+      }, '  ') as HTMLSpanElement;
+      if (mark.color) {
+        tag.style.backgroundColor = mark.color;
+      }
+    });
   }
 
   private setMenu(taskId: string) {

@@ -16,6 +16,7 @@ const setStateUser = async (user: IUser, token: string) => {
   state.token = token;
 
   if (user.profilePicture) {
+    // state.user.profilePicture = user.profilePicture;
     const avatarRes = await api.users.getAvatar(user.id);
     if (avatarRes.data) {
       state.user.profilePicture = avatarRes.data.profilePicture;

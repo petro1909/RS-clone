@@ -31,14 +31,15 @@ const sortUsers = async (
 
 const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`${ENDPOINT}/register`, 'POST', JSON.stringify(registerUser));
 
-const updateUser = async (user: IUser) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
+const updateUser = async (user: Omit<IUser, 'profilePicture'>) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
 
 const deleteUser = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const getAvatar = async (id: string) => {
   const res = await baseFetch<{ profilePicture: string }>(`${ENDPOINT}/${id}/profilePicture`, 'GET');
   if (res.success && res.data) {
-    res.data.profilePicture = `${settings.SERVER}${res.data.profilePicture}`;
+    console.log('AVA', res);
+    res.data.profilePicture = `${settings.SERVER}${res.data.profilePicture}`; // `${res.data.profilePicture}`;
   }
   return res;
 };

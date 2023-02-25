@@ -60,13 +60,23 @@
   list-style: none;
 
   &__item {
-      width: 100%;
+    width: 100%;
   }
 
   &__btn {
-      width: 100%;
-      font-size: 1rem;
-      text-align: left;
+    width: 100%;
+    font-size: 1rem;
+    text-align: left;
   }
 
+}
+
+#task-marks-labels {
+  display: flex;
+  height: 5px;
+}
+
+.task-mark-label {
+  width: 15px;
+  height: 3px;
 }
