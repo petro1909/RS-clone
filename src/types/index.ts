@@ -108,3 +108,12 @@ export interface ITaskMark {
   taskId: string,
   boardMarkId: string
 }
+
+export interface IServerLogEntity {
+  id: string,
+  logDate: Date,
+  url: string,
+  method: string,
+  os: string,
+  browser: string,
+}
