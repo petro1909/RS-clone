@@ -33,6 +33,8 @@ const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`
 
 const updateUser = async (user: Omit<IUser, 'profilePicture'>) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
 
+const updateUserPass = async (id: string, password: string) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify({ id, password }));
+
 const deleteUser = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const getAvatar = async (id: string) => {
@@ -63,6 +65,7 @@ const users = {
   getById,
   create,
   update: updateUser,
+  updateUserPass,
   delete: deleteUser,
   getAvatar,
   uploadAvatar,
