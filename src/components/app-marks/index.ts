@@ -4,7 +4,12 @@ import { IBoardMark, ITaskMark } from '../../types';
 
 class MarkList extends HTMLElement {
   connectedCallback() {
+    this.classList.add('mark-list');
     this.render();
+  }
+
+  disconnectedCallback() {
+    this.dispatchEvent(new Event('change'));
   }
 
   private render() {
@@ -27,10 +32,14 @@ class MarkList extends HTMLElement {
     marks.forEach((mark) => {
       marksWrapper.innerHTML += `
       <li class="board-mark__item">
-        <input type="checkbox" value="${mark.id}"></input>
+      <div class="custom__checkbox">
+        <input class="default__check" type="checkbox" value="${mark.id}" id="ch-${mark.id}">
+        <label for="ch-${mark.id}" class="custom__check"></label>
+      </div>
+        
         <input-mark mode="show" id="${mark.id}" color="${mark.color}" name="${mark.name}"></input-mark>
       </li>
-      `;
+      `; // <input type="checkbox" value="${mark.id}"></input>
     });
 
     const marksCheckBxs = marksWrapper.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
@@ -52,7 +61,9 @@ class MarkList extends HTMLElement {
 
     const markInputs = this.querySelectorAll('input-mark') as NodeListOf<HTMLInputElement>;
     markInputs.forEach((markInput) => {
-      markInput.addEventListener('send', this.render.bind(this));
+      markInput.addEventListener('send', () => {
+        this.render();
+      });
     });
   }
 

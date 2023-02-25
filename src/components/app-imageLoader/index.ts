@@ -122,7 +122,7 @@ class ImageLoader extends HTMLElement {
     const apiRes = await api.users.uploadAvatar(userId, formData);
     if (apiRes.success) {
       const avatarRes = await api.users.getAvatar(userId);
-      console.log(avatarRes);
+      console.log('avatarRes', avatarRes);
       if (avatarRes.data) {
         return avatarRes.data.profilePicture;
       }

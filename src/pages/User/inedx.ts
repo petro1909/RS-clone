@@ -81,7 +81,12 @@ class UserPage {
   }
 
   private async updateUser(user: IUser) {
-    const apiRes = await api.users.update(user);
+    const apiRes = await api.users.update({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
     if (apiRes.success) {
       this.render();
     }

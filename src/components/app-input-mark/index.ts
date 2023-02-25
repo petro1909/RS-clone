@@ -18,6 +18,7 @@ class InputMark extends HTMLElement {
   }
 
   connectedCallback() {
+    this.classList.add('input-mark');
     // this.renderInputs();
     if (this.getAttribute('mode') === 'show') {
       this.setValues();
@@ -61,6 +62,7 @@ class InputMark extends HTMLElement {
     const nameInput = createElement('input', this, {
       class: 'input-mark__name-input',
       type: 'text',
+      disabled: 'true',
       value: this.name,
     }) as HTMLInputElement;
     const editButton = createElement('button', this, {
@@ -74,10 +76,12 @@ class InputMark extends HTMLElement {
       nameInput.style.backgroundColor = this.color;
       nameInput.style.color = isLight(this.color) ? '#000' : '#fff';
     }
-    editButton.onclick = () => {
+    editButton.onclick = (e) => {
+      e.preventDefault();
       this.renderEditMode();
     };
-    removeButton.onclick = () => {
+    removeButton.onclick = (e) => {
+      e.preventDefault();
       this.removeMark();
     };
   }
@@ -101,6 +105,7 @@ class InputMark extends HTMLElement {
     }, '❌') as HTMLButtonElement;
 
     if (this.color) {
+      colorInput.value = this.color;
       nameInput.style.backgroundColor = this.color;
       nameInput.style.color = isLight(this.color) ? '#000' : '#fff';
     }
@@ -110,12 +115,14 @@ class InputMark extends HTMLElement {
       nameInput.style.color = isLight(colorInput.value) ? '#000' : '#fff';
     };
 
-    submitButton.onclick = () => {
+    submitButton.onclick = (e) => {
+      e.preventDefault();
       this.sendMark(nameInput.value, colorInput.value);
       nameInput.value = 'Uploading';
     };
 
-    removeButton.onclick = () => {
+    removeButton.onclick = (e) => {
+      e.preventDefault();
       if (this.prevMode === 'add') {
         this.renderAddMode();
       } else {
@@ -124,51 +131,51 @@ class InputMark extends HTMLElement {
     };
   }
 
-  renderInputs() {
-    const mainButton = createElement('button', this, {
-      class: 'input-mark__main-btn',
-    }, 'Add mark ✚') as HTMLButtonElement;
+  // renderInputs() {
+  //   const mainButton = createElement('button', this, {
+  //     class: 'input-mark__main-btn',
+  //   }, 'Add mark ✚') as HTMLButtonElement;
 
-    const inputsWrapper = createElement('div', this, {
-      class: 'input-mark__inputs-wrapper',
-    }) as HTMLInputElement;
-    const nameInput = createElement('input', inputsWrapper, {
-      class: 'input-mark__name-input',
-      type: 'text',
-    }) as HTMLInputElement;
-    const colorInput = createElement('input', inputsWrapper, {
-      class: 'input-mark__color-input',
-      type: 'color',
-    }) as HTMLInputElement;
-    const submitButton = createElement('button', inputsWrapper, {
-      class: 'input-mark__submit_btn',
-    }, '☑') as HTMLButtonElement;
-    const removeButton = createElement('button', inputsWrapper, {
-      class: 'input-mark__delete_btn',
-    }, '❌') as HTMLButtonElement;
+  //   const inputsWrapper = createElement('div', this, {
+  //     class: 'input-mark__inputs-wrapper',
+  //   }) as HTMLInputElement;
+  //   const nameInput = createElement('input', inputsWrapper, {
+  //     class: 'input-mark__name-input',
+  //     type: 'text',
+  //   }) as HTMLInputElement;
+  //   const colorInput = createElement('input', inputsWrapper, {
+  //     class: 'input-mark__color-input',
+  //     type: 'color',
+  //   }) as HTMLInputElement;
+  //   const submitButton = createElement('button', inputsWrapper, {
+  //     class: 'input-mark__submit_btn',
+  //   }, '☑') as HTMLButtonElement;
+  //   const removeButton = createElement('button', inputsWrapper, {
+  //     class: 'input-mark__delete_btn',
+  //   }, '❌') as HTMLButtonElement;
 
-    inputsWrapper.style.display = 'none';
+  //   inputsWrapper.style.display = 'none';
 
-    mainButton.onclick = () => {
-      mainButton.style.display = 'none';
-      inputsWrapper.style.display = 'flex';
-    };
+  //   mainButton.onclick = () => {
+  //     mainButton.style.display = 'none';
+  //     inputsWrapper.style.display = 'flex';
+  //   };
 
-    colorInput.oninput = () => {
-      nameInput.style.backgroundColor = colorInput.value;
-      nameInput.style.color = isLight(colorInput.value) ? '#000' : '#fff';
-    };
+  //   colorInput.oninput = () => {
+  //     nameInput.style.backgroundColor = colorInput.value;
+  //     nameInput.style.color = isLight(colorInput.value) ? '#000' : '#fff';
+  //   };
 
-    submitButton.onclick = () => {
-      this.sendMark(nameInput.value, colorInput.value);
-      nameInput.value = 'Uploading';
-    };
+  //   submitButton.onclick = () => {
+  //     this.sendMark(nameInput.value, colorInput.value);
+  //     nameInput.value = 'Uploading';
+  //   };
 
-    removeButton.onclick = () => {
-      mainButton.style.display = 'flex';
-      inputsWrapper.style.display = 'none';
-    };
-  }
+  //   removeButton.onclick = () => {
+  //     mainButton.style.display = 'flex';
+  //     inputsWrapper.style.display = 'none';
+  //   };
+  // }
 
   private async sendMark(name: string, color: string) {
     console.log('mark', name, color, state.activeBoardId);

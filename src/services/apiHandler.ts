@@ -2,7 +2,8 @@ import api from '../api';
 import state from '../store/state';
 // import state from '../store/state';
 import {
-  IBoardUser, IStatus, ITask, IUser,
+  IBoardMark,
+  IBoardUser, IStatus, ITask, ITaskMark, IUser,
 } from '../types';
 
 const getUserWithAvatarURL = async (userIncorrectAvatar: IUser) => {
@@ -60,7 +61,6 @@ const deleteStatus = async (id: string) => {
 
 const addTask = async (newTask: ITask) => {
   const tasks = (await api.tasks.getByStatus(newTask.statusId)).data as ITask[];
-  console.log('NEWTASK', newTask);
   const order = tasks.length
     ? Math.max(...tasks.map((task) => +task.order)) + 1 : 1;
   const result = await api.tasks.create(Object.assign(newTask, { order }));
@@ -76,6 +76,13 @@ const getTasksByDeadline = async () => {
     .filter((task) => task?.endDate);
 
   return tasks;
+};
+
+const getTaskMarks = async (taskId: string) => {
+  const taskMarks = (await api.taskMarks.getByTask(taskId)).data as ITaskMark[];
+  const boardMarks = taskMarks.map((taskMark) => api.boardMarks.getById(taskMark.boardMarkId));
+  const marks = (await Promise.all(boardMarks)).map((boardMark) => boardMark.data) as IBoardMark[];
+  return marks;
 };
 
 // const getUserBoards = async () => {
@@ -132,6 +139,7 @@ const apiService = {
   deleteStatus,
   addTask,
   getTasksByDeadline,
+  getTaskMarks,
 };
 
 export default apiService;
