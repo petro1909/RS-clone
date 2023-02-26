@@ -8,7 +8,8 @@ class MainPage {
     document.body.innerHTML = `
       <app-header></app-header>
       ${template}
-      <app-footer></app-footer>`;
+      <app-footer></app-footer>
+      <snack-bar></snack-bar>`;
     this.renderScroll3D();
   }
 

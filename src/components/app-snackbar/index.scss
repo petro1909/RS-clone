@@ -3,11 +3,13 @@
   bottom: 10px;
   right: 10px;
   width: 280px;
+  z-index: 25000;
 }
 
 .message {
   position: relative;
   right: 0;
+  z-index: 20001;
   bottom: -1000px;
   border: 1px solid black;
   padding: 5px 10px;

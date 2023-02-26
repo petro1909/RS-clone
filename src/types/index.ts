@@ -126,7 +126,6 @@ export interface ITaskMark {
   boardMarkId: string
 }
 
-
 export interface ITaskAttach {
   id: string,
   name: string,
