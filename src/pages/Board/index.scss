@@ -5,6 +5,8 @@
   background-position: center;
 
   &__header {
+    position: relative;
+    z-index: 2000;
     height: $header-height;
     width: 100%;
     padding: 0.25rem 1rem;
@@ -21,6 +23,7 @@
 
 .board {
   position: relative;
+  z-index: 1000;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
