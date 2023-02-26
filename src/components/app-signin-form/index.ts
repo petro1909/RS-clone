@@ -27,6 +27,7 @@ class AppSigninForm extends HTMLElement {
     popupPage.onclick = (event) => {
       const eventTarget = event.target as HTMLDivElement;
       if (eventTarget?.classList.contains('popup-page')) {
+        document.body.classList.remove('overflow-hidden');
         this.remove();
       }
     };
