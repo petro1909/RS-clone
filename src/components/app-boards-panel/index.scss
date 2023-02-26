@@ -58,7 +58,14 @@
 
 }
 
+.no-projects-message {
+  padding-left: 2rem;
+  @include set-font($font-family-base, map-get($font-size, xl));
+  color: var(--color-font-regular);
+}
+
 .board-menu-list {
+  max-height: calc(100vh - $header-height * 2 - 50px);
   padding: 0;
   margin: 0;
   list-style: none;

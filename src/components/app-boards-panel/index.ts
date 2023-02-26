@@ -122,14 +122,16 @@ class AppBoardsPanel extends HTMLElement {
   private async renderBoard(parent: HTMLDivElement, board: IBoard | undefined): Promise<void> {
     const wrapper = parent;
     if (!board) {
-      wrapper.innerHTML = '<div class="board-page__header board-header" id="board-page__header"><h3>you don\'t have any projects yet</h3></div>';
+      wrapper.innerHTML = `
+        <div class="board-page__header board-header" id="board-page__header">
+          <h3 class="no-projects-message">You don\'t have any projects yet</h3>
+        </div>`;
       return;
     }
     wrapper.innerHTML = `
         <div class="board-page__header board-header" id="board-page__header">
         <input class="board-header__title input-text" id="board-header__title" type="" value="${board.name}">
         <div class="board-header__menu">
-          
           <div id="select-user"></div>
           <button class="btn" id="add-select-user">+User</button>
           <ul class="board-users" id="board-users">
