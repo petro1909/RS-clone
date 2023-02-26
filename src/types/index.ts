@@ -122,3 +122,11 @@ export interface ITaskMark {
   taskId: string,
   boardMarkId: string
 }
+
+export interface ITaskAttach {
+  id: string,
+  name: string,
+  path: string,
+  taskId: string,
+  type: string,
+}

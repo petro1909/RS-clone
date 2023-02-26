@@ -102,19 +102,6 @@ class ImageLoader extends HTMLElement {
     }
   }
 
-  // private setImage(url: string) {
-  //   const imageWrapper = this.querySelector('#gallery') as HTMLDivElement;
-  //   const image = new Image();
-  //   image.src = url;
-  //   image.onload = () => {
-  //     console.log('IMAGE', image);
-  //     imageWrapper.style.backgroundImage = `url(${image.src})`;
-  //   };
-  //   image.onerror = (error) => {
-  //     console.log(error);
-  //   };
-  // }
-
   private async sendFile(file: File) {
     const formData = new FormData();
     formData.append('profile', file);

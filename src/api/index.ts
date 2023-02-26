@@ -8,6 +8,7 @@ import admin from './admin';
 import boardMarks from './boardMarks';
 import taskMarks from './taskMarks';
 import taskUsers from './taskUsers';
+import files from './taskAttachs';
 
 const api = {
   auth,
@@ -20,6 +21,7 @@ const api = {
   boardMarks,
   taskMarks,
   taskUsers,
+  files,
 };
 
 export default api;
