@@ -249,10 +249,13 @@ class AppBoard extends HTMLElement {
         const dropZone = this.board.querySelector('#drop-zone');
         const emptyZone = this.board.querySelector('#empty-zone');
         if (dropZone) {
-          this.dragged!.style.position = 'static';
+          this.dragged!.style.position = 'relative';
           dropZone.replaceWith(this.dragged!);
           this.saveMovedTasks(this.dragged!);
           this.dragged!.style.zIndex = '';
+          this.dragged!.style.left = '';
+          this.dragged!.style.top = '';
+          this.dragged!.style.display = '';
           this.dragged!.classList.remove('selected');
           document.onmouseup = null;
           this.currentDropZone = null;
@@ -261,10 +264,13 @@ class AppBoard extends HTMLElement {
           this.dragged = null;
         }
         if (emptyZone) {
-          this.dragged!.style.position = 'static';
+          this.dragged!.style.position = 'relative';
           emptyZone.replaceWith(this.dragged!);
           this.saveMovedTasks(this.dragged!);
           this.dragged!.style.zIndex = '';
+          this.dragged!.style.left = '';
+          this.dragged!.style.top = '';
+          this.dragged!.style.display = '';
           this.dragged!.classList.remove('selected');
           document.onmouseup = null;
           document.onmousemove = null;

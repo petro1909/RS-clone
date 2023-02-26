@@ -28,7 +28,10 @@ class AppStatus extends HTMLElement {
         taskId: `${task.id}`,
         taskName: `${task.name}`,
         taskOrder: `${task.order}`,
+        taskDesc: `${task.description === null ? '' : task.description}`,
       }) as HTMLDivElement;
+      // const taskContent = appTask.querySelector('.task__description');
+      // taskContent!.innerHTML = task.description === undefined ? '' : task.description;
     });
   }
 
