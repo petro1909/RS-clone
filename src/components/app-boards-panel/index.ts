@@ -124,7 +124,7 @@ class AppBoardsPanel extends HTMLElement {
     if (!board) {
       wrapper.innerHTML = `
         <div class="board-page__header board-header" id="board-page__header">
-          <h3 class="no-projects-message">You don\'t have any projects yet</h3>
+          <h3 class="no-projects-message">You don't have any projects yet</h3>
         </div>`;
       return;
     }

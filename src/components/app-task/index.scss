@@ -77,6 +77,14 @@
 
 }
 
+.symbols-wrapper {
+  color: var(--color-font-regular);
+}
+
+.svg {
+  --color: var(--color-font-regular);
+}
+
 #task-marks-labels {
   display: flex;
   justify-content: end;

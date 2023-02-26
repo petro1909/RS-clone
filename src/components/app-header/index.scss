@@ -50,6 +50,7 @@
     cursor: pointer;
     outline: none;
     outline: 1px solid var(--color-primary-hover);
+    transition: all $delay * 1 ease;
 
     &:hover {
       outline: 3px solid var(--color-primary-hover);
