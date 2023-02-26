@@ -42,7 +42,7 @@ class AppHeader extends HTMLElement {
       this.createShowBoardsBtn(parent);
     }
 
-    if (state.currentPage === 'User' || state.currentPage === 'Admin') {
+    if (state.currentPage === 'User' || state.currentPage === 'Admin' || state.currentPage === 'Main') {
       this.createBackToBoardsBtn(parent);
     }
 

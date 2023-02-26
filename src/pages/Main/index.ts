@@ -1,10 +1,13 @@
 import template from './template.html';
+import state from '../../store/state';
 
 class MainPage {
   render(): void {
     console.log('render() MainPage');
+    state.currentPage = 'Main';
     document.title = 'Main Page';
     document.body.classList.add('body-scrollbar--invisible');
+    document.body.classList.remove('overflow-hidden');
     document.body.innerHTML = `
       <app-header></app-header>
       ${template}
