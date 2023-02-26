@@ -55,14 +55,14 @@
 	text-transform: uppercase;
 	width: min-content;
 	line-height: 1;
-	color: var(--color-font-regular-light);
+	color: var(--color-font-regular);
 	text-shadow: 0 0 1px var(--color-font-regular-black), 0 0 3px var(--color-font-regular-black);
 }
 
 .frame_h1 {
 	text-align: center;
 	font-size: calc(var(--index) * 3.3);
-	color: var(--color-font-regular-light);
+	color: var(--color-font-regular);
 	text-shadow: 0 0 1px var(--color-font-regular-black), 0 0 3px var(--color-font-regular-black);
 }
 
@@ -73,6 +73,7 @@
 .frame__text {
 	max-width: 30vw;
 	margin-top: 3vh;
+	color: var(--color-font-regular);
 }
 
 .frame-media {
@@ -131,6 +132,10 @@ video.frame-media_left {
     width: calc(var(--index) * var(--side-big));
 	  height: calc(var(--index) * var(--side-small));
   }
+}
+
+.white-frame{
+	color: hsl(0, 0%, 100%);
 }
 
 .last-frame {

@@ -28,7 +28,7 @@
     height: 24px;
     padding: 0.25rem;
     @include set-font($font-family-base, map-get($font-size, l), 1);
-    color: var(--color-font-regular-light);
+    color: var(--color-font-regular);
     outline: 1px solid transparent;
 
     &:hover {

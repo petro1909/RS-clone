@@ -64,6 +64,14 @@
 
 }
 
+.user-profile-name {
+  font-family: $font-family-base;
+}
+
+.user-profile-role {
+  font-family: $font-family-base;
+}
+
 .burger-menu {
   display: none;
   @include square-view(36px);
