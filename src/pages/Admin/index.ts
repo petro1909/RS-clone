@@ -17,7 +17,6 @@ class AdminPage {
     ${template}`;
     this.setLastPages();
     this.paginationHandler();
-    this.headerAdminPageEventsHandler();
   }
 
   private async setLastPages() {
@@ -44,8 +43,8 @@ class AdminPage {
       </table>`;
     await this.renderTableHeader();
     await this.renderTableBody();
+    this.headerAdminPageEventsHandler();
     this.tableEventsHandler();
-    this.tableHeaderEventsHandler();
   }
 
   private async renderTableHeader() {
@@ -54,6 +53,7 @@ class AdminPage {
     tableHeader.innerHTML = `${templateUsersTableHeader}`;
     const activeSortOrder = document.getElementById(`${state.sortProperty}-${state.sortOrder}`)!;
     activeSortOrder.classList.toggle('sort-btn--active');
+    this.tableHeaderEventsHandler();
   }
 
   private async renderTableBody() {
@@ -237,6 +237,7 @@ class AdminPage {
   private tableHeaderEventsHandler() {
     const tableHeader = document.getElementById('table-header')!;
     tableHeader.addEventListener('click', (event) => {
+      console.log('tableHeaderEventsHandler() click');
       const sortButton = event.target as HTMLButtonElement;
       const sortParameter = sortButton.getAttribute('data-sort-property');
       const sortOrder = sortButton.getAttribute('data-sort-order');
@@ -246,6 +247,7 @@ class AdminPage {
       sortButton.classList.toggle('sort-btn--active');
       state.sortProperty = sortParameter!;
       state.sortOrder = sortOrder!;
+      this.renderTableBody();
     });
   }
 
