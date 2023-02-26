@@ -19,8 +19,8 @@
   };
 }
 
-.table {
-  min-width: 640px;
+.table-users {
+  min-width: 645px;
 }
 
 .btns-wrapper {
@@ -72,7 +72,7 @@
 }
 
 .pagination__current {
-  width: 28px;
+  width: 40px;
   height: 28px;
   padding: 0;
   font-size: 16px;
@@ -154,34 +154,51 @@
   color: var(--color-font-regular);
 }
 
-.user__number {
-  width: 50px;
-}
+.user {
 
-.user__userpic {
-  width: 50px;
-}
+  &__number {
+    width: 50px;
+  }
 
-.user-profile-image {
-  display: block;
-  width: 36px;
-  height: 36px;
-  margin: auto;
-  border-radius: 50%;
-}
+  &__userpic {
+    width: 50px;
+  }
 
-.user__name {
-  width: 100px;
-}
+  &-profile-image {
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin: auto;
+    border-radius: 50%;
+  }
 
-.user__email {
-  width: 200px;
-}
+  &__name {
+    width: 100px;
+  }
 
-.user__role {
-  width: 90px;
-  text-align: center;
-  color: var(--color-font-regular);
+  &__email {
+    width: 200px;
+  }
+
+  &__role {
+    width: 90px;
+    text-align: center;
+    color: var(--color-font-regular);
+  }
+
+  &__btns {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    width: 145px;
+  }
+
+  &__btns-header{
+    align-items: center;
+    width: 145px;
+  }
+
 }
 
 .role {
@@ -192,22 +209,84 @@
   color: var(--color-font-regular);
 }
 
-.user__btns {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 120px;
-}
-
-.user__btns-header{
-  align-items: center;
-  width: 120px;
-}
-
 .btn-delete {
   @include square-view(27px);
   padding: 6px;
   line-height: 100%;
   text-align: center;
   color: var(--color-danger);
+}
+
+.all-logs-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - $header-height * 2);
+  padding: 1rem;
+  @include _768{
+    overflow-y: auto;
+    align-items: flex-start;
+  };
+}
+
+.table-logs {
+  min-width: 970px;
+}
+
+.log {
+
+  &__number {
+    width: 50px;
+  }
+
+  &__id {
+    width: 180px;
+  }
+
+  &__date {
+    width: 180px;
+  }
+
+  &__url {
+    width: 340px;
+    word-wrap: normal;
+  }
+
+  &__method {
+    width: 50px;
+  }
+
+  &__os {
+    width: 50px;
+  }
+
+  &__browser {
+    width: 50px;
+  }
+
+  &__btns {
+    width: 50px;
+  }
+
+}
+
+.user-role {
+  background-color: transparent;
+  color: var(--color-font-regular);
+  border-radius: $border-radius-small-element;
+  border: 1px solid var(--color-border-element);
+  cursor: pointer;
+
+  &:focus {
+    border: none;
+    outline: none;
+    border-radius: $border-radius-small-element;
+    border: 1px solid var(--color-border-element);
+  }
+}
+
+.option {
+  background-color: var(--color-background-secondary);
+  color: var(--color-font-regular);
 }

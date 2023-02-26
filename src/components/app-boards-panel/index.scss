@@ -50,7 +50,7 @@
   }
 
   &__list {
-    height: calc(100vh - $header-height * 2 - 175px);
+    height: calc(100vh - $header-height * 2 - 445px);
     border-radius: $border-radius-big-element;
     background-color: var(--color-background-primary);
     outline: 1px solid var(--color-border-element);
