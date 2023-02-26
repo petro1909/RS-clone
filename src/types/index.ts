@@ -45,7 +45,7 @@ export interface IState {
   sortProperty: string,
   sortOrder: string,
   activeBoardId: string,
-  activeBoardUsers: IUser[],
+  activeBoardUsers: IActiveBoardUser[],
   token: string,
   statuses: IStatus[],
 }
@@ -83,6 +83,20 @@ export interface IBoardUser {
   boardId: string,
   userId: string,
   role: string,
+}
+
+export interface IActiveBoardUser {
+  id: string,
+  boardId: string,
+  userId: string,
+  role: string,
+  user: IUser,
+}
+
+export interface ITaskUser {
+  id: string,
+  taskId: string,
+  boardUserId: string,
 }
 
 export interface IRegisterUser {

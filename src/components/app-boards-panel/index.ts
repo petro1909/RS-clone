@@ -1,6 +1,6 @@
 import api from '../../api';
 import state from '../../store/state';
-import { IBoard, IUser } from '../../types';
+import { IActiveBoardUser, IBoard } from '../../types';
 import createElement from '../../utils/createElement';
 import apiService from '../../services/apiHandler';
 import boardsMenutemplate from './boards-menu-template.html';
@@ -30,7 +30,6 @@ class AppBoardsPanel extends HTMLElement {
 
   connectedCallback() {
     this.renderBoardsMenu();
-    console.log('board added');
   }
 
   private async renderBoardsMenu(): Promise<void> {
@@ -101,50 +100,10 @@ class AppBoardsPanel extends HTMLElement {
     return boardsData.data;
   }
 
-  // private showAddBoardForm(parentElement: HTMLElement): void {
-  //   const boardNameInput = createElement('input', parentElement, {
-  //     class: 'input-text',
-  //     type: 'text',
-  //   }) as HTMLInputElement;
-  //   const boardCreateButton = createElement('button', parentElement, {
-  //     class: 'add-board-button',
-  //   }, 'create board') as HTMLButtonElement;
-
-  //   boardCreateButton.onclick = () => {
-  //     this.addNewBoard(boardNameInput.value);
-  //   };
-  // }
-
-  // private showRenameBoardForm(parentElement: HTMLElement, board: IBoard): void {
-  //   const wrapper = parentElement;
-  //   const boardNameInput = createElement('input', wrapper, {
-  //     class: 'rename-board-input',
-  //     type: 'text',
-  //     value: board.name,
-  //   }) as HTMLInputElement;
-  //   const submitButton = createElement('button', wrapper, {
-  //     class: 'rename-board-button',
-  //     type: 'text',
-  //   }, 'rename board') as HTMLButtonElement;
-
-  //   submitButton.onclick = () => {
-  //     this.updateBoard({ id: board.id, name: boardNameInput.value });
-  //   };
-
-  //   const clickHandler = (e: Event) => {
-  //     // const targetList = e.composedPath()[0] as HTMLElement;
-  //     if (!e.composedPath().includes(wrapper)) {
-  //       wrapper.innerHTML = `<h2>${board.name}</h2>`;
-  //     }
-  //   };
-  //   document.addEventListener('click', clickHandler);
-  // }
-
   private async updateBoard(board: IBoard): Promise<void> {
     const result = await api.boards.update(board);
 
     if (result.success) {
-      // TODO: replace render only board ???
       this.renderBoardsMenu();
     }
   }
@@ -170,7 +129,8 @@ class AppBoardsPanel extends HTMLElement {
         <div class="board-page__header board-header" id="board-page__header">
         <input class="board-header__title input-text" id="board-header__title" type="" value="${board.name}">
         <div class="board-header__menu">
-          <select class="select-user" id="select-user"></select>
+          
+          <div id="select-user"></div>
           <button class="btn" id="add-select-user">+User</button>
           <ul class="board-users" id="board-users">
           </ul>
@@ -184,6 +144,7 @@ class AppBoardsPanel extends HTMLElement {
     menuWrapper.insertAdjacentHTML('afterbegin', boardMenuTemplate);
     const nameInput = wrapper.querySelector('#board-header__title') as HTMLInputElement;
     const deleteBoardButton = wrapper.querySelector('#board-menu-list__item-delete') as HTMLButtonElement;
+    const leaveBoardButton = wrapper.querySelector('#board-menu-list__item-leave') as HTMLButtonElement;
     const boardMenuBtn = wrapper.querySelector('#board-menu-button') as HTMLButtonElement;
     const closeMenuBtn = wrapper.querySelector('#board-menu-close-btn') as HTMLButtonElement;
     const addStatusBoardWrapper = wrapper.querySelector('#board-menu-list__item-add-status') as HTMLLIElement;
@@ -200,14 +161,18 @@ class AppBoardsPanel extends HTMLElement {
         nameInput.value = board.name;
       }
     };
-    // this.setCalendar();
-    // (boardNameWrapper.children[0] as HTMLElement).onclick = () => {
-    //   boardNameWrapper.innerHTML = '';
-    //   this.showRenameBoardForm(boardNameWrapper, board);
-    // };
+
     addSelectUser.onclick = () => {
-      console.log('click select-user value', selectUser.value);
-      // TODO make API request for adding user to board after that call this.renderBoardUsers();
+      selectUser.innerHTML = `
+        <app-modal>
+          <userboard-select id="${board.id}"></userboard-select>
+        </app-modal>
+      `;
+      const userSelector = selectUser.querySelector('userboard-select') as HTMLInputElement;
+      userSelector.addEventListener('update', () => {
+        boardUsersWrapper.innerHTML = '';
+        this.renderBoardUsers(boardUsersWrapper);
+      });
     };
     boardMenuBtn.onclick = () => {
       menuWrapper.classList.add('board-menu--visible');
@@ -218,47 +183,28 @@ class AppBoardsPanel extends HTMLElement {
     deleteBoardButton.onclick = () => {
       this.removeBoard();
     };
-  }
-
-  private async renderSelectUsers() {
-    const allUsers = Array.from((await api.users.getAllUsers()).data!);
-    const selectUser = document.querySelector('#select-user') as HTMLInputElement;
-    const users = Array.from(document.querySelectorAll('.board-users__user'));
-    selectUser.innerHTML = '<option> </option>';
-    allUsers?.forEach((user) => {
-      users.find((item) => {
-        if (!(item.getAttribute('id') === user.id)) {
-          selectUser.innerHTML += `<option id="${user.id}" value="${user.id}">${user.name}</option>`;
-          console.log('NOT MATCH');
-        }
-        return item;
-      });
-    });
+    leaveBoardButton.onclick = () => {
+      this.leaveBoard();
+    };
   }
 
   private async renderBoardUsers(wrapper: HTMLUListElement) {
-    // const boardUsersData = await api.boardUsers.getBoardUsers(state.activeBoardId);
-    // const boardUsers = boardUsersData.data as IBoardUser[];
-    // const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
-    // const usersData = (await Promise.all(users)).map((user) => user.data);
-    const usersData = await apiService.getBoardUsers(state.activeBoardId) as IUser[];
+    const usersData = await apiService.getBoardUsers(state.activeBoardId) as IActiveBoardUser[];
     state.activeBoardUsers = usersData;
-    // render
     usersData.forEach((user) => {
       const userElement = createElement('li', wrapper, {
         class: 'board-users__user',
-        id: `${user?.id}`,
+        id: `${user?.user.id}`,
       }, `
         <div class="board-users__user-details">
-          <p>${user?.name || 'NoName'}</>
-          <p>${user?.email}</>
+          <p>${user?.user.name || 'NoName'}</>
+          <p>${user?.user.email}</>
         </div>
       `) as HTMLLIElement;
-      if (user.profilePicture) {
-        userElement.style.backgroundImage = `url(${user.profilePicture})`;
+      if (user.user.profilePicture) {
+        userElement.style.backgroundImage = `url(${user.user.profilePicture})`;
       }
     });
-    await this.renderSelectUsers();
   }
 
   private renderAddStatusButton(parent: HTMLLIElement) {
@@ -282,56 +228,13 @@ class AppBoardsPanel extends HTMLElement {
     this.renderBoardsMenu();
   }
 
-  // private setCalendar() {
-  //   const calendar = this.querySelector('#calendar-tasks') as HTMLInputElement;
-  //   this.setDeadLineTasks();
-  //   calendar.addEventListener('change', this.setDeadLineTasks.bind(this));
-  //   window.addEventListener('task-update', this.setDeadLineTasks.bind(this));
-  // }
-
-  // private async setDeadLineTasks() {
-  //   const calendar = this.querySelector('#calendar-tasks') as HTMLInputElement;
-  //   const tasks = await apiService.getTasksByDeadline() as ITask[];
-  //   const currMonth = Number(calendar.getAttribute('month'));
-  //   const currTasks = tasks.filter((task) =>
-  // (new Date(task?.endDate!)).getMonth() === currMonth);
-  //   const currTasksDates = currTasks.map((task) => (new Date(task?.endDate!)).getDate())
-  //     .filter((date) => date >= (new Date()).getDate());
-  //   const dateBtns = calendar.querySelectorAll
-  // ('.board-calendar__date-button') as NodeListOf<HTMLButtonElement>;
-  //   dateBtns.forEach((btn) => {
-  //     if (currTasksDates.includes(Number(btn.textContent)) && !btn.disabled) {
-  //       this.setDeadLineBtn(btn, currTasks);
-  //     }
-  //   });
-  // }
-
-  // private setDeadLineBtn(btn: HTMLButtonElement, currTasks: ITask[]) {
-  //   const dateTasks = currTasks
-  //     .filter((task) => (new Date(task?.endDate!)).getDate() === Number(btn.textContent));
-  //   const button = btn;
-  //   const tooltip = createElement('div', null, {
-  //     class: 'board-calendar__date-tooltip tooltip',
-  //   }, `
-  //       <p class="tooltip__header">Deadline of tasks:</p>
-  //       <ul></ul>
-  //   `);
-  //   const tasksList = tooltip.querySelector('ul') as HTMLUListElement;
-  //   dateTasks.forEach((task) => {
-  //     createElement('li', tasksList, {
-  //       class: 'this-date-task',
-  //     }, `
-  //       <p>${task.name}</p>
-  //     `);
-  //   });
-  //   button.classList.add('board-calendar__date-button_marked');
-  //   button.onmouseover = () => {
-  //     button.appendChild(tooltip);
-  //   };
-  //   button.onmouseleave = () => {
-  //     tooltip.remove();
-  //   };
-  // }
+  private async leaveBoard() {
+    const userId = state.user?.id;
+    const [boardUser] = state.activeBoardUsers.filter((user) => user.user.id === userId);
+    await api.boardUsers.remove(boardUser.id);
+    state.activeBoardId = '';
+    this.renderBoardsMenu();
+  }
 }
 
 customElements.define('boards-panel', AppBoardsPanel);

@@ -3,6 +3,8 @@ import template from './template.html';
 import menuTemplate from './menu-template.html';
 import api from '../../api';
 import apiService from '../../services/apiHandler';
+import { ITaskUser } from '../../types';
+import state from '../../store/state';
 
 class AppTask extends HTMLElement {
   connectedCallback() {
@@ -22,6 +24,7 @@ class AppTask extends HTMLElement {
     const contentWrapper = this.querySelector('#task-content') as HTMLDivElement;
     contentWrapper.innerHTML = `${taskName}`;
     this.renderTaskMarks();
+    this.renderTaskUsers();
   }
 
   private async renderTaskMarks() {
@@ -39,6 +42,34 @@ class AppTask extends HTMLElement {
     });
   }
 
+  private async renderTaskUsers() {
+    const usersWrapper = this.querySelector('#task-users-labels') as HTMLDivElement;
+    usersWrapper.innerHTML = '';
+    const taskId = this.getAttribute('taskId') as string;
+    const taskUsersRes = await api.taskUsers.getTaskUsers(taskId);
+    const taskUsers = taskUsersRes.data as ITaskUser[];
+    // const activeBoardUsers = await apiService.getBoardUsers()
+
+    if (taskUsers.length === 0) return;
+    const users = taskUsers.map((taskUser) => {
+      console.log('STTT', state.activeBoardUsers);
+      const [currUser] = state.activeBoardUsers
+        .filter((boardUser) => boardUser.id === taskUser.boardUserId);
+      return currUser;
+    });
+    console.log('taskUsers1', taskUsers, state, users);
+    // console.log('USERS1', users);
+    users.forEach((user) => {
+      usersWrapper.innerHTML += `
+      <div id="p-${user.user.id}" class="task-users__user-img board-users__user"></div>
+      `;
+      if (user.user.profilePicture) {
+        const userpic = usersWrapper.querySelector(`#p-${user.user.id}`) as HTMLDivElement;
+        userpic.style.backgroundImage = `url(${user.user.profilePicture})`;
+      }
+    });
+  }
+
   private setMenu(taskId: string) {
     const menuBtn = this.querySelector('#task-menu-btn') as HTMLDivElement;
     const menuWrapper = createElement('task-menu', this, {
@@ -46,6 +77,7 @@ class AppTask extends HTMLElement {
       taskId,
     }, `${menuTemplate}`);
     const editBtn = menuWrapper.querySelector('#edit-task') as HTMLButtonElement;
+    // const assignBtn = menuWrapper.querySelector('#assign-task') as HTMLButtonElement;
     const removeBtn = menuWrapper.querySelector('#remove-task') as HTMLButtonElement;
     menuBtn.onclick = () => {
       menuWrapper.classList.remove('element--invisible');
@@ -58,6 +90,15 @@ class AppTask extends HTMLElement {
         document.body.classList.add('overflow-hidden');
         // nameInput.focus();
       };
+
+      // assignBtn.onclick = () => {
+      //   const assignWrapper = this.querySelector('#task-assign-wrapper') as HTMLDivElement;
+      //   assignWrapper.innerHTML = `
+      //   <app-modal>
+      //     <usertask-select id="${taskId}"></userboard-select>
+      //   </app-modal>
+      //   `;
+      // };
 
       removeBtn.onclick = () => {
         this.deleteTask(taskId);

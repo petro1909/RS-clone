@@ -1,5 +1,5 @@
 import template from './template.html';
-import { ITask } from '../../types';
+import { ITask, ITaskUser } from '../../types';
 // import validate from '../../utils/validate';
 import router from '../../router';
 import api from '../../api';
@@ -8,6 +8,7 @@ import convertTimeForDateInput from '../../utils/convertTimeForDateInput';
 import appEvent from '../../events';
 import createElement from '../../utils/createElement';
 import { isLight } from '../../utils/colorHelpers';
+import state from '../../store/state';
 
 class TaskForm extends HTMLElement {
   private task: ITask;
@@ -32,6 +33,7 @@ class TaskForm extends HTMLElement {
     if (this.hasAttribute('taskId')) {
       this.setValues();
       this.renderTaskMarks();
+      this.renderTaskUsers();
     } else {
       this.connectDatePickers();
     }
@@ -238,6 +240,50 @@ class TaskForm extends HTMLElement {
       }
     });
     console.log(taskMarksWrapper, 'MARKS', marks);
+  }
+
+  private async renderTaskUsers() {
+    const taskUsersWrapper = this.querySelector('#board-users-modal') as HTMLDivElement;
+    const usersEditBtn = this.querySelector('#show-users-edit') as HTMLButtonElement;
+    const taskId = this.getAttribute('taskId') as string;
+    usersEditBtn.onclick = (e) => {
+      e.preventDefault();
+      taskUsersWrapper.innerHTML = `
+        <app-modal>
+          <usertask-select id="${taskId}"></usertask-select>
+        </app-modal>
+        `;
+      const userList = taskUsersWrapper.querySelector('usertask-select');
+      userList?.addEventListener('change', () => {
+        this.renderTaskUsersTags();
+      });
+    };
+    this.renderTaskUsersTags();
+  }
+
+  private async renderTaskUsersTags() {
+    const taskUsersWrapper = this.querySelector('.task-users-wrapper') as HTMLDivElement;
+    taskUsersWrapper.innerHTML = '';
+    const taskId = this.getAttribute('taskId') as string;
+    const taskUsers = (await api.taskUsers.getTaskUsers(taskId)).data as ITaskUser[];
+    console.log('taskUsers', taskUsers);
+    const users = taskUsers.map((taskUser) => {
+      const [currUser] = state.activeBoardUsers
+        .filter((boardUser) => boardUser.id === taskUser.boardUserId);
+      return currUser;
+    });
+    users.forEach((user) => {
+      taskUsersWrapper.innerHTML += `
+      <div class="task-users__user-wrapper">
+        <div id="p-${user.user.id}" class="task-users__user-img board-users__user"></div>
+        <span class="task-users__user-email">${user.user.email}</span>
+      </div>
+      `;
+      if (user.user.profilePicture) {
+        const userpic = taskUsersWrapper.querySelector(`#p-${user.user.id}`) as HTMLDivElement;
+        userpic.style.backgroundImage = `url(${user.user.profilePicture})`;
+      }
+    });
   }
 }
 

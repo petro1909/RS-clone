@@ -45,6 +45,8 @@ const setStateUser = async (user: IUser, token: string) => {
 const login = async (loginData: Ilogin) => {
   console.log(loginData);
   const res = await api.auth.login({ email: 'admin@mail.ru', password: '1234' });
+  // { email: 'admin@mail.ru', password: '1234' }
+  // { email: 'badmin@ya.ru', password: '4444' }
   if (res.success) {
     console.log('data', res.data);
     const user = res.data?.findedUser as IUser;
