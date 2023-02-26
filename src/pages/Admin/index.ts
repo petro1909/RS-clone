@@ -17,15 +17,13 @@ class AdminPage {
     ${template}`;
     this.setLastPages();
     this.paginationHandler();
-    this.tableEventsHandler();
     this.headerAdminPageEventsHandler();
-    this.tableHeaderEventsHandler();
   }
 
-  async setLastPages() {
+  private async setLastPages() {
     const currentPage = document.getElementById('current-page') as HTMLInputElement;
-    const allUsers = Array.from((await api.users.getAllUsers()).data!);
-    const allLogs = Array.from((await api.statistics.getAllLogs()).data!);
+    const allUsers: IUser[] = Array.from((await api.users.getAllUsers()).data!);
+    const allLogs: IServerLogEntity[] = Array.from((await api.statistics.getAllLogs()).data!);
     const maxUsersPage = Math.ceil(allUsers.length / 5);
     const maxLogsPage = Math.ceil(allLogs.length / 5);
     state.currentTable = maxUsersPage;
@@ -33,16 +31,24 @@ class AdminPage {
     state.currentLogTable = maxLogsPage;
     state.limitLogTables = maxLogsPage;
     currentPage.value = String(state.limitTables);
-    this.renderUsersTable();
-    this.renderLogsTable();
+    await this.renderUsersTable();
+    await this.renderLogsTable();
   }
 
-  async renderUsersTable() {
-    this.renderTableHeader();
-    this.renderTableBody();
+  private async renderUsersTable() {
+    const allUsersList = document.getElementById('all-users-list')! as HTMLDivElement;
+    allUsersList.innerHTML = `
+      <table class="table-users">
+        <thead class="table-header" id="table-header"></thead>
+        <tbody class="table-body" id="table-body" data-view="default"></tbody>
+      </table>`;
+    await this.renderTableHeader();
+    await this.renderTableBody();
+    this.tableEventsHandler();
+    this.tableHeaderEventsHandler();
   }
 
-  async renderTableHeader() {
+  private async renderTableHeader() {
     console.log('renderTableHeader() =>');
     const tableHeader = document.getElementById('table-header')!;
     tableHeader.innerHTML = `${templateUsersTableHeader}`;
@@ -50,7 +56,7 @@ class AdminPage {
     activeSortOrder.classList.toggle('sort-btn--active');
   }
 
-  async renderTableBody() {
+  private async renderTableBody() {
     const endpoint = 'http://localhost:3000/users';
     const tableBody = document.getElementById('table-body')!;
     const viewState = tableBody.getAttribute('data-view');
@@ -87,7 +93,14 @@ class AdminPage {
           <td class="user__name cell">${user.name}</td>
           <td class="user__email cell">${user.email}</td>
           <td class="user__role cell">
-            <input class="input-text role" value="${user.role}" type="text">
+            <select name="select" class="user-role">
+              <option class="option" value="${UserRole.user}" ${user.role === UserRole.user ? 'selected' : ''}>
+                ${UserRole.user}
+              </option>
+              <option class="option" value="${UserRole.admin}" ${user.role === UserRole.admin ? 'selected' : ''}>
+                ${UserRole.admin}
+              </option>
+            </select>
           </td>
           <td class="user__btns cell">
             <button class="btn btn-update" data-action="update">UPDATE</button>
@@ -100,17 +113,24 @@ class AdminPage {
     }
   }
 
-  async renderLogsTable() {
+  private async renderLogsTable() {
+    const allLogsList = document.getElementById('all-logs-list')! as HTMLDivElement;
+    allLogsList.innerHTML = `
+      <table class="table-logs">
+        <thead class="table-header" id="table-logs-header"></thead>
+        <tbody class="table-body" id="table-logs-body"></tbody>
+      </table>`;
     this.renderLogsTableHeader();
-    this.renderLogsTableBody();
+    await this.renderLogsTableBody();
+    this.tableLogsEventsHandler();
   }
 
-  async renderLogsTableHeader() {
+  private renderLogsTableHeader() {
     const tableLogsHeader = document.getElementById('table-logs-header')!;
     tableLogsHeader.innerHTML = (templateLogsTableHeader);
   }
 
-  async renderLogsTableBody() {
+  private async renderLogsTableBody() {
     const serverLogs = (await api.statistics
       .getLogsPage(state.currentLogTable, 5)).data! as IServerLogEntity[];
     const tableLogsBody = document.getElementById('table-logs-body')!;
@@ -118,7 +138,7 @@ class AdminPage {
     if (serverLogs.length !== 0) {
       serverLogs.forEach((log: IServerLogEntity, index: number) => {
         tableLogsBody.innerHTML += `
-        <tr class="table-header__row log" id="${log.id}">
+        <tr class="table__row log" id="${log.id}">
           <td class="log__number cell">${(state.currentLogTable - 1) * 5 + index + 1}</td>
           <td class="log__id cell">${log.id}</td>
           <td class="log__date cell">${log.logDate}</td>
@@ -126,12 +146,33 @@ class AdminPage {
           <td class="log__method cell">${log.method}</td>
           <td class="log__os cell">${log.os}</td>
           <td class="log__browser cell">${log.browser}</td>
+          <th class="log__btns cell">
+            <button class="btn btn-delete" data-action="delete">✖</button>
+          </th>
         </tr>`;
       });
     }
   }
 
-  async headerAdminPageEventsHandler() {
+  private tableLogsEventsHandler() {
+    const tableLogsBody = document.getElementById('table-logs-body')! as HTMLTableSectionElement;
+    tableLogsBody.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+      const action = target.getAttribute('data-action')!;
+      if (action === 'delete') this.deleteLog(target);
+    });
+  }
+
+  private async deleteLog(elem: HTMLElement) {
+    const tableRow = elem.closest('.table__row')!;
+    const apiRes = await api.statistics.delete(tableRow.id); //  users.delete(tableRow.id);
+    if (apiRes.success) {
+      console.log(apiRes.success);
+      this.renderLogsTableBody();
+    }
+  }
+
+  private headerAdminPageEventsHandler() {
     const search = document.getElementById('search') as HTMLInputElement;
     const currentPage = document.getElementById('current-page') as HTMLInputElement;
     const tableBody = document.getElementById('table-body')!;
@@ -193,7 +234,7 @@ class AdminPage {
     });
   }
 
-  async tableHeaderEventsHandler() {
+  private tableHeaderEventsHandler() {
     const tableHeader = document.getElementById('table-header')!;
     tableHeader.addEventListener('click', (event) => {
       const sortButton = event.target as HTMLButtonElement;
@@ -205,11 +246,10 @@ class AdminPage {
       sortButton.classList.toggle('sort-btn--active');
       state.sortProperty = sortParameter!;
       state.sortOrder = sortOrder!;
-      this.renderTableBody();
     });
   }
 
-  async paginationHandler() {
+  private paginationHandler() {
     const pagination = document.getElementById('pagination') as HTMLDivElement;
     const currentPage = document.getElementById('current-page') as HTMLInputElement;
     pagination?.addEventListener('click', (event: Event) => {
@@ -243,7 +283,7 @@ class AdminPage {
     });
   }
 
-  async deleteUser(elem: HTMLElement) {
+  private async deleteUser(elem: HTMLElement) {
     const tableRow = elem.closest('.table__row')!;
     const apiRes = await api.admin.deleteUser(tableRow.id); //  users.delete(tableRow.id);
     if (apiRes.success) {
@@ -252,24 +292,24 @@ class AdminPage {
     }
   }
 
-  async updateUser(elem: HTMLElement) {
+  private async updateUser(elem: HTMLElement) {
     const tableRow = elem.closest('.table__row')!;
     const user = await api.users.getById(tableRow.id);
-    const inputRole = tableRow.querySelector('.input-text')! as HTMLInputElement;
-    const role = inputRole.value.toUpperCase();
+    const userRole = tableRow.querySelector('.user-role')! as HTMLSelectElement;
+    const role = userRole.value.toUpperCase();
     if (role === UserRole.user || role === UserRole.admin) {
-      user.data!.role = inputRole.value.toUpperCase();
-      inputRole.value = inputRole.value.toUpperCase();
+      user.data!.role = userRole.value.toUpperCase();
+      userRole.value = userRole.value.toUpperCase();
       const apiRes = await api.users.update(user.data!);
       if (apiRes.success) {
         console.log(apiRes.success);
       }
     } else if (role !== UserRole.user && role !== UserRole.admin) {
-      inputRole.value = user.data!.role;
+      userRole.value = user.data!.role;
     }
   }
 
-  async tableEventsHandler() {
+  private tableEventsHandler() {
     const table = document.getElementById('table-body')! as HTMLTableSectionElement;
     table.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;

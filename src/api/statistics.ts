@@ -8,7 +8,7 @@ const getAllServerLogs = async () => baseFetch<IServerLogEntity[]>(`${ENDPOINT}`
 
 const getServerLogs = async (page: number, limit: number) => baseFetch<IServerLogEntity[]>(`${ENDPOINT}/?page=${page}&limit=${limit}`, 'GET');
 
-const deleteLogById = async (id: string) => baseFetch<IServerLogEntity[]>(`${ENDPOINT}/${id}`, 'GET');
+const deleteLogById = async (id: string) => baseFetch<IServerLogEntity[]>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const statistics = {
   getAllLogs: getAllServerLogs,
