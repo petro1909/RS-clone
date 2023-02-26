@@ -41,7 +41,10 @@ export interface IState {
   isAuthorized: boolean,
   currentPage: string,
   currentTable: number,
+  currentLogTable: number,
+  currentTableView: string,
   limitTables: number,
+  limitLogTables: number,
   sortProperty: string,
   sortOrder: string,
   activeBoardId: string,
@@ -121,4 +124,13 @@ export interface ITaskMark {
   id: string,
   taskId: string,
   boardMarkId: string
+}
+
+export interface IServerLogEntity {
+  id: string,
+  logDate: Date,
+  url: string,
+  method: string,
+  os: string,
+  browser: string,
 }

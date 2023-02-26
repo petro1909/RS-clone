@@ -7,6 +7,7 @@ import boardUsers from './boardUsers';
 import admin from './admin';
 import boardMarks from './boardMarks';
 import taskMarks from './taskMarks';
+import statistics from './statistics';
 import taskUsers from './taskUsers';
 
 const api = {
@@ -19,6 +20,7 @@ const api = {
   admin,
   boardMarks,
   taskMarks,
+  statistics,
   taskUsers,
 };
 
