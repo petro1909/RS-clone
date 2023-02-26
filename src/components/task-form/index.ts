@@ -9,6 +9,9 @@ import appEvent from '../../events';
 import createElement from '../../utils/createElement';
 import { isLight } from '../../utils/colorHelpers';
 import state from '../../store/state';
+import settings from '../../store/settings';
+// import fileIcon from '../../assets/icons/page.svg';
+// import linkIcon from '../../assets/icons/link.svg';
 
 class TaskForm extends HTMLElement {
   private task: ITask;
@@ -34,6 +37,7 @@ class TaskForm extends HTMLElement {
       this.setValues();
       this.renderTaskMarks();
       this.renderTaskUsers();
+      this.renderTaskAttachs();
     } else {
       this.connectDatePickers();
     }
@@ -284,6 +288,80 @@ class TaskForm extends HTMLElement {
         userpic.style.backgroundImage = `url(${user.user.profilePicture})`;
       }
     });
+  }
+
+  private async renderTaskAttachs() {
+    const taskAttachWrapper = this.querySelector('#task-attach-modal') as HTMLDivElement;
+    const addAttachBtn = this.querySelector('#show-attach-edit') as HTMLButtonElement;
+    const taskId = this.getAttribute('taskId') as string;
+    addAttachBtn.onclick = (e) => {
+      e.preventDefault();
+      taskAttachWrapper.innerHTML = `
+        <app-modal>
+          <task-attach id="${taskId}"></task-attach>
+        </app-modal>
+      `;
+      const attachModal = taskAttachWrapper.querySelector('task-attach') as HTMLInputElement;
+      attachModal?.addEventListener('update', () => {
+        this.renderFilesLinks();
+        taskAttachWrapper.innerHTML = '';
+      });
+    };
+    this.renderFilesLinks();
+  }
+
+  private async renderFilesLinks() {
+    const taskAttachWrapper = this.querySelector('.task-attach-wrapper') as HTMLDivElement;
+    taskAttachWrapper.innerHTML = '';
+    const taskId = this.getAttribute('taskId') as string;
+    const links = await api.files.getFiles(taskId);
+    console.log('LINKS', links);
+    if (!links.success) return;
+    links.data!.forEach((link) => {
+      if (link.type === 'LINK') {
+        taskAttachWrapper.innerHTML += `
+          <div class="task-attach__link-wrapper">
+            <a class="task-attach__link" href="${link.name}" target="_blank">
+              <div class="task-attach__link-icon task-attach__link-icon_link">
+              <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M14 11.998C14 9.506 11.683 7 8.857 7H7.143C4.303 7 2 9.238 2 11.998c0 2.378 1.71 4.368 4 4.873a5.3 5.3 0 001.143.124" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 11.998c0 2.491 2.317 4.997 5.143 4.997h1.714c2.84 0 5.143-2.237 5.143-4.997 0-2.379-1.71-4.37-4-4.874A5.304 5.304 0 0016.857 7" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </div>
+              <p class="task-attach__link-name">${link.name}</p>
+            </a>
+            <button class="task-attach__link-del-btn" id="${link.id}">❌</button>
+          </div>
+        `;
+      } else if (link.type === 'FILE') {
+        taskAttachWrapper.innerHTML += `
+          <div class="task-attach__link-wrapper">
+            <a class="task-attach__link" href="${settings.SERVER}/${link.path}" target="_blank">
+              <div class="task-attach__link-icon task-attach__link-icon_file">
+              <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M4 21.4V2.6a.6.6 0 01.6-.6h11.652a.6.6 0 01.424.176l3.148 3.148A.6.6 0 0120 5.75V21.4a.6.6 0 01-.6.6H4.6a.6.6 0 01-.6-.6zM8 10h8M8 18h8M8 14h4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 2v3.4a.6.6 0 00.6.6H20" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </div>
+              <p class="task-attach__link-name">${link.name}</p>
+            </a>
+            <button class="task-attach__link-del-btn" id="${link.id}">❌</button>
+          </div>
+        `;
+      }
+    });
+
+    const delBtns = taskAttachWrapper.querySelectorAll('.task-attach__link-del-btn') as NodeListOf<HTMLButtonElement>;
+    delBtns.forEach((delBtn) => {
+      const btn = delBtn;
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const linkId = btn.id as string;
+        // console.log('linkId', linkId);
+        this.deleteFile(linkId);
+      };
+    });
+  }
+
+  private async deleteFile(id: string) {
+    const res = await api.files.delete(id);
+    if (res.success) {
+      this.renderFilesLinks();
+    }
   }
 }
 

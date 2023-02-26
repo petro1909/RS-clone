@@ -126,6 +126,15 @@ export interface ITaskMark {
   boardMarkId: string
 }
 
+
+export interface ITaskAttach {
+  id: string,
+  name: string,
+  path: string,
+  taskId: string,
+  type: string,
+}
+
 export interface IServerLogEntity {
   id: string,
   logDate: Date,
