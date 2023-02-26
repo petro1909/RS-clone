@@ -76,3 +76,7 @@
   @include set-font($font-family-base, map-get($font-size, l));
 }
 
+#select-user {
+  position: relative;
+}
+

@@ -35,6 +35,15 @@ class UserPage {
         }
       };
     });
+    const passwordInput = document.querySelector('#input-password') as HTMLInputElement;
+    passwordInput.onblur = () => {
+      api.users.updateUserPass(user.id, passwordInput.value);
+    };
+
+    const submitButton = document.querySelector('#submit') as HTMLButtonElement;
+    submitButton.onclick = (e) => {
+      e.preventDefault();
+    };
   }
 
   private setAvatar() {
