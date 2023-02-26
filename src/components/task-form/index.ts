@@ -186,7 +186,7 @@ class TaskForm extends HTMLElement {
         currInput.classList.remove('input-task_filled');
         currInput.classList.remove('input-task_error');
         if (currInput.value.trim() === '') {
-          this.showMessage(currInput, 'Field empty');
+          this.showMessage(currInput, 'Field empty⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀');
           currInput.classList.add('input-task_error');
         } else {
           currInput.classList.add('input-task_filled');

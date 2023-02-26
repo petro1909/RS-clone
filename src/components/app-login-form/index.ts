@@ -36,6 +36,7 @@ class AppLoginForm extends HTMLElement {
       console.log('asdasdas');
       this.submitHandler(form);
     };
+    this.setInputFieldState();
   }
 
   private async submitHandler(form: HTMLFormElement): Promise<void> {
@@ -74,7 +75,7 @@ class AppLoginForm extends HTMLElement {
         currInput.classList.remove('input-auth_filled');
         currInput.classList.remove('input-auth_error');
         if (currInput.value.trim() === '') {
-          this.showMessage(currInput, 'Field empty');
+          this.showMessage(currInput, 'Field empty⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀');
           currInput.classList.add('input-auth_error');
         } else {
           currInput.classList.add('input-auth_filled');

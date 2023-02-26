@@ -36,13 +36,9 @@
     padding: 50px;
   }
 
-  ;
-
   @include _414 {
     padding: 40px;
   }
-
-  ;
 
 }
 
@@ -90,8 +86,8 @@
   &:valid~.input-task-label,
   &:focus~.input-task-label,
   &_filled~.input-task-label {
-    left: -1px;
-    top: -20px;
+    left: -3px;
+    top: -15px;
     height: 12px;
     font-size: 12px;
     color: var(--color-font-regular);
@@ -118,13 +114,12 @@
 
 .error-message {
   position: absolute;
-  left: 0;
-  top: -20px;
+  left: 2px;
+  top: -15px;
   z-index: 1;
   display: block;
   height: 12px;
   font-size: 12px;
-  padding-right: 4px;
   background-color: var(--color-background-task);
   color: var(--color-danger);
 }
@@ -145,7 +140,7 @@
   }
 
   &[data-success] {
-    outline: 3px solid var(--color-success);
+    outline: 2px solid var(--color-success);
   }
 }
 
@@ -199,7 +194,7 @@
   position: relative;
 
   .modal {
-    transform: translateX(55%);
+    transform: translateX(18%) translateY(-55%);
   }
 }
 
@@ -225,8 +220,7 @@
   position: relative;
 
   .modal {
-    bottom: 40px;
-    transform: translateX(55%);
+    transform: translateX(18%) translateY(-83%);
   }
 }
 
@@ -242,6 +236,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: $border-radius-small-element;
     gap: 5px;
     background: var(--color-background-primary);
     padding: 5px;
