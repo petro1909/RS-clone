@@ -14,7 +14,8 @@ class AdminPage {
     document.body.classList.remove('body-scrollbar--invisible');
     document.body.innerHTML = `
     <app-header></app-header>
-    ${template}`;
+    ${template}
+    <snack-bar></snack-bar>`;
     this.setLastPages();
     this.paginationHandler();
     this.headerAdminPageEventsHandler();

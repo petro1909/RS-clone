@@ -2,7 +2,6 @@ import api from '../../api';
 import state from '../../store/state';
 import { IUser } from '../../types';
 import createElement from '../../utils/createElement';
-// import createElement from '../../utils/createElement';
 import template from './template.html';
 
 class UserPage {
@@ -11,7 +10,8 @@ class UserPage {
     document.body.classList.remove('body-scrollbar--invisible');
     document.body.innerHTML = `
     <app-header></app-header>
-    ${template}`;
+    ${template}
+    <snack-bar></snack-bar>`;
     this.setUserValues();
     this.setAvatar();
   }
