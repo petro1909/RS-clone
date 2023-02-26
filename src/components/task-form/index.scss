@@ -176,18 +176,21 @@
   margin-top: map-get($font-size, 2xl);
 }
 
-.task-marks-section {
+.task-marks-section,
+.task-users-section {
   width: 100%;
 }
 
-.task-marks-header {
+.task-marks-header,
+.task-users-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
 
-.task-marks-title {
+.task-marks-title,
+.task-users-title {
   font-size: 12px;
   color: var(--color-font-regular);
 }
@@ -210,4 +213,46 @@
   padding: 5px;
   display: flex;
   align-items: center;
+}
+
+// .task-users-wrapper {
+//   display: flex;
+//   height: 14px;
+//   gap: 5px;
+// }
+
+#board-users-modal {
+  position: relative;
+
+  .modal {
+    bottom: 40px;
+    transform: translateX(55%);
+  }
+}
+
+.task-users {
+  &-wrapper {
+    display: flex;
+    overflow-x: auto;
+    height: 45px;
+    gap: 10px;
+  }
+  &__user-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: var(--color-background-primary);
+    padding: 5px;
+  }
+  &__user-email {
+    font-size: 12px;
+    color: var(--color-font-regular);
+  }
+}
+
+.task-users-wrapper .task-users__user-img {
+  width: 20px;
+  height: 20px;
 }

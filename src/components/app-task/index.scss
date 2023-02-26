@@ -73,10 +73,17 @@
 
 #task-marks-labels {
   display: flex;
+  justify-content: end;
   height: 5px;
 }
 
 .task-mark-label {
   width: 15px;
   height: 3px;
+}
+
+#task-assign-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
 }

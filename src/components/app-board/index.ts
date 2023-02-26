@@ -3,6 +3,7 @@ import createElement from '../../utils/createElement';
 import template from './template.html';
 import api from '../../api';
 import { IStatus } from '../../types';
+import apiService from '../../services/apiHandler';
 
 class AppBoard extends HTMLElement {
   connectedCallback() {
@@ -29,7 +30,9 @@ class AppBoard extends HTMLElement {
       this.innerHTML = `${template}`;
 
       const statuses = await api.statuses.getByBoard(state.activeBoardId);
+      const activeBoardUsers = await apiService.getBoardUsers(state.activeBoardId);
       state.statuses = statuses.data!;
+      state.activeBoardUsers = activeBoardUsers;
       if (!statuses.data) return;
 
       this.board.innerHTML = '';

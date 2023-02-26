@@ -16,3 +16,5 @@ import './app-board-calendar';
 import './app-input-mark';
 import './app-marks';
 import './app-modal';
+import './app-select-board-users';
+import './app-select-task-users';

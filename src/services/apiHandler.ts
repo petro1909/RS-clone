@@ -28,25 +28,28 @@ const getUsersWithAvatars = async (users: IUser[]) => {
 const getBoardUsers = async (boardId: string) => {
   const boardUsersData = await api.boardUsers.getBoardUsers(boardId);
   const boardUsers = boardUsersData.data as IBoardUser[];
+  // const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
   const users = boardUsers.map((boardUser) => api.users.getById(boardUser.userId));
   const usersData = (await Promise.all(users)).map((user) => user.data) as IUser[];
   const usersWithAvatars = await getUsersWithAvatars(usersData);
-
-  return usersWithAvatars;
+  const activeBoardUsers = boardUsers.map((boardUser) => {
+    const [user] = usersWithAvatars.filter((userWA) => boardUser.userId === userWA.id);
+    const activeBoardUser = Object.assign(boardUser, { user });
+    return activeBoardUser;
+  });
+  return activeBoardUsers;
 };
 
 const getBoardStatuses = async (boardId: string) => {
   const statuses = await api.statuses.getByBoard(boardId);
   if (!statuses.data) return undefined;
   state.statuses = statuses.data;
-  console.log('STATE', state);
   return statuses.data;
 };
 
 const addStatus = async (boardId: string, statusName: string) => {
   const order = state.statuses.length
     ? Math.max(...state.statuses.map((status) => +status.order)) + 1 : 1;
-  console.log('ORDER', state.statuses.length, state, order);
   const result = await api.statuses.create(boardId, statusName, order);
   return result;
 };
@@ -133,6 +136,7 @@ const getTaskMarks = async (taskId: string) => {
 
 const apiService = {
   getUserWithAvatarURL,
+  getUsersWithAvatars,
   getBoardUsers,
   getBoardStatuses,
   addStatus,
