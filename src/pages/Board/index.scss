@@ -51,6 +51,14 @@
     margin-left: 0.5rem;
     @include set-font($font-family-base, map-get($font-size, xl));
     color: var(--color-font-regular-light);
+    @include _576 {
+      width: 150px;
+      text-overflow: ellipsis;
+    };
+    @include _414 {
+      width: 100px;
+      text-overflow: ellipsis;
+    };
   }
 
   &__menu {
