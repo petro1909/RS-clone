@@ -11,9 +11,12 @@
   right: 0;
   z-index: 20001;
   bottom: -1000px;
-  border: 1px solid black;
+  border: 1px solid var(--color-border-element);
+  border-radius: 5px;
   padding: 5px 10px;
   opacity: 0;
+  color: var(--color-font-regular);
+  background-color: var(--color-background-task);
   transition: all .5s;
 
   &_active {
@@ -25,15 +28,15 @@
   }
 
   &_error {
-    border: 1px solid red;
+    border: 2px solid var(--color-danger);
   }
 
   &_warning {
-    border: 1px solid burlywood;
+    border: 2px solid var(--color-warning);
   }
 
   &_success {
-    border: 1px solid green;
+    border: 2px solid var(--color-success);
   }
 
   &__text {
