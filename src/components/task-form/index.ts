@@ -25,20 +25,20 @@ class TaskForm extends HTMLElement {
 
     popupPage.onclick = (event) => {
       const eventTarget = event.target as HTMLDivElement;
-      if (eventTarget?.classList.contains('popup-page') ||
-        eventTarget?.classList.contains('close-form-cross')) {
+      if (eventTarget?.classList.contains('popup-page')
+        || eventTarget?.classList.contains('close-form-cross')) {
         this.remove();
       }
     };
-
     if (this.hasAttribute('taskId')) {
       this.setValues();
-      this.renderTaskMarks();
-      this.renderTaskUsers();
-      this.renderTaskAttachs();
     } else {
       this.connectDatePickers();
     }
+
+    this.renderTaskMarks();
+    this.renderTaskUsers();
+    this.renderTaskAttachs();
 
     form.onsubmit = (event) => {
       event.preventDefault();
@@ -175,6 +175,11 @@ class TaskForm extends HTMLElement {
     const boardMarksWrapper = this.querySelector('#board-marks-modal') as HTMLDivElement;
     const taskEditBtn = this.querySelector('#show-marks-edit') as HTMLButtonElement;
     const taskId = this.getAttribute('taskId') as string;
+    if (!this.hasAttribute('taskId')) {
+      const marksSection = this.querySelector('.task-marks-section') as HTMLDivElement;
+      marksSection.style.display = 'none';
+      return;
+    }
 
     taskEditBtn.onclick = (e) => {
       e.preventDefault();
@@ -211,6 +216,11 @@ class TaskForm extends HTMLElement {
     const taskUsersWrapper = this.querySelector('#board-users-modal') as HTMLDivElement;
     const usersEditBtn = this.querySelector('#show-users-edit') as HTMLButtonElement;
     const taskId = this.getAttribute('taskId') as string;
+    if (!this.hasAttribute('taskId')) {
+      const usersSection = this.querySelector('.task-users-section') as HTMLDivElement;
+      usersSection.style.display = 'none';
+      return;
+    }
     usersEditBtn.onclick = (e) => {
       e.preventDefault();
       taskUsersWrapper.innerHTML = `
@@ -251,6 +261,11 @@ class TaskForm extends HTMLElement {
   }
 
   private async renderTaskAttachs() {
+    if (!this.hasAttribute('taskId')) {
+      const usersSection = this.querySelector('.task-attach-section') as HTMLDivElement;
+      usersSection.style.display = 'none';
+      return;
+    }
     const taskAttachWrapper = this.querySelector('#task-attach-modal') as HTMLDivElement;
     const addAttachBtn = this.querySelector('#show-attach-edit') as HTMLButtonElement;
     const taskId = this.getAttribute('taskId') as string;

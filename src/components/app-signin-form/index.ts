@@ -25,8 +25,8 @@ class AppSigninForm extends HTMLElement {
 
     popupPage.onclick = (event) => {
       const eventTarget = event.target as HTMLDivElement;
-      if (eventTarget?.classList.contains('popup-page') ||
-        eventTarget?.classList.contains('close-form-cross')) {
+      if (eventTarget?.classList.contains('popup-page')
+        || eventTarget?.classList.contains('close-form-cross')) {
         document.body.classList.remove('overflow-hidden');
         this.remove();
       }
@@ -51,8 +51,7 @@ class AppSigninForm extends HTMLElement {
         }
       }
     });
-    if (Object.values(signinData).length === 3) this.signIn(signinData);
-    this.signIn(signinData);
+    if (signinData.email !== '' && signinData.password !== '') this.signIn(signinData);
   }
 
   private async signIn(signinData: IRegisterUser) {
@@ -68,6 +67,7 @@ class AppSigninForm extends HTMLElement {
     const inputs = this.querySelectorAll('.input-auth');
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
+      if (currInput.name === 'name') return;
       currInput.onblur = () => {
         const { name, value } = currInput;
         this.showMessage(currInput);
@@ -78,7 +78,6 @@ class AppSigninForm extends HTMLElement {
           currInput.classList.add('input-auth_error');
         } else {
           currInput.classList.add('input-auth_filled');
-          console.log(name, value, validate[name](value));
           if (validate[name](value)) {
             currInput.classList.remove('input-auth_error');
             currInput.setAttribute('data-success', 'data-success');

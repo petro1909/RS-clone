@@ -27,7 +27,7 @@ class AppBoardCalendar extends HTMLElement {
     const currMonth = Number(calendar.getAttribute('month'));
     const currTasks = tasks.filter((task) => (new Date(task?.endDate!)).getMonth() === currMonth);
     const currTasksDates = currTasks.map((task) => (new Date(task?.endDate!)).getDate())
-      .filter((date) => date >= (new Date()).getDate());
+      .filter((date) => (date >= (new Date()).getDate()) || (currMonth >= (new Date()).getMonth()));
     const dateBtns = calendar.querySelectorAll('.board-calendar__date-button') as NodeListOf<HTMLButtonElement>;
     dateBtns.forEach((btn) => {
       if (currTasksDates.includes(Number(btn.textContent)) && !btn.disabled) {
