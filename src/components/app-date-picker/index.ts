@@ -20,10 +20,22 @@ class AppDatePicker extends HTMLElement {
 
         .app-date-picker app-calendar {
           position: absolute;
-          bottom: -282px;
-          right: 0;
+          bottom: -185px;
+          right: 2px;
           min-width: 295px;
           min-height: 280px;
+        }
+
+        @media (max-width: 576px) {
+          .app-date-picker app-calendar {
+            right: -7px;
+          }
+        }
+
+        @media (max-width: 414px) {
+          .app-date-picker app-calendar {
+            right: -32px;
+          }
         }
 
         .app-date-picker__calendar-btn {

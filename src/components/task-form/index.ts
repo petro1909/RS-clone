@@ -25,7 +25,8 @@ class TaskForm extends HTMLElement {
 
     popupPage.onclick = (event) => {
       const eventTarget = event.target as HTMLDivElement;
-      if (eventTarget?.classList.contains('popup-page')) {
+      if (eventTarget?.classList.contains('popup-page') ||
+        eventTarget?.classList.contains('close-form-cross')) {
         this.remove();
       }
     };
@@ -159,7 +160,7 @@ class TaskForm extends HTMLElement {
         currInput.classList.remove('input-task_filled');
         currInput.classList.remove('input-task_error');
         if (currInput.value.trim() === '') {
-          this.showMessage(currInput, 'Field empty');
+          this.showMessage(currInput, 'Field empty⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀');
           currInput.classList.add('input-task_error');
         } else {
           currInput.classList.add('input-task_filled');

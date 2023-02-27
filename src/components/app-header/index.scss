@@ -50,6 +50,7 @@
     cursor: pointer;
     outline: none;
     outline: 1px solid var(--color-primary-hover);
+    transition: all $delay * 1 ease;
 
     &:hover {
       outline: 3px solid var(--color-primary-hover);
@@ -96,4 +97,18 @@
   border-radius: 50%;
   color: var(--color-primary);
   transition: all $delay*5 ease;
+}
+
+.user-profile-name {
+  width: 140px;
+  overflow: hidden;
+  font-family: $font-family-base;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.user-profile-role {
+  font-family: $font-family-base;
+  font-size: 12px;
+  margin: 10px 0;
 }

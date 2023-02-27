@@ -5,9 +5,9 @@ class UserBoardsSelect extends HTMLElement {
   connectedCallback() {
     this.classList.add('userboard-select');
     this.innerHTML = `
-      <input class="userboard-select__search" placeholder="Search User..." type="text" id="userboard-select-search">
+      <input class="userboard-select__search input-text" placeholder="Search User..." type="text" id="userboard-select-search">
       <div class="userboard-select__users" id="userboard-select-users"></div>
-      <button class="userboard-select__submit">Invite</button>
+      <button class="userboard-select__submit btn">Invite</button>
     `;
     this.render();
     const searchInput = this.querySelector('#userboard-select-search') as HTMLInputElement;

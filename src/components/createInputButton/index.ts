@@ -28,7 +28,7 @@ const createInputButton = (parent: HTMLElement, callback: (value: string) => voi
 
   mainButton.onclick = () => {
     mainButton.style.display = 'none';
-    inputWrapper.style.display = 'block';
+    inputWrapper.style.display = 'flex';
     input.focus();
   };
 
@@ -41,7 +41,7 @@ const createInputButton = (parent: HTMLElement, callback: (value: string) => voi
       submitButton.disabled = true;
       callback(newValue);
     } else {
-      mainButton.style.display = 'block';
+      mainButton.style.display = 'flex';
       inputWrapper.style.display = 'none';
     }
   };

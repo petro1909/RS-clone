@@ -24,10 +24,11 @@
 }
 
 .login-form {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
   justify-content: center;
   height: fit-content;
   width: fit-content;
@@ -44,6 +45,22 @@
     padding: 40px;
   };
 
+}
+
+.close-form-cross {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 18px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-font-regular);
+  transition: all $delay * 1 ease;
+
+  &:hover {
+    color: var(--color-danger);
+  }
 }
 
 .input-auth {
@@ -83,16 +100,16 @@
   &:valid~.input-auth-label,
   &:focus~.input-auth-label,
   &_filled~.input-auth-label {
-    left: -7px;
-    top: -20px;
+    left: -3px;
+    top: -15px;
     font-size: 12px;
     color: var(--color-font-regular);
   }
 
   &:focus {
-    outline: 3px solid var(--color-warning);
+    outline: 2px solid var(--color-warning);
     background-color: var(--color-background-secondary);
-    color: var(--color-font-regular-dark);
+    color: var(--color-font-regular);
   }
 
   &:valid {
@@ -100,7 +117,7 @@
   }
 
   &_error {
-    outline: 3px solid var(--color-danger);
+    outline: 2px solid var(--color-danger);
   }
 
   &--underscored {
@@ -110,8 +127,8 @@
 
 .error-message {
   position: absolute;
-  left: -3px;
-  top: -20px;
+  left: 0px;
+  top: -15px;
   display: block;
   height: 12px;
   font-size: 12px;
@@ -134,7 +151,7 @@
   }
 
   &[data-success] {
-    outline: 3px solid var(--color-success);
+    outline: 2px solid var(--color-success);
   }
 }
 

@@ -25,7 +25,9 @@ class AppSigninForm extends HTMLElement {
 
     popupPage.onclick = (event) => {
       const eventTarget = event.target as HTMLDivElement;
-      if (eventTarget?.classList.contains('popup-page')) {
+      if (eventTarget?.classList.contains('popup-page') ||
+        eventTarget?.classList.contains('close-form-cross')) {
+        document.body.classList.remove('overflow-hidden');
         this.remove();
       }
     };
@@ -72,7 +74,7 @@ class AppSigninForm extends HTMLElement {
         currInput.classList.remove('input-auth_filled');
         currInput.classList.remove('input-auth_error');
         if (currInput.value.trim() === '') {
-          this.showMessage(currInput, 'Field empty');
+          this.showMessage(currInput, 'Field empty⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀');
           currInput.classList.add('input-auth_error');
         } else {
           currInput.classList.add('input-auth_filled');
@@ -82,7 +84,7 @@ class AppSigninForm extends HTMLElement {
             currInput.setAttribute('data-success', 'data-success');
           } else {
             currInput.classList.add('input-auth_error');
-            this.showMessage(currInput, 'Error value');
+            this.showMessage(currInput, 'Error value⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀');
           }
         }
       };

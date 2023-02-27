@@ -17,6 +17,11 @@
   @include _768{
     padding: 0 1rem;
   };
+
+  @include _414{
+    padding: 0 5px;
+    gap: 3px;
+  };
 }
 
 .table-users {
@@ -29,6 +34,13 @@
   gap: 1rem;
   @include _576 {
     margin-top: 1rem;
+  };
+}
+
+#create-user,
+#show-logs {
+  @include _576 {
+    padding: 5px;
   };
 }
 
@@ -46,6 +58,11 @@
   }
   @include _576{
     width: 120px;
+  };
+
+  @include _414{
+    width: 105px;
+    padding: 5px 3px;
   };
 }
 
@@ -92,6 +109,9 @@
   line-height: 100%;
   color: var(--color-font-regular);
   background: transparent;
+  @include _414{
+    @include square-view(24px);
+  };
 }
 
 .all-users-list {

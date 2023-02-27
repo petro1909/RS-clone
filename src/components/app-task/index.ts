@@ -21,8 +21,11 @@ class AppTask extends HTMLElement {
 
   private setData() {
     const taskName = this.getAttribute('taskName') as string;
-    const contentWrapper = this.querySelector('#task-content') as HTMLDivElement;
+    const taskDesc = this.getAttribute('taskDesc') as string;
+    const contentWrapper = this.querySelector('.task__content') as HTMLDivElement;
+    const contentDesc = this.querySelector('.task__description') as HTMLDivElement;
     contentWrapper.innerHTML = `${taskName}`;
+    contentDesc.innerHTML = `${taskDesc}`;
     this.renderTaskMarks();
     this.renderTaskUsers();
   }

@@ -2,7 +2,7 @@
   position: fixed;
   top: $header-height;
   right: 0;
-  z-index: 1000;
+  z-index: 3000;
   flex-direction: column;
   height: calc(100vh - $header-height);
   width: 320px;
@@ -13,7 +13,7 @@
   transition: $delay*3 ease;
 
   &_boards {
-    z-index: 1001;
+    z-index: 4000;
   }
 
   &--visible {
@@ -58,7 +58,14 @@
 
 }
 
+.no-projects-message {
+  padding-left: 2rem;
+  @include set-font($font-family-base, map-get($font-size, xl));
+  color: var(--color-font-regular);
+}
+
 .board-menu-list {
+  max-height: calc(100vh - $header-height * 2 - 50px);
   padding: 0;
   margin: 0;
   list-style: none;
