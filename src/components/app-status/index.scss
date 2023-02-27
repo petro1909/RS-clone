@@ -10,7 +10,6 @@
   background-color: var(--color-background-status);
   backdrop-filter: blur(10px);
   cursor: move;
-  overflow-y: auto;
   transform: translate3d();
   will-change: transform;
 
@@ -40,6 +39,20 @@
 
   &__task-list {
     margin-bottom: 0.5rem;
+    max-height: calc(100vh - 190px);
+    border-radius: $border-radius-big-element;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: var(--color-font-regular-black);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #909291;
+      border-radius: 1rem;
+      box-shadow: inset 1px 1px 10px var(--color-font-regular);
+    }
   }
 
   &__add-task {
