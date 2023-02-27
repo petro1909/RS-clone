@@ -7,6 +7,7 @@ import templateUsersTableHeader from './template-users-table-header.html';
 import templateLogsTableHeader from './template-logs-table-header.html';
 
 import defaultUserIcon from '../../assets/img/task/default_user.svg';
+import settings from '../../store/settings';
 
 class AdminPage {
   render(): void {
@@ -14,7 +15,8 @@ class AdminPage {
     document.body.classList.remove('body-scrollbar--invisible');
     document.body.innerHTML = `
     <app-header></app-header>
-    ${template}`;
+    ${template}
+    <snack-bar></snack-bar>`;
     this.setLastPages();
     this.paginationHandler();
   }
@@ -48,7 +50,6 @@ class AdminPage {
   }
 
   private async renderTableHeader() {
-    console.log('renderTableHeader() =>');
     const tableHeader = document.getElementById('table-header')!;
     tableHeader.innerHTML = `${templateUsersTableHeader}`;
     const activeSortOrder = document.getElementById(`${state.sortProperty}-${state.sortOrder}`)!;
@@ -57,7 +58,7 @@ class AdminPage {
   }
 
   private async renderTableBody() {
-    const endpoint = 'http://localhost:3000/users';
+    const endpoint = `${settings.SERVER}/users`;
     const tableBody = document.getElementById('table-body')!;
     const viewState = tableBody.getAttribute('data-view');
     let groupUsers: IUser[] = [];
@@ -167,7 +168,6 @@ class AdminPage {
     const tableRow = elem.closest('.table__row')!;
     const apiRes = await api.statistics.delete(tableRow.id); //  users.delete(tableRow.id);
     if (apiRes.success) {
-      console.log(apiRes.success);
       this.renderLogsTableBody();
     }
   }
@@ -194,7 +194,6 @@ class AdminPage {
       createElement('signin-form', document.body);
       document.getElementById('submit')!.textContent! = 'CREATE';
       document.body.classList.add('overflow-hidden');
-      console.log('state.currentPage', state.currentPage);
     });
     showLogs.addEventListener('click', () => {
       const allUsersList = document.getElementById('all-users-list')!;
@@ -212,7 +211,6 @@ class AdminPage {
         state.currentTableView = 'users';
         currentPage.value = String(state.currentTable);
       }
-      console.log('showLogs =>');
     });
     currentPage.addEventListener('change', () => {
       const currentValue = Number(currentPage.value);
@@ -255,18 +253,14 @@ class AdminPage {
     const pagination = document.getElementById('pagination') as HTMLDivElement;
     const currentPage = document.getElementById('current-page') as HTMLInputElement;
     pagination?.addEventListener('click', (event: Event) => {
-      console.log('paginationHandler() => click');
       const target = event.target as HTMLButtonElement;
-      console.log('target.id', target.id);
       if (state.currentTableView === 'users') {
         currentPage.value = String(state.currentTable);
         if (target.id === 'prev' && state.currentTable !== 1) {
           state.currentTable = state.currentTable! - 1;
-          console.log('paginationHandler() => state.currentTable - 1', state.currentTable);
           this.renderTableBody();
         } else if (target.id === 'next' && state.currentTable !== state.limitTables) {
           state.currentTable = state.currentTable! + 1;
-          console.log('paginationHandler() => state.currentTable + 1', state.currentTable);
           this.renderTableBody();
         }
         currentPage.value = String(state.currentTable);
@@ -274,11 +268,9 @@ class AdminPage {
         currentPage.value = String(state.currentLogTable);
         if (target.id === 'prev' && state.currentLogTable !== 1) {
           state.currentLogTable = state.currentLogTable! - 1;
-          console.log('paginationHandler() => state.currentTable - 1', state.currentLogTable);
           this.renderLogsTableBody();
         } else if (target.id === 'next' && state.currentLogTable !== state.limitLogTables) {
           state.currentLogTable = state.currentLogTable! + 1;
-          console.log('paginationHandler() => state.currentTable + 1', state.currentLogTable);
           this.renderLogsTableBody();
         }
       }
@@ -289,7 +281,6 @@ class AdminPage {
     const tableRow = elem.closest('.table__row')!;
     const apiRes = await api.admin.deleteUser(tableRow.id); //  users.delete(tableRow.id);
     if (apiRes.success) {
-      console.log(apiRes.success);
       this.renderTableBody();
     }
   }
@@ -302,7 +293,7 @@ class AdminPage {
     if (role === UserRole.user || role === UserRole.admin) {
       user.data!.role = userRole.value.toUpperCase();
       userRole.value = userRole.value.toUpperCase();
-      const apiRes = await api.users.update(user.data!);
+      const apiRes = await api.users.updateUserRole(user.data!.id, user.data!.role);
       if (apiRes.success) {
         console.log(apiRes.success);
       }

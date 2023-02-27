@@ -11,12 +11,12 @@ class MainPage {
     document.body.innerHTML = `
       <app-header></app-header>
       ${template}
-      <app-footer></app-footer>`;
+      <app-footer></app-footer>
+      <snack-bar></snack-bar>`;
     this.renderScroll3D();
   }
 
   renderScroll3D(): void {
-    console.log('renderScroll3D()');
     const zAxisSpacing = -1000;
     let lastPos = zAxisSpacing / 5;
     const $frames: HTMLCollectionOf<Element> = document.getElementsByClassName('frame');

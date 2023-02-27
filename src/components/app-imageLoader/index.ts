@@ -54,7 +54,6 @@ class ImageLoader extends HTMLElement {
     dropArea.addEventListener('drop', (e) => {
       const ev = e as DragEvent;
       fileInput.files = ev.dataTransfer?.files as FileList;
-      console.log(fileInput.files);
       this.fileInputHandler();
     });
 
@@ -93,7 +92,6 @@ class ImageLoader extends HTMLElement {
       this.renderLoader();
       const url = await this.sendFile(fileInput.files[0]);
       if (url) {
-        // this.setImage(url);
         this.uploadedUrl = url;
         this.renderSuccess();
       } else {
@@ -102,19 +100,6 @@ class ImageLoader extends HTMLElement {
     }
   }
 
-  // private setImage(url: string) {
-  //   const imageWrapper = this.querySelector('#gallery') as HTMLDivElement;
-  //   const image = new Image();
-  //   image.src = url;
-  //   image.onload = () => {
-  //     console.log('IMAGE', image);
-  //     imageWrapper.style.backgroundImage = `url(${image.src})`;
-  //   };
-  //   image.onerror = (error) => {
-  //     console.log(error);
-  //   };
-  // }
-
   private async sendFile(file: File) {
     const formData = new FormData();
     formData.append('profile', file);
@@ -122,7 +107,7 @@ class ImageLoader extends HTMLElement {
     const apiRes = await api.users.uploadAvatar(userId, formData);
     if (apiRes.success) {
       const avatarRes = await api.users.getAvatar(userId);
-      console.log('avatarRes', avatarRes);
+
       if (avatarRes.data) {
         return avatarRes.data.profilePicture;
       }

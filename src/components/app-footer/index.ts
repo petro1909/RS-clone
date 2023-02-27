@@ -6,10 +6,6 @@ class AppFooter extends HTMLElement {
     this.innerHTML = template;
     this.classList.add('app-footer');
   }
-
-  connectedCallback() {
-    console.log('app-footer added');
-  }
 }
 
 customElements.define('app-footer', AppFooter);

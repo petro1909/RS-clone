@@ -9,7 +9,6 @@ class AppSigninForm extends HTMLElement {
     const form = this.querySelector('.signin-form') as HTMLFormElement;
     const passEyeBtn = this.querySelector('.password-eye') as HTMLButtonElement;
     passEyeBtn.onclick = () => {
-      console.log('passEyeBtn');
       const input = passEyeBtn.nextElementSibling as HTMLInputElement;
       if (input) {
         if (input.type === 'password') {

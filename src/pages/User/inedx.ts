@@ -2,7 +2,6 @@ import api from '../../api';
 import state from '../../store/state';
 import { IUser } from '../../types';
 import createElement from '../../utils/createElement';
-// import createElement from '../../utils/createElement';
 import template from './template.html';
 
 class UserPage {
@@ -11,7 +10,8 @@ class UserPage {
     document.body.classList.remove('body-scrollbar--invisible');
     document.body.innerHTML = `
     <app-header></app-header>
-    ${template}`;
+    ${template}
+    <snack-bar></snack-bar>`;
     this.setUserValues();
     this.setAvatar();
   }
@@ -47,7 +47,6 @@ class UserPage {
   }
 
   private setAvatar() {
-    console.log('USER', state.user);
     const avatarWrapper = document.querySelector('#avatar-wrapper') as HTMLButtonElement;
     const avatarBtn = avatarWrapper.querySelector('#userpic') as HTMLButtonElement;
     const user = state.user as IUser;
@@ -66,7 +65,6 @@ class UserPage {
     }
     avatarBtn.onclick = (e) => {
       e.preventDefault();
-      // createElement('image-loader', document.body);
       document.body.innerHTML += '<image-loader></image-loader>';
     };
 
@@ -74,7 +72,6 @@ class UserPage {
       const ev = e as CustomEvent;
       const userState = state.user as IUser;
       userState.profilePicture = ev.detail as string;
-      // updatestate
       this.render();
     });
   }
@@ -83,7 +80,6 @@ class UserPage {
     const apiRes = await api.users.deleteAvatar(userId);
     if (apiRes.success) {
       const user = state.user as IUser;
-      console.log('RESPONSE', apiRes, state);
       user.profilePicture = '';
       this.render();
     }

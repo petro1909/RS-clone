@@ -40,17 +40,12 @@ const createInputButton = (parent: HTMLElement, callback: (value: string) => voi
       mainButton.disabled = true;
       submitButton.disabled = true;
       callback(newValue);
-      // this.addNewBoard(newValue);
     } else {
       mainButton.style.display = 'flex';
       inputWrapper.style.display = 'none';
     }
   };
 
-  // input.onkeydown = (e) => {
-  //   const ev = e as KeyboardEvent;
-  //   if (ev.key === 'Enter') submit();
-  // };
   input.onblur = submit;
   submitButton.onclick = submit;
 };

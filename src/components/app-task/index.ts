@@ -51,17 +51,14 @@ class AppTask extends HTMLElement {
     const taskId = this.getAttribute('taskId') as string;
     const taskUsersRes = await api.taskUsers.getTaskUsers(taskId);
     const taskUsers = taskUsersRes.data as ITaskUser[];
-    // const activeBoardUsers = await apiService.getBoardUsers()
 
     if (taskUsers.length === 0) return;
     const users = taskUsers.map((taskUser) => {
-      console.log('STTT', state.activeBoardUsers);
       const [currUser] = state.activeBoardUsers
         .filter((boardUser) => boardUser.id === taskUser.boardUserId);
       return currUser;
     });
-    console.log('taskUsers1', taskUsers, state, users);
-    // console.log('USERS1', users);
+
     users.forEach((user) => {
       usersWrapper.innerHTML += `
       <div id="p-${user.user.id}" class="task-users__user-img board-users__user"></div>
@@ -80,28 +77,18 @@ class AppTask extends HTMLElement {
       taskId,
     }, `${menuTemplate}`);
     const editBtn = menuWrapper.querySelector('#edit-task') as HTMLButtonElement;
-    // const assignBtn = menuWrapper.querySelector('#assign-task') as HTMLButtonElement;
     const removeBtn = menuWrapper.querySelector('#remove-task') as HTMLButtonElement;
+    const boardPage = document.querySelector('#board-page') as HTMLDivElement;
     menuBtn.onclick = () => {
       menuWrapper.classList.remove('element--invisible');
 
       editBtn.onclick = () => {
         menuWrapper.classList.add('element--invisible');
-        createElement('task-form', document.body, {
+        createElement('task-form', boardPage, {
           taskId,
         });
         document.body.classList.add('overflow-hidden');
-        // nameInput.focus();
       };
-
-      // assignBtn.onclick = () => {
-      //   const assignWrapper = this.querySelector('#task-assign-wrapper') as HTMLDivElement;
-      //   assignWrapper.innerHTML = `
-      //   <app-modal>
-      //     <usertask-select id="${taskId}"></userboard-select>
-      //   </app-modal>
-      //   `;
-      // };
 
       removeBtn.onclick = () => {
         this.deleteTask(taskId);
@@ -115,11 +102,9 @@ class AppTask extends HTMLElement {
         menuWrapper.classList.add('element--invisible');
       }
     });
-    // this.deleteTask(taskId);
   }
 
   private async deleteTask(taskId: string) {
-    console.log('TASKID', taskId);
     const result = await api.tasks.delete(taskId);
     if (result.success) {
       this.remove();

@@ -80,9 +80,6 @@ class AppCalendar extends HTMLElement {
       </div>
       <table class="${this.classNamePrefix}__btns-wrapper" id="${this.classNamePrefix}-btns"></table>
     `;
-    // <div class="${this.classNamePrefix}__dates-wrapper" id="${this.classNamePrefix}-dates"></div>
-    // <div class="${this.classNamePrefix}__months-wrapper" id="${this.classNamePrefix}-months"></di
-    // <div class="${this.classNamePrefix}__years-wrapper" id="${this.classNamePrefix}-years"></div>
     this.createCalendar();
   }
 
@@ -167,9 +164,6 @@ class AppCalendar extends HTMLElement {
       } else {
         this.setMonth(this.monthsNames[+month + 1]);
       }
-      // e.preventDefault();
-      // const newMonth = +month === 11 ? 0 : +month + 1;
-      // this.setMonth(newMonth.toString());
     };
     this.renderTable(datesWrapper, this.daysNames, this.getTableData(month, year));
     const changeEvent = new Event('change');
@@ -204,7 +198,6 @@ class AppCalendar extends HTMLElement {
   private getTableData(month: string, year: string): HTMLButtonElement[] {
     const lastDayOfMonth = this.getLastDateOfMonth(+month, +year);
     const firstWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, 1);
-    // const lastWeekDayOfMonth = this.getWeekDayOfMonth(+year, +month, lastDayOfMonth);
     const lastDateOfPrevMonth = this.getLastDateOfMonth((+month - 1), +year);
     const datesBefore = this.getDatesBefore(firstWeekDayOfMonth, lastDateOfPrevMonth);
     const datesThisMonth = this.getDatesThisMonth(lastDayOfMonth);
@@ -246,8 +239,6 @@ class AppCalendar extends HTMLElement {
     const arr = [];
     let date = lastDate;
     for (let i = firstDayOfweek - 1; i >= 1; i -= 1) {
-      // let btn = new Component(null, 'button', 'btn-disabled', date--);
-      // btn.node.setAttribute('disabled', 'disabled')
       arr.push(date);
       date -= 1;
     }
@@ -257,10 +248,7 @@ class AppCalendar extends HTMLElement {
   private getDatesAfter(count: number): number[] {
     const arr = [];
     let date = 1;
-    // for (let i = Number(lastDayOfweek) + 1; i <= count; i += 1) {
     for (let i = 1; i <= count; i += 1) {
-      // let btn = new Component(null, 'button', 'btn-disabled', date++);
-      // btn.node.setAttribute('disabled', 'disabled')
       arr.push(date);
       date += 1;
     }

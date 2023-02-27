@@ -19,7 +19,6 @@ class InputMark extends HTMLElement {
 
   connectedCallback() {
     this.classList.add('input-mark');
-    // this.renderInputs();
     if (this.getAttribute('mode') === 'show') {
       this.setValues();
       this.renderShowMode();
@@ -52,7 +51,6 @@ class InputMark extends HTMLElement {
     }, 'Add mark ✚') as HTMLButtonElement;
     mainButton.onclick = () => {
       this.prevMode = 'add';
-      // this.setAttribute('mode', 'edit');
       this.renderEditMode();
     };
   }
@@ -131,54 +129,7 @@ class InputMark extends HTMLElement {
     };
   }
 
-  // renderInputs() {
-  //   const mainButton = createElement('button', this, {
-  //     class: 'input-mark__main-btn',
-  //   }, 'Add mark ✚') as HTMLButtonElement;
-
-  //   const inputsWrapper = createElement('div', this, {
-  //     class: 'input-mark__inputs-wrapper',
-  //   }) as HTMLInputElement;
-  //   const nameInput = createElement('input', inputsWrapper, {
-  //     class: 'input-mark__name-input',
-  //     type: 'text',
-  //   }) as HTMLInputElement;
-  //   const colorInput = createElement('input', inputsWrapper, {
-  //     class: 'input-mark__color-input',
-  //     type: 'color',
-  //   }) as HTMLInputElement;
-  //   const submitButton = createElement('button', inputsWrapper, {
-  //     class: 'input-mark__submit_btn',
-  //   }, '☑') as HTMLButtonElement;
-  //   const removeButton = createElement('button', inputsWrapper, {
-  //     class: 'input-mark__delete_btn',
-  //   }, '❌') as HTMLButtonElement;
-
-  //   inputsWrapper.style.display = 'none';
-
-  //   mainButton.onclick = () => {
-  //     mainButton.style.display = 'none';
-  //     inputsWrapper.style.display = 'flex';
-  //   };
-
-  //   colorInput.oninput = () => {
-  //     nameInput.style.backgroundColor = colorInput.value;
-  //     nameInput.style.color = isLight(colorInput.value) ? '#000' : '#fff';
-  //   };
-
-  //   submitButton.onclick = () => {
-  //     this.sendMark(nameInput.value, colorInput.value);
-  //     nameInput.value = 'Uploading';
-  //   };
-
-  //   removeButton.onclick = () => {
-  //     mainButton.style.display = 'flex';
-  //     inputsWrapper.style.display = 'none';
-  //   };
-  // }
-
   private async sendMark(name: string, color: string) {
-    console.log('mark', name, color, state.activeBoardId);
     if (this.getAttribute('id')) {
       const id = this.getAttribute('id') as string;
       const result = await api.boardMarks.update({
@@ -194,7 +145,7 @@ class InputMark extends HTMLElement {
       const result = await api.boardMarks.create({
         name,
         color,
-        boardId: state.activeBoardId, // state.activeBoardId,
+        boardId: state.activeBoardId,
       });
       if (result.success) {
         this.dispatchEvent(new Event('send'));

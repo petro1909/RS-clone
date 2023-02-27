@@ -24,7 +24,6 @@ class AppLoginForm extends HTMLElement {
     const popupPage = this.querySelector('.popup-page') as HTMLFormElement;
 
     popupPage.onclick = (event) => {
-      console.log('click');
       const eventTarget = event.target as HTMLDivElement;
       if (eventTarget?.classList.contains('popup-page') ||
         eventTarget?.classList.contains('close-form-cross')) {
@@ -35,7 +34,6 @@ class AppLoginForm extends HTMLElement {
 
     form.onsubmit = (e) => {
       e.preventDefault();
-      console.log('asdasdas');
       this.submitHandler(form);
     };
     this.setInputFieldState();
@@ -54,11 +52,9 @@ class AppLoginForm extends HTMLElement {
       }
     });
     if (Object.values(loginData).length === 2) this.logIn(loginData);
-    this.logIn(loginData);
   }
 
   private async logIn(loginData: Ilogin) {
-    console.log('login', loginData);
     authService.login(loginData);
   }
 

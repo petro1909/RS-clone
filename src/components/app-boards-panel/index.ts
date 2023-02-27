@@ -65,7 +65,7 @@ class AppBoardsPanel extends HTMLElement {
           this.renderBoard(this.boardWrapper, board);
         };
       });
-      // console.log('LOADED!!!!!!!!!!!!!', this.boardsData, state.activeBoardId);
+
       const currentBoard = this.boardsData.find((board) => board?.id === state.activeBoardId);
 
       this.renderBoard(this.boardWrapper, currentBoard);

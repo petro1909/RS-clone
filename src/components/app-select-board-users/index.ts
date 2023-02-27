@@ -43,7 +43,6 @@ class UserBoardsSelect extends HTMLElement {
         }
       }
     });
-    console.log('USERS', users, boardUsers);
   }
 
   private async submit() {
