@@ -9,15 +9,6 @@ const getBoardUsers = async (id: string) => baseFetch<IBoardUser[]>(`${ENDPOINT}
 const createBoardUser = async (userId: string, boardId: string) => baseFetch<IBoardUser>(`${ENDPOINT}`, 'POST', JSON.stringify({ userId, boardId }));
 
 const removeBoardUser = async (id: string) => baseFetch<IBoardUser[]>(`${ENDPOINT}/${id}`, 'DELETE');
-// const createUserBoard = async (userId: string, boardName: string) => {
-//   const newBoard = { name: boardName, userId };
-//   return baseFetch<IUser>(`${ENDPOINT}`, 'POST', JSON.stringify(newBoard));
-// };
-
-// const updateBoard = async (board: IUser) =>
-// baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(board));
-
-// const deleteBoard = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const boardUsers = {
   getBoardUsers,

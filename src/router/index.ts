@@ -14,13 +14,12 @@ class Router {
 
     if (correctRoute.isAuthorized && !state.isAuthorized) {
       this.goTo('/');
-    } else if (correctRoute.title === 'Admin' && state.user?.role !== 'ADMIN') {
+    } else if (correctRoute.title === 'Admin' && state.user?.role === 'USER') {
       this.goTo('/board');
     } else {
       const currRoute = correctRoutes[0];
       document.body.innerHTML = '';
       state.currentPage = currRoute.title;
-      console.log('render page', currRoute.title);
       currRoute.page.render();
     }
   }

@@ -1,6 +1,5 @@
 import template from './template.html';
 import { ITask, ITaskUser } from '../../types';
-// import validate from '../../utils/validate';
 import router from '../../router';
 import api from '../../api';
 import apiService from '../../services/apiHandler';
@@ -10,8 +9,6 @@ import createElement from '../../utils/createElement';
 import { isLight } from '../../utils/colorHelpers';
 import state from '../../store/state';
 import settings from '../../store/settings';
-// import fileIcon from '../../assets/icons/page.svg';
-// import linkIcon from '../../assets/icons/link.svg';
 
 class TaskForm extends HTMLElement {
   private task: ITask;
@@ -90,7 +87,6 @@ class TaskForm extends HTMLElement {
         const taskKey = name as keyof ITask;
         if (name in this.task && this.task[taskKey]) {
           if (currInput.type === 'date') {
-            // const dateInput = currInput as HTMLDa
             const stringDate = this.task[taskKey] as string;
             const date = new Date(stringDate);
             currInput.setAttribute('value', `${convertTimeForDateInput(date)}`);
@@ -131,35 +127,9 @@ class TaskForm extends HTMLElement {
       });
     }
     this.sendTask(task);
-
-    // const taskData = {
-    //   name: inputs['name']
-    // }
-    // inputs.forEach((input) => {
-    //   const currInput = input as HTMLInputElement;
-    //   const { name, value } = currInput;
-    //   if (name) {
-    //     if (currInput.hasAttribute('data-success')) {
-    //       taskData[name] = value;
-    //       if (this.hasAttribute('taskId') && (name in this.task)) {
-    //         this.task[name as keyof ITask] = value;
-    //       }
-    //     }
-    //   }
-    // });
-    // if (Object.values(taskData).length === 1) this.sendTask(taskData);
-    // {
-    //   if (this.hasAttribute('taskId')) {
-    //     this.updateTask();
-    //   } else {
-    //     this.createNewTask(taskData);
-    //   }
-    // }
   }
 
   private async sendTask(taskData: ITask) {
-    // const taskform = document.querySelector('task-form') as HTMLElement;
-    // const currentStatus = taskform?.getAttribute('statusId') as string;
     if (this.hasAttribute('taskId')) {
       const result = await api.tasks.update(taskData);
       if (result.success) {
@@ -185,7 +155,6 @@ class TaskForm extends HTMLElement {
     inputs.forEach((input) => {
       const currInput = input as HTMLInputElement;
       currInput.onblur = () => {
-        // const { name, value } = currInput;
         this.showMessage(currInput);
         currInput.classList.remove('input-task_filled');
         currInput.classList.remove('input-task_error');
@@ -194,16 +163,8 @@ class TaskForm extends HTMLElement {
           currInput.classList.add('input-task_error');
         } else {
           currInput.classList.add('input-task_filled');
-          // //
           currInput.classList.remove('input-task_error');
           currInput.setAttribute('data-success', 'data-success');
-          // if (validate[name](value)) {
-          //   currInput.classList.remove('input-task_error');
-          //   currInput.setAttribute('data-success', 'data-success');
-          // } else {
-          //   currInput.classList.add('input-task_error');
-          //   this.showMessage(currInput, 'Error value');
-          // }
         }
       };
     });
@@ -243,7 +204,6 @@ class TaskForm extends HTMLElement {
         tag.style.color = isLight(mark.color) ? '#000' : '#fff';
       }
     });
-    console.log(taskMarksWrapper, 'MARKS', marks);
   }
 
   private async renderTaskUsers() {
@@ -270,7 +230,6 @@ class TaskForm extends HTMLElement {
     taskUsersWrapper.innerHTML = '';
     const taskId = this.getAttribute('taskId') as string;
     const taskUsers = (await api.taskUsers.getTaskUsers(taskId)).data as ITaskUser[];
-    console.log('taskUsers', taskUsers);
     const users = taskUsers.map((taskUser) => {
       const [currUser] = state.activeBoardUsers
         .filter((boardUser) => boardUser.id === taskUser.boardUserId);
@@ -315,7 +274,6 @@ class TaskForm extends HTMLElement {
     taskAttachWrapper.innerHTML = '';
     const taskId = this.getAttribute('taskId') as string;
     const links = await api.files.getFiles(taskId);
-    console.log('LINKS', links);
     if (!links.success) return;
     links.data!.forEach((link) => {
       if (link.type === 'LINK') {
@@ -351,7 +309,6 @@ class TaskForm extends HTMLElement {
       btn.onclick = (e) => {
         e.preventDefault();
         const linkId = btn.id as string;
-        // console.log('linkId', linkId);
         this.deleteFile(linkId);
       };
     });

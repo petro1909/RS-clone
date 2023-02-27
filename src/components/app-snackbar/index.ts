@@ -4,7 +4,6 @@ import './index.scss';
 
 class AppSnackbar extends HTMLElement {
   connectedCallback() {
-    console.log('connected');
     this.setAttribute('class', 'snack-bar');
     this.addListeners();
   }

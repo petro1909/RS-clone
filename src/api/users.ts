@@ -33,6 +33,8 @@ const create = async (registerUser: IRegisterUser) => baseFetch<IRegisterUser>(`
 
 const updateUser = async (user: Omit<IUser, 'profilePicture'>) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(user));
 
+const updateUserRole = async (id: string, role: string) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify({ id, role }));
+
 const updateUserPass = async (id: string, password: string) => baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify({ id, password }));
 
 const deleteUser = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'DELETE');
@@ -40,8 +42,7 @@ const deleteUser = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, '
 const getAvatar = async (id: string) => {
   const res = await baseFetch<{ profilePicture: string }>(`${ENDPOINT}/${id}/profilePicture`, 'GET');
   if (res.success && res.data) {
-    console.log('AVA', res);
-    res.data.profilePicture = `${settings.SERVER}${res.data.profilePicture}`; // `${res.data.profilePicture}`;
+    res.data.profilePicture = `${settings.SERVER}${res.data.profilePicture}`;
   }
   return res;
 };
@@ -49,15 +50,6 @@ const getAvatar = async (id: string) => {
 const uploadAvatar = async (id: string, file: FormData) => baseFetch<string>(`${ENDPOINT}/${id}/profilePicture`, 'POST', file);
 
 const deleteAvatar = async (id: string) => baseFetch<string>(`${ENDPOINT}/${id}/profilePicture`, 'DELETE');
-// const createUserBoard = async (userId: string, boardName: string) => {
-//   const newBoard = { name: boardName, userId };
-//   return baseFetch<IUser>(`${ENDPOINT}`, 'POST', JSON.stringify(newBoard));
-// };
-
-// const updateBoard = async (board: IUser) =>
-// baseFetch<IUser>(`${ENDPOINT}`, 'PUT', JSON.stringify(board));
-
-// const deleteBoard = async (id: string) => baseFetch<IUser>(`${ENDPOINT}/${id}`, 'DELETE');
 
 const users = {
   getAllUsers,
@@ -65,6 +57,7 @@ const users = {
   getById,
   create,
   update: updateUser,
+  updateUserRole,
   updateUserPass,
   delete: deleteUser,
   getAvatar,

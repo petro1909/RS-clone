@@ -47,7 +47,6 @@ class UserPage {
   }
 
   private setAvatar() {
-    console.log('USER', state.user);
     const avatarWrapper = document.querySelector('#avatar-wrapper') as HTMLButtonElement;
     const avatarBtn = avatarWrapper.querySelector('#userpic') as HTMLButtonElement;
     const user = state.user as IUser;
@@ -66,7 +65,6 @@ class UserPage {
     }
     avatarBtn.onclick = (e) => {
       e.preventDefault();
-      // createElement('image-loader', document.body);
       document.body.innerHTML += '<image-loader></image-loader>';
     };
 
@@ -74,7 +72,6 @@ class UserPage {
       const ev = e as CustomEvent;
       const userState = state.user as IUser;
       userState.profilePicture = ev.detail as string;
-      // updatestate
       this.render();
     });
   }
@@ -83,7 +80,6 @@ class UserPage {
     const apiRes = await api.users.deleteAvatar(userId);
     if (apiRes.success) {
       const user = state.user as IUser;
-      console.log('RESPONSE', apiRes, state);
       user.profilePicture = '';
       this.render();
     }

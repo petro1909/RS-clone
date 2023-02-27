@@ -6,10 +6,6 @@ class BoardMenu extends HTMLElement {
     this.innerHTML = template;
     this.classList.add('board-menu');
   }
-
-  connectedCallback() {
-    console.log('board-menu added');
-  }
 }
 
 customElements.define('board-menu', BoardMenu);
