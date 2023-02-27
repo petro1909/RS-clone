@@ -3,7 +3,6 @@ import state from '../../store/state';
 
 class MainPage {
   render(): void {
-    console.log('render() MainPage');
     state.currentPage = 'Main';
     document.title = 'Main Page';
     document.body.classList.add('body-scrollbar--invisible');

@@ -25,8 +25,8 @@ class AppLoginForm extends HTMLElement {
 
     popupPage.onclick = (event) => {
       const eventTarget = event.target as HTMLDivElement;
-      if (eventTarget?.classList.contains('popup-page') ||
-        eventTarget?.classList.contains('close-form-cross')) {
+      if (eventTarget?.classList.contains('popup-page')
+        || eventTarget?.classList.contains('close-form-cross')) {
         document.body.classList.remove('overflow-hidden');
         this.remove();
       }
