@@ -31,7 +31,7 @@ module.exports = (options) => {
     resolve: {
       extensions: ['.ts', '.js'],
     },
-    devtool: isProduction ? '' : 'source-map',
+    devtool: isProduction ? 'nosources-source-map' : 'source-map',
     devServer: {
       compress: true,
       hot: true,
