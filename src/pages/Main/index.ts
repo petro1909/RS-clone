@@ -2,7 +2,6 @@ import template from './template.html';
 
 class MainPage {
   render(): void {
-    console.log('render() MainPage');
     document.title = 'Main Page';
     document.body.classList.add('body-scrollbar--invisible');
     document.body.innerHTML = `
@@ -14,7 +13,6 @@ class MainPage {
   }
 
   renderScroll3D(): void {
-    console.log('renderScroll3D()');
     const zAxisSpacing = -1000;
     let lastPos = zAxisSpacing / 5;
     const $frames: HTMLCollectionOf<Element> = document.getElementsByClassName('frame');

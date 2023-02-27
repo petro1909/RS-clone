@@ -98,7 +98,6 @@ class TaskAttach extends HTMLElement {
 
     sendLinkButton.onclick = (e) => {
       e.preventDefault();
-      console.log('LINNNNNK', linkInput.value);
       this.sendLink(linkInput.value);
     };
   }

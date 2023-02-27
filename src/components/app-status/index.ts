@@ -40,7 +40,7 @@ class AppStatus extends HTMLElement {
     nameInput.value = name;
     nameInput.onblur = () => {
       const statusName = nameInput.value;
-      console.log(statusName);
+
       if (statusName.trim() && statusName !== name) {
         this.updateStatus({
           id, name: statusName.trim(), boardId: state.activeBoardId, order: +order,
@@ -71,7 +71,7 @@ class AppStatus extends HTMLElement {
         this.removeStatus();
       };
     };
-    // refactor: to global EvLis
+
     document.body.addEventListener('click', (e) => {
       const ev = e as Event;
       const target = ev.target as HTMLElement;
@@ -100,14 +100,9 @@ class AppStatus extends HTMLElement {
   private renderTaskForm() {
     const addTaskBtn = this.querySelector('.status__add-task');
     addTaskBtn?.addEventListener('click', () => {
-      console.log('showTaskForm() =>');
       createElement('task-form', document.body, { statusId: `${this.getAttribute('statusId')}` });
       document.body.classList.add('overflow-hidden');
     });
-  }
-
-  private getTasks() {
-
   }
 }
 

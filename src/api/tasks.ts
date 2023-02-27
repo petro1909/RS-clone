@@ -10,10 +10,7 @@ const getTaskById = async (taskId: string) => baseFetch<ITask>(`${ENDPOINT}/${ta
 
 // eslint-disable-next-line max-len
 const getTasksByDate = async (statusId: string) => baseFetch<ITask[]>(`${ENDPOINT}/?statusId=${statusId}&sort=endDate&order=ASC`, 'GET');
-// const createTask = async (statusId: string, content: string, order: number) => {
-//   const taskData = { text: content, statusId, order };
-//   return baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(taskData));
-// };
+
 const createTask = async (task: ITask) => baseFetch<ITask>(`${ENDPOINT}`, 'POST', JSON.stringify(task));
 
 const updateTask = async (task: ITask) => baseFetch<ITask>(`${ENDPOINT}`, 'PUT', JSON.stringify(task));

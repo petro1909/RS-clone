@@ -31,6 +31,7 @@ class AppBoard extends HTMLElement {
 
       const statuses = await api.statuses.getByBoard(state.activeBoardId);
       const activeBoardUsers = await apiService.getBoardUsers(state.activeBoardId);
+
       state.statuses = statuses.data!;
       state.activeBoardUsers = activeBoardUsers;
       if (!statuses.data) return;
@@ -245,7 +246,6 @@ class AppBoard extends HTMLElement {
 
     if (this.tag === 'TASK') {
       document.onmouseup = () => {
-        // console.log('mouseup =>', task);
         const dropZone = this.board.querySelector('#drop-zone');
         const emptyZone = this.board.querySelector('#empty-zone');
         if (dropZone) {

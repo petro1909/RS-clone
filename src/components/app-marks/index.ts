@@ -28,7 +28,7 @@ class MarkList extends HTMLElement {
     const resultTaskMarks = await api.taskMarks.getByTask(this.id);
     if (!resultTaskMarks.data) return;
     const taskMarks = resultTaskMarks.data as ITaskMark[];
-    console.log('taskMarks', taskMarks);
+
     marks.forEach((mark) => {
       marksWrapper.innerHTML += `
       <li class="board-mark__item">
@@ -39,16 +39,14 @@ class MarkList extends HTMLElement {
         
         <input-mark mode="show" id="${mark.id}" color="${mark.color}" name="${mark.name}"></input-mark>
       </li>
-      `; // <input type="checkbox" value="${mark.id}"></input>
+      `;
     });
 
     const marksCheckBxs = marksWrapper.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
-    console.log(marksCheckBxs);
+
     marksCheckBxs.forEach((checkBx) => {
       const [currTaskMark] = taskMarks.filter((taskMark) => taskMark.boardMarkId === checkBx.value);
-      // if (taskMarks.map((taskMark) => taskMark.boardMarkId).includes(checkBx.value)) {
-      //   checkBx.setAttribute('checked', 'true');
-      // }
+
       if (currTaskMark) checkBx.setAttribute('checked', 'true');
       checkBx.addEventListener('input', () => {
         if (!checkBx.checked) {

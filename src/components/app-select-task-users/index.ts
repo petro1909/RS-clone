@@ -18,10 +18,9 @@ class UserTasksSelect extends HTMLElement {
     this.dispatchEvent(new Event('change'));
   }
 
-  private async render(searchValue = '') {
+  private async render() {
     const usersWrapper = this.querySelector('#usertask-select-users') as HTMLDivElement;
     const taskUsers = (await api.taskUsers.getTaskUsers(this.id)).data as ITaskUser[];
-    console.log('TASKUSERS', state.activeBoardUsers, taskUsers, searchValue);
     usersWrapper.innerHTML = '';
     state.activeBoardUsers.forEach((user) => {
       usersWrapper.innerHTML += `
