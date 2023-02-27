@@ -12,15 +12,6 @@
   border-radius: $border-radius-big-element;
   background-color: var(--color-background-modal);
   cursor: auto;
-
-  @include _576 {
-    padding: 50px;
-  };
-
-  @include _414 {
-    padding: 40px;
-  };
-
 }
 
 .login-form {

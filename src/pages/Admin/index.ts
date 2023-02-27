@@ -13,6 +13,7 @@ class AdminPage {
   render(): void {
     document.title = 'Admin Page';
     document.body.classList.remove('body-scrollbar--invisible');
+    document.body.classList.add('overflow-hidden');
     document.body.innerHTML = `
     <app-header></app-header>
     ${template}

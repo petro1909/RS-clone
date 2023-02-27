@@ -17,7 +17,7 @@
 }
 
 .board-wrapper {
-  min-height: calc(100vh - $header-height * 2 - 10px);
+  min-height: calc(100vh - $header-height * 2 - 20px);
   overflow-x: auto;
 }
 
@@ -55,11 +55,11 @@
     @include set-font($font-family-base, map-get($font-size, xl));
     color: var(--color-font-regular-light);
     @include _576 {
-      width: 150px;
+      max-width: 300px;
       text-overflow: ellipsis;
     };
     @include _414 {
-      width: 100px;
+      max-width: 180px;
       text-overflow: ellipsis;
     };
   }
@@ -79,6 +79,7 @@
 }
 
 .board-users {
+  max-width: 240px;
   display: flex;
   padding: 0;
   margin: 0;

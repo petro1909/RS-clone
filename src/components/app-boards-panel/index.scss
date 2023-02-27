@@ -60,7 +60,8 @@
 
 .no-projects-message {
   padding-left: 2rem;
-  @include set-font($font-family-base, map-get($font-size, xl));
+  font-family: $font-family-base;
+  font-size: 2rem;
   color: var(--color-font-regular);
 }
 
