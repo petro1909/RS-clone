@@ -103,10 +103,12 @@
       right: 0;
       z-index: 200;
       display: none;
+      border-radius: $border-radius-big-element;
       background-color: hsl(0deg, 0%, 20%);
       color: white;
       padding: 5px 10px;
       font-size: 14px;
+      font-family: $font-family-base;
 
       &::before {
         content: "";
