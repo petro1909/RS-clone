@@ -48,6 +48,7 @@
   outline: none;
   color: var(--color-font-regular);
   transition: all $delay * 1 ease;
+  cursor: pointer;
 
   &:hover {
     color: var(--color-danger);
