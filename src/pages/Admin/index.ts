@@ -13,6 +13,7 @@ class AdminPage {
   render(): void {
     document.title = 'Admin Page';
     document.body.classList.remove('body-scrollbar--invisible');
+    document.body.classList.add('overflow-hidden');
     document.body.innerHTML = `
     <app-header></app-header>
     ${template}
@@ -123,7 +124,7 @@ class AdminPage {
       </table>`;
     this.renderLogsTableHeader();
     await this.renderLogsTableBody();
-    this.tableLogsEventsHandler();
+    // this.tableLogsEventsHandler();
   }
 
   private renderLogsTableHeader() {
@@ -147,30 +148,27 @@ class AdminPage {
           <td class="log__method cell">${log.method}</td>
           <td class="log__os cell">${log.os}</td>
           <td class="log__browser cell">${log.browser}</td>
-          <th class="log__btns cell">
-            <button class="btn btn-delete" data-action="delete">✖</button>
-          </th>
         </tr>`;
       });
     }
   }
 
-  private tableLogsEventsHandler() {
-    const tableLogsBody = document.getElementById('table-logs-body')! as HTMLTableSectionElement;
-    tableLogsBody.addEventListener('click', (event: Event) => {
-      const target = event.target as HTMLElement;
-      const action = target.getAttribute('data-action')!;
-      if (action === 'delete') this.deleteLog(target);
-    });
-  }
+  // private tableLogsEventsHandler() {
+  //   const tableLogsBody = document.getElementById('table-logs-body')! as HTMLTableSectionElement;
+  //   tableLogsBody.addEventListener('click', (event: Event) => {
+  //     const target = event.target as HTMLElement;
+  //     const action = target.getAttribute('data-action')!;
+  //     if (action === 'delete') this.deleteLog(target);
+  //   });
+  // }
 
-  private async deleteLog(elem: HTMLElement) {
-    const tableRow = elem.closest('.table__row')!;
-    const apiRes = await api.statistics.delete(tableRow.id); //  users.delete(tableRow.id);
-    if (apiRes.success) {
-      this.renderLogsTableBody();
-    }
-  }
+  // private async deleteLog(elem: HTMLElement) {
+  //   const tableRow = elem.closest('.table__row')!;
+  //   const apiRes = await api.statistics.delete(tableRow.id); //  users.delete(tableRow.id);
+  //   if (apiRes.success) {
+  //     this.renderLogsTableBody();
+  //   }
+  // }
 
   private headerAdminPageEventsHandler() {
     const search = document.getElementById('search') as HTMLInputElement;
@@ -198,17 +196,20 @@ class AdminPage {
     showLogs.addEventListener('click', () => {
       const allUsersList = document.getElementById('all-users-list')!;
       const allLogsList = document.getElementById('all-logs-list')!;
+      const search = document.getElementById('search')! as HTMLElement;
       if (state.currentTableView === 'users') {
         allUsersList.style.display = 'none';
         allLogsList.style.display = 'flex';
         showLogs.textContent = 'Users';
         state.currentTableView = 'logs';
+        search.style.visibility = 'hidden';
         currentPage.value = String(state.currentLogTable);
       } else if (state.currentTableView === 'logs') {
         allUsersList.style.display = 'flex';
         allLogsList.style.display = 'none';
         showLogs.textContent = 'Logs';
         state.currentTableView = 'users';
+        search.style.visibility = 'visible';
         currentPage.value = String(state.currentTable);
       }
     });

@@ -60,6 +60,13 @@ class ImageLoader extends HTMLElement {
     fileInput.oninput = () => {
       this.fileInputHandler();
     };
+
+    this.onclick = (event) => {
+      const eventTarget = event.target as HTMLDivElement;
+      if (eventTarget?.classList.contains('close-form-cross')) {
+        this.remove();
+      };
+    }
   }
 
   private renderLoader() {
