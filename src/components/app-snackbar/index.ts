@@ -22,7 +22,7 @@ class AppSnackbar extends HTMLElement {
       wrapper.addEventListener('transitionend', () => {
         wrapper.remove();
       });
-    }, 3000);
+    }, 5000);
   }
 
   private getMessageTemplate(text: string, statusCode: string, details: string): string {

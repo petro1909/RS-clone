@@ -86,6 +86,22 @@ class AdminPage {
         } else {
           imageUrl = defaultUserIcon;// `${endpoint}/default/default_user.svg`;
         }
+        if(user.role !== UserRole.user && user.role !== UserRole.admin) {
+          tableBody.innerHTML += `
+            <tr class="table__row user" id="${user.id}">
+              <td class="user__number cell">${(state.currentTable! - 1) * 5 + index + 1}</td>
+              <td class="user__userpic cell">
+                <img class="user-profile-image" src="${imageUrl}" alt="userpic">
+              </td>
+              <td class="user__name cell">${user.name}</td>
+              <td class="user__email cell">${user.email}</td>
+              <td class="user__role cell">
+                ${user.role.toLocaleUpperCase()}
+              </td>
+              <td class="user__btns cell"></td>
+            </tr>`;
+          return;
+        }
         tableBody.innerHTML += `
         <tr class="table__row user" id="${user.id}">
           <td class="user__number cell">${(state.currentTable! - 1) * 5 + index + 1}</td>
