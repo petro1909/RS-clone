@@ -85,7 +85,7 @@ class AppSigninForm extends HTMLElement {
             currInput.setAttribute('data-success', 'data-success');
           } else {
             currInput.classList.add('input-auth_error');
-            this.showMessage(currInput, 'Error value');
+            this.showMessage(currInput, 'Error value⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀');
           }
         }
       };
