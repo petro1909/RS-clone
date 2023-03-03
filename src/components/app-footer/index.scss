@@ -1,0 +1,91 @@
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $header-height;
+  width: 100vw;
+  padding: 0.25rem 1rem;
+  border: 1px solid var(--color-border-element);
+  background-color: var(--color-background-header-footer);
+}
+
+.link {
+  @include set-font($font-family-base, map-get($font-size, m) * 1.5, 0,5); // 0.5 line-height
+  color: var(--color-font-regular-light);
+  transition: $delay * 3;
+
+  @include _414 {
+    font-size: map-get($font-size, m) * 1.2;
+  };
+
+  &:hover {
+      color: var(--color-warning);
+  }
+
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  list-style: none;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: map-get($font-size, s);
+    width: fit-content;
+    height: $header-height;
+  }
+
+}
+
+.rsschool {
+  width: 70px;
+  height: 40px;
+  background-color:rgb(255, 255, 255);
+  transition: $delay * 3;
+  -webkit-mask:  url(../assets/img/footer/rs-school-icon.svg) no-repeat 50% 50%;
+  mask: url(../assets/img/footer/rs-school-icon.svg) no-repeat 50% 50%;
+
+  @include _414 {
+    width: 50px;
+    height: 30px;
+  };
+
+  &:hover {
+      background-color: var(--color-warning);
+  }
+
+}
+
+.github:hover,
+.rsschool:hover {
+  color: var(--color-warning);
+}
+
+.github {
+  width: 30px;
+  height: 30px;
+  background-color:rgb(255, 255, 255);
+  -webkit-mask:  url(../assets/img/footer/github-icon.svg) no-repeat 50% 50%;
+  mask: url(../assets/img/footer/github-icon.svg) no-repeat 50% 50%;
+
+  @include _414 {
+    width: 25px;
+    height: 25px;
+  };
+
+}
+
+.year {
+  font-size: map-get($font-size, l);
+  @include _414 {
+    font-size: map-get($font-size, m) * 1.5;
+  };
+}

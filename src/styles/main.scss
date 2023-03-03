@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+// 0. Fonts first for better perfomance
+@import
+  'base/typography';
+
+// 1. Configuration and helpers
+@import
+  'abstracts/variables',
+  'abstracts/mixins';
+
+// 2. Vendors
+@import
+  'vendors/normalize';
+
+// 3. Base stuff
+@import
+  'base/base';
+
+// 4. Components
+@import
+
+  'components/input-text',
+  'components/button',
+  './components/tooltip',
+  './components/checkbox',
+  '../components/app-header/index.scss',
+  '../components/app-footer/index.scss',
+  '../components/app-login-form/index.scss',
+  '../components/app-signin-form/index.scss',
+  '../components/app-task/index.scss',
+  '../components/app-status/index.scss',
+  '../components/app-boards-panel/index.scss',
+  '../components/task-form/index.scss',
+  '../components/app-imageLoader/index.scss',
+  '../components/app-date-picker/index.scss',
+  '../components/app-board-calendar/index.scss',
+  '../components/app-board/index.scss',
+  '../components/app-input-mark/index.scss',
+  '../components/app-marks/index.scss',
+  '../components/app-modal/index.scss',
+  "../components/app-select-board-users/index.scss",
+  "../components/app-select-task-users/index.scss",
+  "../components/app-task-attach/index.scss";
+
+  // '../components/board-menu/index.scss',
+  // '../components/app-status/index.scss';
+
+
+// 5. Pages
+@import
+  '../pages/Main/index.scss',
+  '../pages/Board/index.scss',
+  '../pages/User/index.scss',
+  '../pages/Admin/index.scss',
+  '../pages/NotFound/index.scss';

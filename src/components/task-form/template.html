@@ -1,0 +1,66 @@
+<section class="popup-page" id="popup-page">
+  <form class="task-form">
+    <button class="close-form-cross">✖</button>
+    <div class="input-task-wrapper">
+      <input id="input-taskname" name="name" type="text" class="input-task input-task--underscored"/>
+      <span class="error-message"></span>
+      <!-- <label for="input-task-name" class="input-task-label">Task Name</label> -->
+    </div>
+    <div class="input-task-wrapper">
+      <textarea id="input-taskdesc" name="description" type="text" class="input-task input-desc input-task--underscored"></textarea>
+      <span class="error-message"></span>
+      <label for="input-desc" class="input-task-label">Description</label>
+    </div>
+    <div class="input-task-wrapper">
+      <input id="input-task-start" name="startDate" type="date" class="input-task input-task--underscored display-none"/>
+      <date-picker id="picker-task-start" class="input-task input-task--underscored"></date-picker>
+      <!-- <span class="error-message"></span> -->
+      <label for="input-desc" class="input-task-label">Start task</label>
+    </div>
+    <div class="input-task-wrapper">
+      <input id="input-task-end" name="endDate" type="date" class="input-task input-task--underscored display-none"/>
+      <date-picker id="picker-task-end" class="input-task input-task--underscored"></date-picker>
+      <!-- <span class="error-message"></span> -->
+      <label for="input-desc" class="input-task-label">End task</label>
+    </div>
+    <div class="task-marks-section">
+      <div class="task-marks-header">
+        <p class="task-marks-title">Marks</p>
+        <div id="board-marks-modal"></div>
+        <button id="show-marks-edit">Edit marks</button>
+      </div>
+      <div class="task-marks-wrapper"></div>
+    </div>
+    <div class="task-users-section">
+      <div class="task-users-header">
+        <p class="task-users-title">Users</p>
+        <div id="board-users-modal"></div>
+        <button id="show-users-edit">Edit users</button>
+      </div>
+      <div class="task-users-wrapper"></div>
+    </div>
+    <div class="task-attach-section">
+      <div class="task-attach-header">
+        <p class="task-attach-title">Attachments</p>
+        <div id="task-attach-modal"></div>
+        <button id="show-attach-edit">Add attachment</button>
+      </div>
+      <div class="task-attach-wrapper"></div>
+    </div>
+    
+
+    <!-- <div class="input-task-wrapper">
+      <input id="input-deadline" name="deadline" type="datetime-local" class="input-task input-deadline input-task--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-deadline" class="input-task-label">Deadline</label>
+    </div>
+    <div class="input-task-wrapper">
+      <input id="input-assignee" name="assignee" type="text" class="input-task input-task--underscored" required/>
+      <span class="error-message"></span>
+      <label for="input-assignee" class="input-task-label">Assignee</label>
+    </div> -->
+    <button class="btn" type="submit">SAVE</button>
+  </form>
+  
+  <!-- <mark-list></mark-list> -->
+</section>

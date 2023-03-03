@@ -1,0 +1,62 @@
+.usertask-select {
+  margin-top: 5px;
+  width: 100%;
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  &__title {
+    font-size: 24px;
+    margin: 10px;
+  }
+  &__search {
+    height: 25px;
+    font-size: 16px;
+    text-align: center;
+  }
+  &__users {
+      overflow-y: scroll;
+      flex-grow: 1;
+      padding: 10px;
+      &::-webkit-scrollbar {
+        width: 5px;
+        background-color: #515251;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background-color: #909291;
+        border-radius: 9em;
+        box-shadow: inset 1px 1px 10px #f3faf7;
+      }
+  }
+  &__submit {
+    height: 25px;
+    font-size: 16px;
+  }
+  &__user-wrapper {
+    padding: 10px;
+    border-radius: $border-radius-small-element;
+    cursor: pointer;
+    transition: all .3s;
+    &:hover {
+      background-color: var(--color-primary);
+    }
+  }
+  
+  &__user-label {
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  &__user-email {
+    margin-left: 10px;
+    font-size: 24px;
+  }
+  &__user-checkbox {
+    display: none;
+    &:checked + label {
+      background-color: var(--color-warning);
+    }
+  }
+  
+}

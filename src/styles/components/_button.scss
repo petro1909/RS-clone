@@ -1,0 +1,47 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: $border-radius-small-element;
+    @include set-font($font-family-base, map-get($font-size, l));
+    background-color: var(--color-primary);
+    color: var(--color-font-button);
+    &:hover {
+        background-color: var(--color-primary-hover);
+        color: var(--color-font-regular-light);
+    }
+    cursor: pointer;
+    outline: none;
+    transition: $delay*3;
+    user-select: none;
+}
+
+.menu-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: $border-radius-small-element;
+    @include set-font($font-family-base, map-get($font-size, l));
+    background-color: transparent;
+    color: var(--color-font-regular);
+    cursor: pointer;
+    outline: none;
+    transition: $delay * 3;
+
+    &:hover {
+        background-color: var(--color-primary-hover);
+        color: var(--color-font-regular-light);
+    }
+
+}
+
+.delete-btn {
+    color: var(--color-danger);
+
+    &:hover {
+        background-color: var(--color-danger-button-hover);
+    }
+
+}

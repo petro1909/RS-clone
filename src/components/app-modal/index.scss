@@ -1,0 +1,53 @@
+.modal {
+  position: absolute;
+  z-index: 2000;
+  top: 30px;
+  right: -113px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 310px;
+  min-height: 280px;
+  border-radius: $border-radius-big-element;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  overflow-y: scroll;
+  background-color: var(--color-background-task);
+  backdrop-filter: blur(20px);
+  opacity: 0;
+  padding: 10px 5px;
+  transition: all .5s;
+
+  &_visible {
+    opacity: 1;
+  }
+
+  &__close-modal-btn {
+    position: sticky;
+    top: -2px;
+    right: 0px;
+    align-self: flex-end;
+    font-size: 14px;
+    color: var(--color-font-regular);
+    background: transparent;
+    border: none;
+    transition: all .5s;
+    cursor: pointer;
+
+    &:hover {
+      color: red;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    background-color: #515251;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #909291;
+    border-radius: 9em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
+  }
+
+}

@@ -1,0 +1,104 @@
+.status {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  min-height: 94px;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border-element);
+  border-radius: $border-radius-big-element;
+  background-color: var(--color-background-status);
+  backdrop-filter: blur(10px);
+  cursor: move;
+  transform: translate3d();
+  will-change: transform;
+
+  &__header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  &__name {
+    width: 40%;
+    height: 24px;
+    padding: 0.25rem;
+    @include set-font($font-family-base, map-get($font-size, l), 1);
+    color: var(--color-font-regular);
+    outline: 1px solid transparent;
+
+    &:hover {
+      color: var(--color-font-regular-light);
+      outline: 1px solid var(--color-font-regular-dark);
+    }
+
+  }
+
+  &__task-list {
+    margin-bottom: 0.5rem;
+    max-height: calc(100vh - 190px);
+    border-radius: $border-radius-big-element;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+      background-color: var(--color-font-regular-black);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #909291;
+      border-radius: 1rem;
+      box-shadow: inset 1px 1px 10px var(--color-font-regular);
+    }
+  }
+
+  &__add-task {
+    transition: all $delay * 3 ease;
+    &:hover{
+      outline: 1px solid var(--color-font-regular-black);
+    }
+  }
+
+}
+
+.status-menu {
+  position: absolute;
+  right: 32px;
+  top: 4px;
+  z-index: 1000;
+  transition: all 500ms ease;
+
+  &__btn {
+    @include square-view(24px);
+    padding: 0;
+  }
+}
+
+.popup-menu {
+  height: fit-content;
+  width: 150px;
+  padding: map-get($font-size , xs);
+  margin: 0;
+  border: 1px solid var(--color-border-element);
+  border-radius: $border-radius-big-element;
+  background-color: var(--color-background-task);
+  color: var(--color-font-regular-light);
+  list-style: none;
+
+  &__item {
+      width: 100%;
+  }
+
+  &__btn {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 1.4rem;
+      text-align: left;
+  }
+
+}

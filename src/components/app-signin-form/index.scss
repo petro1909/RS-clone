@@ -1,0 +1,139 @@
+.popup-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  @include set-font($font-family-base, map-get($font-size, m));
+  background-color: var(--color-background-modal);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.signin-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content;
+  padding: 70px;
+  border: 1px solid var(--color-border-element);
+  border-radius: $border-radius-big-element;
+  background-color: var(--color-background-task);
+
+  @include _576 {
+    padding: 50px;
+  };
+
+  @include _414 {
+    padding: 40px;
+  };
+
+}
+
+.input-auth {
+  width: 300px;
+  padding: 0.25rem 1rem;
+  border: none;
+  border-radius: $border-radius-small-element;
+  font-size: 20px;
+  background-color: transparent;
+  outline: none;
+  transition: $delay*3;
+
+  @include _576 {
+    width: 280px;
+  };
+
+  @include _414 {
+    width: 230px;
+  };
+
+  &-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  &-label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    font-size: 20px;
+    background-color: var(--color-background-task);
+    color: var(--color-font-regular-light);
+    padding: 0 5px;
+    transition: all .3s;
+  }
+
+  &:valid~.input-auth-label,
+  &:focus~.input-auth-label,
+  &_filled~.input-auth-label {
+    left: -3px;
+    top: -15px;
+    font-size: 12px;
+    color: var(--color-font-regular);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-warning);
+    background-color: var(--color-background-secondary);
+    color: var(--color-font-regular);
+  }
+
+  &:valid {
+    background-color: var(--color-background-secondary);
+  }
+
+  &_error {
+    outline: 2px solid var(--color-danger);
+  }
+
+  &--underscored {
+    border-bottom: 1px solid var(--color-border-element);
+  }
+}
+
+.error-message {
+  position: absolute;
+  left: 0px;
+  top: -15px;
+  display: block;
+  height: 12px;
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+.password-eye {
+  position: absolute;
+  top: 5px;
+  left: -30px;
+  width: 20px;
+  height: 20px;
+  display: block;
+  background-size: cover;
+  background-image: url("../assets/icons/eye-password-hide.svg");
+  cursor: pointer;
+
+  &_is-visible {
+    background-image: url("../assets/icons/eye-password-show.svg");
+  }
+
+  &[data-success] {
+    outline: 2px solid var(--color-success);
+  }
+}
+
+.submit-btn {
+  margin-top: map-get($font-size, 2xl);
+}

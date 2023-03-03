@@ -1,0 +1,11 @@
+{
+  "liveServer.settings.port": 5501,
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "explorer.compactFolders": false,
+  "editor.fontSize": 14,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2
+}

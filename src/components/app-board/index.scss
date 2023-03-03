@@ -1,0 +1,27 @@
+.selected {
+  transform: rotate(3deg);
+  box-shadow: 3px 3px 15px 0 var(--color-box-shadow);
+  cursor: grab;
+  transform: translate3d();
+  user-select: none;
+  will-change: transform;
+}
+
+.drop-zone-task,
+.empty-zone-task {
+  height: 90px;
+  width: 290px;
+  border-radius: $border-radius-big-element;
+  border: 1px solid var(--color-border-element);
+  background-color: var(--color-background-modal);
+  backdrop-filter: blur(5px);
+}
+
+.drop-zone-status,
+.empty-zone-status {
+  width: 300px;
+  border-radius: $border-radius-big-element;
+  border: 1px solid var(--color-border-element);
+  background-color: var(--color-background-modal);
+  backdrop-filter: blur(5px);
+}

@@ -1,0 +1,32 @@
+.page-404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle, rgba(145,0,0,1) 0%, rgba(59,0,0,1) 33%, rgba(0,0,0,1) 66%);
+
+}
+.page-404__content {
+  min-width: 320px;
+  padding: 1rem;
+  text-align: center
+}
+
+.page-404__title {
+  margin: 0 0 map-get($font-size, 3xl) 0;
+  @include set-font($font-family-base, map-get($font-size, 3xl));
+  color: var(--color-font-regular-light);
+  @include _414 {
+    font-size: map-get($font-size, 2xl);
+  };
+}
+
+.page-404__value {
+  margin: 0 0 map-get($font-size, 3xl) 0;
+  @include set-font($font-family-base, map-get($font-size, 3xl) * 3);
+  color: var(--color-font-regular-light);
+  @include _414 {
+    font-size: map-get($font-size, 3xl);
+  };
+}
